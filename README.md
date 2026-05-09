@@ -6,7 +6,7 @@ Generic-target writeups (lab-vuln-agents and open-weight models) under [ATTACKS/
 
 ## Latest
 
-(Auto-populated by content-drafter agent; first entries land Week 2.)
+- 2026-05-09 — [Policy isn't a mechanism: how a fake (#system) tag exfiltrated the wrong user's data](WRITEUPS/2026-05-09-policy-isnt-a-mechanism.md) — first long-form WRITEUP. ReAct agent, indirect prompt injection, mistral-nemo vs llama3.1.
 
 ## Pinned
 
