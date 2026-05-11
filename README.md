@@ -6,6 +6,7 @@ Generic-target writeups (lab-vuln-agents and open-weight models) under [ATTACKS/
 
 ## Latest
 
+- 2026-05-11 — [Lakera Gandalf — full walkthrough (L1–L8)](CTF/gandalf/) — 6/8 levels extracted via scripted API harness, L4 by feature triangulation, L7 structure-only with novel finding on prompt-text vs value-leakage separability.
 - 2026-05-09 — [Policy isn't a mechanism: how a fake (#system) tag exfiltrated the wrong user's data](WRITEUPS/2026-05-09-policy-isnt-a-mechanism.md) — first long-form WRITEUP. ReAct agent, indirect prompt injection, mistral-nemo vs llama3.1.
 
 ## Pinned
