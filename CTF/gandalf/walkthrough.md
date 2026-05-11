@@ -13,7 +13,7 @@ attack_classes:
   - acrostic-extraction
   - system-prompt-leak
   - indirect-feature-inference
-status: partial   # L1–L6 solved via API harness, L4 by inference, L7 structure-only, L8 open
+status: complete  # L1–L6 solved via API harness, L4 by inference, L7 structure-only, L8 declared done (55+ probes, brick wall)
 author: Cayman Roden
 ---
 
