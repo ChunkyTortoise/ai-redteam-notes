@@ -53,7 +53,7 @@ AgentDojo v1.2.2 workspace suite, 3 user tasks x 3 injection variants = 9 trials
 # (Assumes LM Studio is running with the model loaded)
 
 # Run benchmark
-cd /Users/cave/Projects/ai-redteam/lab/vuln-agents/agentdojo
+cd lab/vuln-agents/agentdojo
 LOCAL_LLM_PORT=1234 ./env/bin/python -m agentdojo.scripts.benchmark \
   --model VLLM_PARSED \
   --model-id "granite-4.1-8b@q5_k_m" \
@@ -179,7 +179,7 @@ References:
 **Full command**:
 
 ```bash
-cd /Users/cave/Projects/ai-redteam/lab/vuln-agents/agentdojo
+cd lab/vuln-agents/agentdojo
 
 # Ensure LM Studio is running with Granite 4.1 8B loaded at localhost:1234
 
@@ -200,8 +200,8 @@ LOCAL_LLM_PORT=1234 ./env/bin/python -m agentdojo.scripts.benchmark \
 **Duration**: ~2 minutes for full 9-trial sweep
 
 **Outputs**:
-- Log: `/Users/cave/Projects/ai-redteam/lab/vuln-agents/agentdojo/runs/2026-05-04-granite-injection.log`
-- Trial JSONs: `/Users/cave/Projects/ai-redteam/lab/vuln-agents/agentdojo/runs/2026-05-04-granite-injection/vllm_parsed/workspace/`
+- Log: private lab archive `lab/vuln-agents/agentdojo/runs/2026-05-04-granite-injection.log`
+- Trial JSONs: private lab archive `lab/vuln-agents/agentdojo/runs/2026-05-04-granite-injection/vllm_parsed/workspace/`
 
 ## Implications
 
@@ -215,4 +215,4 @@ For enterprise deployment, organizations using Granite 4.1 8B in agent workflows
 - Model: IBM Granite 4.1 8B (released April 29 2026, https://huggingface.co/ibm-granite/granite-4.1-8b-instruct)
 - LM Studio: https://lmstudio.ai/
 - Evaluation framework: AgentDojo v1.2.2, workspace suite, important_instructions attack
-- Run artifacts: `/Users/cave/Projects/ai-redteam/lab/vuln-agents/agentdojo/runs/2026-05-04-granite-injection/`
+- Run artifacts: private lab archive `lab/vuln-agents/agentdojo/runs/2026-05-04-granite-injection/`

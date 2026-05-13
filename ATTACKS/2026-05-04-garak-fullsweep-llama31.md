@@ -141,7 +141,7 @@ This variant achieved notably higher attack success, suggesting the specific phr
 **Command**:
 
 ```bash
-cd /Users/cave/Projects/ai-redteam/lab/garak
+cd lab/garak
 
 # Full sweep (requires restart after latent injection)
 bash run_remaining_sweep.sh
@@ -158,13 +158,13 @@ python -m garak --model_type litellm \
 ```
 
 **Artifacts**:
-- `/Users/cave/Projects/ai-redteam/lab/garak/runs/2026-05-03-2158-llama31-fullsweep-suffix.report.jsonl` (57 lines, complete)
-- `/Users/cave/Projects/ai-redteam/lab/garak/runs/2026-05-03-2138-llama31-fullsweep-dan.report.jsonl` (278 lines, complete)
-- `/Users/cave/Projects/ai-redteam/lab/garak/runs/2026-05-03-2158-llama31-fullsweep-promptinject.report.jsonl` (1,073 lines, 2 of 3 sub-probes)
-- `/Users/cave/Projects/ai-redteam/lab/garak/runs/2026-05-03-2158-llama31-fullsweep-latentinjection.report.jsonl` (111 lines, partial)
-- `/Users/cave/Projects/ai-redteam/lab/garak/runs/2026-05-03-2158-llama31-fullsweep-packagehallucination.report.jsonl` (3 lines, no evals)
+- Private lab archive: `lab/garak/runs/2026-05-03-2158-llama31-fullsweep-suffix.report.jsonl` (57 lines, complete)
+- Private lab archive: `lab/garak/runs/2026-05-03-2138-llama31-fullsweep-dan.report.jsonl` (278 lines, complete)
+- Private lab archive: `lab/garak/runs/2026-05-03-2158-llama31-fullsweep-promptinject.report.jsonl` (1,073 lines, 2 of 3 sub-probes)
+- Private lab archive: `lab/garak/runs/2026-05-03-2158-llama31-fullsweep-latentinjection.report.jsonl` (111 lines, partial)
+- Private lab archive: `lab/garak/runs/2026-05-03-2158-llama31-fullsweep-packagehallucination.report.jsonl` (3 lines, no evals)
 
-Run log: `/Users/cave/Projects/ai-redteam/lab/garak/runs/_sweep.log`
+Run log: private lab archive `lab/garak/runs/_sweep.log`
 
 ## References
 
