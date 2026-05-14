@@ -4,9 +4,11 @@ Public portfolio for AI red teaming, agent/tool-use security, indirect prompt in
 
 ## Reviewer Path: 5 Minutes
 
-1. [Substrate vs Policy in MCP Tool-Output Indirect Prompt Injection](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) - pre-registered MCP matrix showing why an apparent model-policy bypass was actually a client-substrate effect.
-2. [Cross-Model ReAct Loop Injection Benchmark](WRITEUPS/2026-05-14-cross-model-react-loop-injection.md) - DVL-Agent Scenario 2 benchmark comparing llama3.1:8b and mistral-nemo behavior under bare vs camouflaged payloads.
-3. [Policy Isn't a Mechanism](WRITEUPS/2026-05-09-policy-isnt-a-mechanism.md) - assessment-style writeup on why prompt policy is not an access-control boundary in ReAct agents.
+1. [Hiring Reviewer Map](REPORTS/hiring-reviewer-map.md) - fastest route through the strongest public artifacts by role class.
+2. [Hiring Evidence Index](REPORTS/hiring-evidence-index.md) - claim-to-evidence map with commands, disclosure status, and limitations.
+3. [Substrate vs Policy in MCP Tool-Output Indirect Prompt Injection](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) - pre-registered MCP matrix showing why an apparent model-policy bypass was actually a client-substrate effect.
+4. [Cross-Model ReAct Loop Injection Benchmark](WRITEUPS/2026-05-14-cross-model-react-loop-injection.md) - DVL-Agent Scenario 2 benchmark comparing llama3.1:8b and mistral-nemo behavior under bare vs camouflaged payloads.
+5. [Policy Isn't a Mechanism](WRITEUPS/2026-05-09-policy-isnt-a-mechanism.md) - assessment-style writeup on why prompt policy is not an access-control boundary in ReAct agents.
 
 ## Portfolio Snapshot
 
@@ -15,7 +17,7 @@ Public portfolio for AI red teaming, agent/tool-use security, indirect prompt in
 | ATTACKS entries | 10 |
 | Long-form writeups | 3 |
 | CTF / arena artifacts | 1 |
-| Customer-style reports | 1 |
+| Customer-style reports | 3 |
 | Eval / automation notes | 1 |
 | Disclosure status | Green-only public artifacts |
 
