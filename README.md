@@ -1,6 +1,6 @@
 # AI Agent Product Security Portfolio
 
-Public portfolio for AI red teaming, agent-product security, indirect prompt injection, unsafe tool use, MCP substrate analysis, remediation review, and automated evaluation. The work here is intentionally scoped to lab targets, public CTFs, open-weight models, and disclosure-safe research artifacts.
+**Pre-registered AI red-team research with public hypothesis retractions when data didn't support.** Methodology-first portfolio covering indirect prompt injection, unsafe tool use, MCP client substrate risk, remediation review, and automated evaluation. Wilson 95% confidence intervals at n=10, controlled substrate emulation, three-tier disclosure policy with automated pre-push gating. The work here is intentionally scoped to lab targets, public CTFs, open-weight models, and disclosure-safe research artifacts.
 
 ## Start Here
 
@@ -10,6 +10,7 @@ For a web landing page candidate, see [index.html](index.html). It is built for 
 
 ## Reviewer Path: 5 Minutes
 
+0. [Portfolio Impact Summary](REPORTS/portfolio-impact-summary.md) - 90-second aggregated view: five claims with verdicts, what this demonstrates, role-specific entry points, limitations.
 1. [By-Role Reviewer Guide](REPORTS/by-role-reviewer-guide.md) - if you're hiring for a specific role (OpenAI Agent Products, DeepMind, Lakera, Anthropic / Microsoft AIRT, reusable eval engineer), this points you at the strongest two or three artifacts in reading order.
 2. [Hiring Reviewer Map](REPORTS/hiring-reviewer-map.md) - fastest route through the strongest public artifacts by role class.
 3. [Hiring Evidence Index](REPORTS/hiring-evidence-index.md) - claim-to-evidence map with commands, disclosure status, and limitations.

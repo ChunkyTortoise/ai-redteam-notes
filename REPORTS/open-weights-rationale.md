@@ -43,7 +43,7 @@ None of these would change the substrate-vs-policy thesis; they would test its s
 
 - Greshake, Abdelnabi, Mishra, Endres, Holz, Fritz (2023). *Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injections.* arXiv:2302.12173. — the originating treatment of indirect injection; substrate isolation extends this corpus.
 - OWASP LLM Top 10 — LLM02 (Insecure Output Handling). Substrate effects are a special case of this class.
-- Pre-registration: `docs/preregistrations/2026-05-13-tier-a-w1-w5.md` (private repo) — commits H7/H8/H9 hypotheses before W2 F-cells run.
+- Pre-registration: [`docs/preregistrations/2026-05-13-tier-a-w1-w5.md`](../docs/preregistrations/2026-05-13-tier-a-w1-w5.md) — commits H7/H8/H9 hypotheses before W2 F-cells run.
 
 ## TL;DR for the hiring reviewer
 

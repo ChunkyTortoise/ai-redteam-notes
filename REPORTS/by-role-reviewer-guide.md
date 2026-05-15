@@ -47,7 +47,7 @@ If you only have five minutes, skip to [`start-here-for-hiring-reviewers.md`](st
 2. [`2026-05-14-mcp-n10-replication-negative-result.md`](2026-05-14-mcp-n10-replication-negative-result.md) — n=10 replication with 0/10 strict bypass and 2/10 intent shift, presented as a clean negative result with explicit scope.
 3. [`mcp-reproducibility-checklist.md`](mcp-reproducibility-checklist.md) — the lab-runner protocol another evaluator would follow to replicate.
 
-**Framing note**: small-n work is positioned as high-value mechanism discovery, not rate estimation. The pre-registration ([`docs/preregistrations/2026-05-13-tier-a-w1-w5.md`](https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/docs/preregistrations/2026-05-13-tier-a-w1-w5.md) on private repo for now) commits to the n=10 follow-up cells before any are run.
+**Framing note**: small-n work is positioned as high-value mechanism discovery, not rate estimation. The pre-registration ([`docs/preregistrations/2026-05-13-tier-a-w1-w5.md`](../docs/preregistrations/2026-05-13-tier-a-w1-w5.md)) commits to the n=10 follow-up cells before any are run.
 
 ---
 
