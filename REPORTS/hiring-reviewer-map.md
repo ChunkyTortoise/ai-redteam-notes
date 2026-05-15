@@ -11,13 +11,14 @@
 2. **DVL Scenario 2 ATTACKS entry**
    - Public artifact: <https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md>
    - Why it matters: concrete ReAct-loop observation-injection evidence with practical mitigations.
-3. **Substrate vs policy assessment**
-   - Public artifact: <https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/REPORTS/substrate-vs-policy-assessment.md>
-   - Why it matters: concise practitioner-facing version of the flagship finding.
+3. **Agent product security remediation review**
+   - Public artifact: [`2026-05-15-agent-product-security-remediation-review.md`](2026-05-15-agent-product-security-remediation-review.md)
+   - Why it matters: remediation-oriented review of boundary, exploitability, impact, durable fix, regression test, and residual risk.
 
 ## 5-Minute Path
 
 - Start-here reviewer page: [`start-here-for-hiring-reviewers.md`](start-here-for-hiring-reviewers.md)
+- Remediation review: [`2026-05-15-agent-product-security-remediation-review.md`](2026-05-15-agent-product-security-remediation-review.md)
 - Claim ledger: [`claim-ledger.md`](claim-ledger.md)
 - Cross-model ReAct-loop writeup: <https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/WRITEUPS/2026-05-14-cross-model-react-loop-injection.md>
 - Substrate assessment report: <https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/REPORTS/substrate-vs-policy-assessment.md>
@@ -49,7 +50,7 @@ These files are the proof layer underneath the existing top-three public links.
 |---|---|
 | Frontier red-team / preparedness | Substrate vs policy writeup |
 | Automated red teaming / evals | Substrate vs policy writeup |
-| Agentic AI security | DVL Scenario 2 ATTACKS entry |
+| Agentic AI security | Agent product security remediation review |
 | AI security product / MLSecOps | Substrate vs policy assessment |
 | Security consulting | Cross-model ReAct-loop writeup |
 

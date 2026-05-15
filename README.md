@@ -1,18 +1,25 @@
-# AI Agent Security Portfolio
+# AI Agent Product Security Portfolio
 
-Public portfolio for AI red teaming, agent/tool-use security, indirect prompt injection, MCP substrate analysis, and automated evaluation. The work here is intentionally scoped to lab targets, public CTFs, open-weight models, and disclosure-safe research artifacts.
+Public portfolio for AI red teaming, agent-product security, indirect prompt injection, unsafe tool use, MCP substrate analysis, remediation review, and automated evaluation. The work here is intentionally scoped to lab targets, public CTFs, open-weight models, and disclosure-safe research artifacts.
 
 ## Start Here
 
-For a fast hiring-reviewer path through the strongest evidence, start with [Start Here For Hiring Reviewers](REPORTS/start-here-for-hiring-reviewers.md). It links the flagship writeups, claim ledger, reproducibility checklist, and preserved MCP n=10 artifacts.
+For a fast hiring-reviewer path through the strongest evidence, start with [Start Here For Hiring Reviewers](REPORTS/start-here-for-hiring-reviewers.md). It links the flagship writeups, remediation review, claim ledger, reproducibility checklist, and preserved MCP n=10 artifacts.
+
+For a web landing page candidate, see [index.html](index.html). It is built for GitHub Pages from this repo root.
 
 ## Reviewer Path: 5 Minutes
 
-1. [Hiring Reviewer Map](REPORTS/hiring-reviewer-map.md) - fastest route through the strongest public artifacts by role class.
-2. [Hiring Evidence Index](REPORTS/hiring-evidence-index.md) - claim-to-evidence map with commands, disclosure status, and limitations.
-3. [Substrate vs Policy in MCP Tool-Output Indirect Prompt Injection](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) - pre-registered MCP matrix showing why an apparent model-policy bypass was actually a client-substrate effect.
-4. [Cross-Model ReAct Loop Injection Benchmark](WRITEUPS/2026-05-14-cross-model-react-loop-injection.md) - DVL-Agent Scenario 2 benchmark comparing llama3.1:8b and mistral-nemo behavior under bare vs camouflaged payloads.
-5. [Policy Isn't a Mechanism](WRITEUPS/2026-05-09-policy-isnt-a-mechanism.md) - assessment-style writeup on why prompt policy is not an access-control boundary in ReAct agents.
+1. [By-Role Reviewer Guide](REPORTS/by-role-reviewer-guide.md) - if you're hiring for a specific role (OpenAI Agent Products, DeepMind, Lakera, Anthropic / Microsoft AIRT, reusable eval engineer), this points you at the strongest two or three artifacts in reading order.
+2. [Hiring Reviewer Map](REPORTS/hiring-reviewer-map.md) - fastest route through the strongest public artifacts by role class.
+3. [Hiring Evidence Index](REPORTS/hiring-evidence-index.md) - claim-to-evidence map with commands, disclosure status, and limitations.
+4. [Agent Product Security Remediation Review](REPORTS/2026-05-15-agent-product-security-remediation-review.md) - code-review-style remediation artifact: boundary, exploitability, impact, fix, regression test, and residual risk.
+5. [Substrate vs Policy in MCP Tool-Output Indirect Prompt Injection](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) - pre-registered MCP matrix showing why an apparent model-policy bypass was actually a client-substrate effect.
+6. [Cross-Model ReAct Loop Injection Benchmark](WRITEUPS/2026-05-14-cross-model-react-loop-injection.md) - DVL-Agent Scenario 2 benchmark comparing llama3.1:8b and mistral-nemo behavior under bare vs camouflaged payloads.
+
+## Why open weights?
+
+If you're about to ask "did you test on frontier?" — read [Open-Weights Rationale](REPORTS/open-weights-rationale.md). Short answer: substrate findings are expected to be transparent to model scale, and open-weight cells are reproducible by any reader.
 
 ## Portfolio Snapshot
 
@@ -21,7 +28,7 @@ For a fast hiring-reviewer path through the strongest evidence, start with [Star
 | ATTACKS entries | 10 |
 | Long-form writeups | 3 |
 | CTF / arena artifacts | 1 |
-| Customer-style reports | 3 |
+| Customer-style reports | 4 |
 | Eval / automation notes | 1 |
 | Disclosure status | Green-only public artifacts |
 
@@ -37,6 +44,14 @@ Primary tools and targets: MCP lab harness, promptfoo, garak, PyRIT, AgentDojo, 
 - [Eval harness note](EVALS/mcp-matrix-harness.md)
 
 What it demonstrates: pre-registration, hypothesis retraction, controlled substrate emulation, Wilson confidence intervals, mitigation analysis, and honest limitations.
+
+### Review: agent product remediation
+
+- [Remediation review](REPORTS/2026-05-15-agent-product-security-remediation-review.md)
+- [Evidence index](REPORTS/hiring-evidence-index.md)
+- [Reviewer map](REPORTS/hiring-reviewer-map.md)
+
+What it demonstrates: exploitability triage, trust-boundary analysis, durable remediation, regression-test framing, and residual-risk communication.
 
 ### Benchmark: DVL-Agent cross-model injection
 

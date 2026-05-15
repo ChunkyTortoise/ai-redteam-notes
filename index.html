@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Product Security Portfolio - Cayman Roden</title>
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --panel: #151a20;
+      --panel-2: #1d232b;
+      --border: #33404d;
+      --text: #edf2f7;
+      --muted: #9aa8b6;
+      --accent: #e1543f;
+      --accent-2: #42b883;
+      --focus: #7ab7ff;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    a { color: var(--focus); }
+
+    a:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .shell {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    header {
+      min-height: 54vh;
+      display: grid;
+      align-content: center;
+      gap: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .status {
+      color: var(--accent-2);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    h1 {
+      max-width: 900px;
+      margin: 0;
+      font-size: clamp(2.3rem, 7vw, 5.2rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .lede {
+      max-width: 780px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 650;
+    }
+
+    .button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    main {
+      display: grid;
+      gap: 28px;
+      padding: 32px 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      min-height: 218px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .evidence {
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel-2);
+    }
+
+    .evidence h2 { margin: 0 0 14px; }
+
+    .evidence ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 20px 0 32px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 820px) {
+      body { overflow-x: hidden; }
+      .shell { padding: 20px; }
+      header { min-height: auto; padding: 46px 0 30px; }
+      header > *, .grid > *, .card > *, .evidence > * { min-width: 0; max-width: 100%; }
+      .status, h1, .lede, .actions, .grid, .card, .evidence { width: 100%; max-width: 350px; }
+      .status { font-size: 0.76rem; overflow-wrap: anywhere; }
+      h1 { font-size: clamp(2rem, 10vw, 2.7rem); overflow-wrap: anywhere; }
+      .lede, .card p, .evidence li { overflow-wrap: anywhere; }
+      .grid { grid-template-columns: 1fr; }
+      .card { min-height: auto; }
+      .button { width: 100%; justify-content: center; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="status">Lab-only evidence · disclosure-green · public reviewer path</div>
+      <h1>Agent product security portfolio</h1>
+      <p class="lede">
+        AI red-team work focused on prompt injection, unsafe tool use, MCP client substrate risk,
+        remediation patterns, and regression testing for agent-powered products.
+      </p>
+      <nav class="actions" aria-label="Primary portfolio links">
+        <a class="button primary" href="REPORTS/start-here-for-hiring-reviewers.md">60-second reviewer path</a>
+        <a class="button" href="REPORTS/2026-05-15-agent-product-security-remediation-review.md">Remediation review</a>
+        <a class="button" href="WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md">Flagship writeup</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="grid" aria-label="Reviewer paths">
+        <article class="card">
+          <h2>60-second review</h2>
+          <p>Start with the claim boundary, top artifacts, and what not to infer from the lab results.</p>
+          <a href="REPORTS/hiring-reviewer-map.md">Open reviewer map</a>
+        </article>
+        <article class="card">
+          <h2>Technical deep dive</h2>
+          <p>Inspect the MCP substrate study, DVL ReAct-loop SQLi evidence, raw artifacts, and limitations.</p>
+          <a href="REPORTS/hiring-evidence-index.md">Open evidence index</a>
+        </article>
+        <article class="card">
+          <h2>Application evidence</h2>
+          <p>Review exploitability, impact, durable fixes, regression tests, and residual risk.</p>
+          <a href="REPORTS/2026-05-15-agent-product-security-remediation-review.md">Open remediation review</a>
+        </article>
+      </section>
+
+      <section class="evidence">
+        <h2>What this portfolio claims</h2>
+        <ul>
+          <li>Lab-only agent-security evaluation with synthetic canaries and localhost sinks.</li>
+          <li>Evidence that client substrate and tool boundaries can be load-bearing variables in agent risk.</li>
+          <li>Conservative reporting: small-n caveats, negative-result handling, and disclosure-safe artifacts.</li>
+          <li>Engineering controls: typed schemas, parameterized tools, provenance, confirmation flow, logging, and replayable regression tests.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      Public artifacts are scoped to intentionally vulnerable labs, open benchmarks, public CTFs, or generic research patterns.
+    </footer>
+  </div>
+</body>
+</html>

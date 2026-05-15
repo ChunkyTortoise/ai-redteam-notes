@@ -7,6 +7,14 @@
 
 This portfolio shows lab-only, disclosure-green agent-security evaluation work: small-scope experiments, synthetic canaries, localhost sinks, preserved artifacts, and conservative limitations. It does not claim a production exploit, a vendor-specific vulnerability, or a general result across all models and clients.
 
+## If You Know The Role
+
+Jump to the [By-Role Reviewer Guide](by-role-reviewer-guide.md). It points you at the strongest two or three artifacts in reading order for OpenAI Agent Products, DeepMind agent security or frontier safety, Lakera delivery, Anthropic / Microsoft AIRT, and a reusable eval engineer.
+
+## Pre-empted Question
+
+If you're about to ask "did you test on frontier models?" — the answer is in [Open-Weights Rationale](open-weights-rationale.md). Short version: substrate findings are expected to be transparent to model scale; open-weight cells are reproducible by any reader without per-call API spend.
+
 ## 60-Second Path
 
 1. **Substrate vs policy writeup**
@@ -15,14 +23,15 @@ This portfolio shows lab-only, disclosure-green agent-security evaluation work: 
 2. **DVL Scenario 2 ATTACKS entry**
    - Public artifact: <https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md>
    - Why it matters: concrete ReAct-loop observation-injection evidence with a practical mitigation lesson.
-3. **Substrate vs policy assessment**
-   - Public artifact: <https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/REPORTS/substrate-vs-policy-assessment.md>
-   - Why it matters: concise practitioner-facing summary of the flagship finding.
+3. **Agent product security remediation review**
+   - Public artifact: [`2026-05-15-agent-product-security-remediation-review.md`](2026-05-15-agent-product-security-remediation-review.md)
+   - Why it matters: code-review-style artifact covering vulnerable boundary, exploitability, impact, durable fix, regression test, and residual risk.
 
 ## 5-Minute Path
 
 - Hiring evidence index: [`hiring-evidence-index.md`](hiring-evidence-index.md)
 - Claim ledger: [`claim-ledger.md`](claim-ledger.md)
+- Substrate assessment report: [`substrate-vs-policy-assessment.md`](substrate-vs-policy-assessment.md)
 - Agent-security eval methodology: [`2026-05-14-agent-security-eval-methodology.md`](2026-05-14-agent-security-eval-methodology.md)
 - Negative-result note: [`2026-05-14-mcp-n10-replication-negative-result.md`](2026-05-14-mcp-n10-replication-negative-result.md)
 
@@ -39,7 +48,7 @@ This portfolio shows lab-only, disclosure-green agent-security evaluation work: 
 - Clear separation between strict bypass, intent shift, clean ignore, and harness failure.
 - Claims that narrow after replication rather than inflate.
 - Raw artifacts that preserve commands, summaries, transcripts, and limitations.
-- Mitigation language aimed at engineering controls: typed tool schemas, parser hardening, provenance, confirmation flow, logging, replay, and parameterized tool boundaries.
+- Remediation language aimed at engineering controls: typed tool schemas, parser hardening, provenance, confirmation flow, logging, replay, parameterized tool boundaries, and regression tests.
 
 ## What Not To Infer
 
