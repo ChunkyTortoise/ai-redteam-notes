@@ -11,7 +11,7 @@ tags: [llm-security, indirect-prompt-injection, agent-security, mcp, react-agent
 
 ## Abstract
 
-This is a synthesis of a pre-registered AI red-team portfolio. Across twelve lab-only artifacts — MCP tool-output injection, ReAct-loop observation poisoning, PAIR jailbreaks, a public CTF, and two intentionally-vulnerable agent benchmarks — one pattern recurs: **prompt-layer policy is not an enforcement mechanism, and the load-bearing defense is always structural, one layer below where the attack lands.** Every quantitative claim here carries a Wilson 95% confidence interval and an explicit scope boundary. Where a hypothesis was not supported, it was retracted in writing: the portfolio's flagship study retracted H3 (a model-strength inversion) on substrate-confound evidence and falsified H6 (a strict-bypass claim) against its own pre-registered criterion. The contribution of this document is not a new attack — it is a defender-oriented taxonomy that collapses twelve scattered results into four failure classes, each with a structural mitigation that holds regardless of model or prompt.
+This is a synthesis of a pre-registered AI red-team portfolio. Across fifteen lab-only artifacts — MCP tool-output injection, ReAct-loop observation poisoning, PAIR jailbreaks, a public CTF, and two intentionally-vulnerable agent benchmarks — one pattern recurs: **prompt-layer policy is not an enforcement mechanism, and the load-bearing defense is always structural, one layer below where the attack lands.** Quantitative cells carry a Wilson 95% confidence interval and an explicit scope boundary; qualitative cells are labeled as such, not dressed up as rates. Where a hypothesis was not supported, it was retracted in writing: the portfolio's flagship study retracted H3 (a model-strength inversion) on substrate-confound evidence and falsified H6 (a strict-bypass claim) against its own pre-registered criterion. The contribution of this document is not a new attack — it is a defender-oriented taxonomy that collapses fifteen scattered results into four failure classes, each with a structural mitigation that holds regardless of model or prompt.
 
 Methodology note (read this first): the rigor claims above are auditable. See the [methodology callout](#methodology-callout-pre-registration-and-retraction) at the end.
 
@@ -42,7 +42,7 @@ All four classes share one adversary model; stating it once avoids repeating it 
 
 **What it is.** When an MCP client dispatches tools by parsing inline XML tags out of the model's chat content (rather than via a typed tool-use API), a model below the 70B class cannot reliably distinguish a `<tool>` tag in the client scaffold from a `<tool>` tag inside attacker-controlled fetched content. The boundary the model is asked to hold does not exist at the substrate level.
 
-**Evidence.** The substrate study held model (Llama 3.1 8B) and payload set constant and varied only the substrate: pristine tool-use API → 0/5 intent shifts; scaffold-prompt-only (no parser) → 0/6; inline-XML-tag parser → 2/6. The n=10 replication of the strongest cell narrowed the claim: strict bypass 0/10 (Wilson 95% CI [0.0000, 0.2775]), intent shift 2/10 ([0.0567, 0.5098]). The effect is real at the intent layer; the strict-exfiltration claim did not survive replication and was reported as a narrowing, not a confirmation.
+**Evidence.** The substrate study held model (Llama 3.1 8B) and payload set constant and varied only the substrate: pristine tool-use API → 0/5 intent shifts; scaffold-prompt-only (no parser) → 0/6; inline-XML-tag parser → 2/6. The n=10 replication of the registered v3-fake-json-fence cell narrowed the claim: strict bypass 0/10 (Wilson 95% CI [0.0000, 0.2775]), intent shift 2/10 ([0.0567, 0.5098]). The effect is real at the intent layer; the strict-exfiltration claim did not survive replication and was reported as a narrowing, not a confirmation.
 
 **Why it matters to a defender.** A bypass attributed to "the model's policy" was traced to the client's dispatch path. The same model is safe or unsafe depending on an implementation choice the model never sees.
 
@@ -72,7 +72,7 @@ All four classes share one adversary model; stating it once avoids repeating it 
 
 **What it is.** The model holds a refusal policy; the attacker reshapes the request until compliance is frictionless — a persona with an output-format constraint, an encoding, an acrostic, a structure-only side channel.
 
-**Evidence.** PAIR persona-DAN against unguarded llama3.1:8b: 3/3 turns, success at turn 3 (judge 10/10, regex-confirmed); the fulcrum was the output-format constraint, not the role framing. Cross-model PAIR matrix: llama3.1:8b 33–50% vs mistral:7b 58–66% over a 12-goal battery — a 2× model gap, with attacker-target asymmetry (smaller attacker outperformed larger). garak full sweep on llama3.1:8b: DAN 66.8% (868/1300), prompt-hijacking 58.6% (1500/2560), suffix 14.6% (19/130). Lakera Gandalf: levels 1–6 recovered by representational shifts that literal secret-string filters do not catch (qualitative; CTF).
+**Evidence.** PAIR persona-DAN against unguarded llama3.1:8b: succeeded on turn 3 of a 3-turn loop (turn 1 refusal, turn 2 tone-shift-no-persona, turn 3 judge 10/10, regex-confirmed); the fulcrum was the output-format constraint, not the role framing. Cross-model PAIR matrix: llama3.1:8b 33–50% vs mistral:7b 58–66% over a 12-goal battery — a 2× model gap, with attacker-target asymmetry (smaller attacker outperformed larger). garak full sweep on llama3.1:8b: DAN 66.8% (868/1300), prompt-hijacking 58.6% (1500/2560), suffix 14.6% (19/130). Lakera Gandalf: levels 1–6 recovered by representational shifts that literal secret-string filters do not catch (qualitative; CTF).
 
 **Why it matters.** Refusal is a behavior, not a control. Output filters that block the literal secret are bypassed by any representation the filter did not enumerate.
 
@@ -86,16 +86,16 @@ All numbers verbatim from the linked artifacts. Wilson 95% CIs where the artifac
 |---|---|---|---|---|---|
 | 1 | substrate-amplification | Llama-3.1-8B, xml-parser M0 v3, n=10 | strict 0/10; intent 2/10 | strict [0.0000, 0.2775]; intent [0.0567, 0.5098] | **pending (H10)** |
 | 2 | indirect-injection-tool-description | mistral-nemo, DVL Agent | 1/1 manual exfil | qualitative | pending |
-| 2 | pair-agent-dvl-scenario1 | mistral-nemo, DVL + PAIR | flag turn 4/8; ~5/10 per-run | qualitative | pending |
+| 2 | pair-agent-dvl-scenario1 | mistral-nemo, DVL + PAIR | flag turn 4/8; ~50% per-run (n=2) | qualitative | pending |
 | 2 | promptfoo-dvl-agent-redteam | llama-3.1-8B, DVL, 24 payloads | 0/24 refusals | n=24 | pending |
 | 3 | dvl-agent-scenario2 (pooled) | mistral-nemo vs llama-3.1-8B | 5/10 vs 10/10 | [0.237, 0.763] vs [0.722, 1.000] | pending |
 | 3 | agentdojo-granite-4-1-8b | IBM Granite 4.1 8B | 0/9 security-pass; 3/3 inject-effect | n=9 | pending |
-| 4 | pair-llama31-persona-dan | llama-3.1-8B | 3/3 turns; success @ turn 3 | qualitative (judge 10/10) | pending |
+| 4 | pair-llama31-persona-dan | llama-3.1-8B | 1/3 turns (success @ turn 3) | qualitative (judge 10/10) | pending |
 | 4 | pair-matrix-llama31-vs-mistral7b | llama vs mistral:7b, 12-goal | 33–50% vs 58–66% | n=12/cell | pending |
 | 4 | garak-fullsweep-llama31 | llama-3.1-8B | DAN 868/1300 (66.8%) | n=1300 | pending |
 | 4 | gandalf CTF | Lakera Gandalf L1–6 | L1–6 recovered | qualitative (CTF) | n/a |
 
-The honest reading of the "Frontier?" column: **every row is currently open-weight only.** The portfolio does not claim frontier generalization; it pre-registers the test (H10, both outcomes published) and is transparent that the cell has not yet run. See [`REPORTS/open-weights-rationale.md`](../REPORTS/open-weights-rationale.md).
+The honest reading of the "Frontier?" column: **every instrumented row is open-weight; the Gandalf row is a black-box public CTF against an unknown hosted backend** (marked `n/a`, not `pending`, because there is no controlled model variable to replicate). The portfolio does not claim frontier generalization for any class; it pre-registers the test (H10, both outcomes published) and is transparent that the cell has not yet run. See [`REPORTS/open-weights-rationale.md`](../REPORTS/open-weights-rationale.md).
 
 ## Defender recommendations
 
@@ -127,7 +127,7 @@ Future work, in priority order: (1) H10 frontier substrate replication once API 
 
 > Every quantitative cell in this portfolio was pre-registered before it ran. Hypotheses were committed with explicit falsifiers in `docs/preregistrations/`. When data did not support a hypothesis, it was **retracted in writing**, in the same document that supplied the replacement:
 >
-> - **H3 retracted** (model-strength inversion) — the supporting evidence compared two different substrates; continuing to claim it would have been confounded. Retraction is a separate, dated commit.
+> - **H3 retracted** (model-strength inversion) — the supporting evidence compared two different substrates; continuing to claim it would have been confounded. The retraction was committed and dated 2026-05-09 (Deviation 1), before any downstream substrate cell ran.
 > - **H6 falsified** (combined-framing strict bypass) — 0/5 strict bypasses against its own pre-registered ≥1 criterion.
 > - **The n=10 replication narrowed, not confirmed**, the strongest substrate claim — and is published as a negative result, not buried.
 > - **H10 (frontier) is pre-registered with three pre-committed outcomes** — substrate-dominance-holds, frontier-RLHF-dampens, and inconclusive — so a middle result cannot be retrofitted into a win.
