@@ -4,7 +4,7 @@
 **Status**: public; aggregator only — every factual claim sibling-occurring in other public REPORTS, WRITEUPS, or preserved run artifacts.
 **Last updated**: 2026-05-15
 
-If you only have 90 seconds: read this file. If you have more, follow the links into the deeper artifacts.
+If you only have 90 seconds: read this file. If you have more, follow the links into the deeper artifacts — start with the [defender-synthesis whitepaper](../WRITEUPS/2026-05-15-ai-redteam-defender-synthesis.md), which collapses all 15 artifacts into four defendable failure classes.
 
 ## TL;DR
 

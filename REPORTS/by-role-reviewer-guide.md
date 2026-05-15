@@ -71,9 +71,10 @@ If you only have five minutes, skip to [`start-here-for-hiring-reviewers.md`](st
 
 **Read in this order**:
 
-1. [`WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md`](../WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) — pre-registered study with retracted hypothesis (H3) and supported replacement (H5). The rigor signal.
-2. [`open-weights-rationale.md`](open-weights-rationale.md) — why all work to date is on open-weight models, and why the substrate finding is expected to be transparent-to-scale. Pre-empts the "frontier?" question.
-3. [`2026-05-14-evidence-traceability-manifest.md`](2026-05-14-evidence-traceability-manifest.md) — claim-to-artifact-to-command traceability suitable for an audit.
+1. [`WRITEUPS/2026-05-15-ai-redteam-defender-synthesis.md`](../WRITEUPS/2026-05-15-ai-redteam-defender-synthesis.md) — the whole portfolio in one read: four failure classes, structural mitigations, and a pre-registration/retraction methodology callout. Then drill into the substrate study below.
+2. [`WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md`](../WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) — pre-registered study with retracted hypothesis (H3) and supported replacement (H5). The rigor signal.
+3. [`open-weights-rationale.md`](open-weights-rationale.md) — why all work to date is on open-weight models, and why the substrate finding is expected to be transparent-to-scale. Pre-empts the "frontier?" question.
+4. [`2026-05-14-evidence-traceability-manifest.md`](2026-05-14-evidence-traceability-manifest.md) — claim-to-artifact-to-command traceability suitable for an audit.
 
 **Framing note**: novelty is claimed for the *isolation methodology* (substrate as registered factor, controlled emulation) and the *attribution retraction*, not for the attack class. Prior art is cited (Greshake et al. 2023; OWASP LLM02; Embrace the Red MCP series; simonw indirect-injection corpus).
 

@@ -11,6 +11,7 @@ For a web landing page candidate, see [index.html](index.html). It is built for 
 ## Reviewer Path: 5 Minutes
 
 0. [Portfolio Impact Summary](REPORTS/portfolio-impact-summary.md) - 90-second aggregated view: five claims with verdicts, what this demonstrates, role-specific entry points, limitations.
+0b. [Defender-Synthesis Whitepaper](WRITEUPS/2026-05-15-ai-redteam-defender-synthesis.md) - the whole portfolio reduced to four defendable failure classes, each with a structural mitigation and a pre-registration/retraction methodology callout.
 1. [By-Role Reviewer Guide](REPORTS/by-role-reviewer-guide.md) - if you're hiring for a specific role (OpenAI Agent Products, DeepMind, Lakera, Anthropic / Microsoft AIRT, reusable eval engineer), this points you at the strongest two or three artifacts in reading order.
 2. [Hiring Reviewer Map](REPORTS/hiring-reviewer-map.md) - fastest route through the strongest public artifacts by role class.
 3. [Hiring Evidence Index](REPORTS/hiring-evidence-index.md) - claim-to-evidence map with commands, disclosure status, and limitations.

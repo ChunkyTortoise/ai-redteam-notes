@@ -29,6 +29,7 @@ If you're about to ask "did you test on frontier models?" — the answer is in [
 
 ## 5-Minute Path
 
+- Defender-synthesis whitepaper: [`../WRITEUPS/2026-05-15-ai-redteam-defender-synthesis.md`](../WRITEUPS/2026-05-15-ai-redteam-defender-synthesis.md) — the whole portfolio reduced to four defendable failure classes, with a pre-registration/retraction methodology callout
 - Hiring evidence index: [`hiring-evidence-index.md`](hiring-evidence-index.md)
 - Claim ledger: [`claim-ledger.md`](claim-ledger.md)
 - Substrate assessment report: [`substrate-vs-policy-assessment.md`](substrate-vs-policy-assessment.md)
