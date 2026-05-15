@@ -17,9 +17,31 @@
 
 ## 5-Minute Path
 
+- Start-here reviewer page: [`start-here-for-hiring-reviewers.md`](start-here-for-hiring-reviewers.md)
+- Claim ledger: [`claim-ledger.md`](claim-ledger.md)
 - Cross-model ReAct-loop writeup: <https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/WRITEUPS/2026-05-14-cross-model-react-loop-injection.md>
 - Substrate assessment report: <https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/REPORTS/substrate-vs-policy-assessment.md>
 - MCP harness/eval note: <https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/EVALS/mcp-matrix-harness.md>
+
+## 20-Minute Path
+
+- Evidence index: [`hiring-evidence-index.md`](hiring-evidence-index.md)
+- MCP reproducibility checklist: [`mcp-reproducibility-checklist.md`](mcp-reproducibility-checklist.md)
+- Evidence traceability manifest: [`2026-05-14-evidence-traceability-manifest.md`](2026-05-14-evidence-traceability-manifest.md)
+- Preserved n=10 summary: [`../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/summary.md`](../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/summary.md)
+- Preserved n=10 run command: [`../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/run-command.md`](../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/run-command.md)
+
+## Public Proof Layer
+
+- Start-here reviewer page: [`start-here-for-hiring-reviewers.md`](start-here-for-hiring-reviewers.md)
+- Claim ledger: [`claim-ledger.md`](claim-ledger.md)
+- MCP reproducibility checklist: [`mcp-reproducibility-checklist.md`](mcp-reproducibility-checklist.md)
+- Negative-result note: [`2026-05-14-mcp-n10-replication-negative-result.md`](2026-05-14-mcp-n10-replication-negative-result.md)
+- Agent security eval methodology: [`2026-05-14-agent-security-eval-methodology.md`](2026-05-14-agent-security-eval-methodology.md)
+- Evidence traceability manifest: [`2026-05-14-evidence-traceability-manifest.md`](2026-05-14-evidence-traceability-manifest.md)
+- MCP reviewer reproduction path: [`../lab/mcp-matrix/README.md`](../lab/mcp-matrix/README.md)
+
+These files are the proof layer underneath the existing top-three public links.
 
 ## Best First Link by Role Class
 
@@ -36,4 +58,5 @@
 - The strongest claims are lab-only and disclosure-green.
 - Small-n cells should be framed as mechanism evidence, not population-level rates.
 - The substrate result is about typed tool-call API versus inline parser behavior, not every possible MCP client.
+- The May 14 n=10 replication weakens strict-exfiltration language and should be used as a claim-boundary artifact.
 - Public links should be checked immediately before sending a packet.

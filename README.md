@@ -2,6 +2,10 @@
 
 Public portfolio for AI red teaming, agent/tool-use security, indirect prompt injection, MCP substrate analysis, and automated evaluation. The work here is intentionally scoped to lab targets, public CTFs, open-weight models, and disclosure-safe research artifacts.
 
+## Start Here
+
+For a fast hiring-reviewer path through the strongest evidence, start with [Start Here For Hiring Reviewers](REPORTS/start-here-for-hiring-reviewers.md). It links the flagship writeups, claim ledger, reproducibility checklist, and preserved MCP n=10 artifacts.
+
 ## Reviewer Path: 5 Minutes
 
 1. [Hiring Reviewer Map](REPORTS/hiring-reviewer-map.md) - fastest route through the strongest public artifacts by role class.

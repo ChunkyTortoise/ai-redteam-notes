@@ -21,6 +21,39 @@ just test
 
 **Limitations:** small-n cells, localhost harness, open-weight models, and substrate-specific claims.
 
+**Claim ledger:** [`claim-ledger.md`](claim-ledger.md)
+
+**Proof layer:**
+
+- [`start-here-for-hiring-reviewers.md`](start-here-for-hiring-reviewers.md)
+- [`claim-ledger.md`](claim-ledger.md)
+- [`mcp-reproducibility-checklist.md`](mcp-reproducibility-checklist.md)
+- [`2026-05-14-agent-security-eval-methodology.md`](2026-05-14-agent-security-eval-methodology.md)
+- [`2026-05-14-evidence-traceability-manifest.md`](2026-05-14-evidence-traceability-manifest.md)
+- [`../lab/mcp-matrix/README.md`](../lab/mcp-matrix/README.md)
+
+## Claim 1a: The May 14 n=10 replication narrowed the MCP claim rather than confirming reliable exfiltration.
+
+**Evidence:**
+
+- [`2026-05-14-mcp-n10-replication-negative-result.md`](2026-05-14-mcp-n10-replication-negative-result.md)
+- [`../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/summary.md`](../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/summary.md)
+- [`mcp-reproducibility-checklist.md`](mcp-reproducibility-checklist.md)
+
+**Command shape:**
+
+See the preserved run command: [`../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/run-command.md`](../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/run-command.md)
+
+To verify the harness logic without rerunning the model cell:
+
+```bash
+uv run pytest lab/mcp-matrix/harness/tests
+```
+
+**Disclosure:** lab-only, disclosure-green.
+
+**Limitations:** one model, one payload, one XML-style substrate emulation, n=10. The result supports a narrow intent-layer claim, not reliable data theft.
+
 ## Claim 2: ReAct-loop observation injection can drive SQL injection in an intentionally vulnerable agent benchmark.
 
 **Evidence:**
