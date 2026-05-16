@@ -18,7 +18,6 @@ disclosure_notes: >
 related_attacks:
   - ATTACKS/2026-05-03-promptfoo-dvl-agent-redteam.md
   - ATTACKS/2026-05-06-pair-agent-dvl-scenario1.md
-  - ATTACKS/2026-05-12-dvl-agent-promptfoo-baseline.md
 references:
   - title: "WithSecure Labs — Damn Vulnerable LLM Agent (DVL Agent) README"
     url: "https://github.com/WithSecureLabs/damn-vulnerable-llm-agent"
