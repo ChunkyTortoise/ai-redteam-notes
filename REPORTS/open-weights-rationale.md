@@ -1,6 +1,6 @@
 # Open-Weights Rationale
 
-**Last updated**: 2026-05-15
+**Last updated**: 2026-05-17
 **Purpose**: pre-empt the inevitable hiring-reviewer question: *"did you test this on frontier models?"*
 
 ## Short answer
@@ -11,9 +11,9 @@ No. Every published cell uses open-weight models served via Ollama (Llama 3.1 8B
 
 Three reasons drive the choice:
 
-**1. Substrate effects are expected to be transparent to model scale.**
+**1. The substrate effect was measured across scale, and it does not weaken with capability; it strengthens.**
 
-The flagship finding — that an inline-XML MCP client substrate amplifies tool-output indirect prompt injection while a typed tool-use API substrate suppresses it — is a *parser-architecture* claim, not a *model-capability* claim. The dispatch happens (or fails to happen) in the client, not in the model. Demonstrating the effect at 8B is sufficient to establish the mechanism; demonstrating it at 70B (W2 F-cells, pre-registered) tests scale-invariance; the prior is that the effect persists because nothing about it depends on model capability.
+The flagship finding (an inline-XML MCP client substrate amplifies tool-output indirect prompt injection while a typed tool-use API substrate suppresses it) is a *parser-architecture* claim: the dispatch happens, or fails to happen, in the client, not in the model. The original prior was that the effect would simply persist at larger scale because nothing about it depends on model capability. That prior was pre-registered as H7 and then **falsified by the open-weight cross-scale cell (F1)**: holding the substrate constant and varying only the model 8B to 70B, strict canary exfiltration went from 0/5 at 8B to 10/10 at 70B. The effect did not stay flat; capability amplifies exploitation within the insecure substrate. This makes the open-weight result a *conservative lower bound* for more capable models, not a weaker proxy for them. See [`../ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md`](../ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md) and Addendum B of the flagship writeup.
 
 **2. Reproducibility for any reader, not just well-funded labs.**
 
@@ -25,7 +25,7 @@ The Tier A track operates under a $300 hard spending cap (see [`README.md`](../R
 
 ## What this means for the portfolio's scope
 
-- **Substrate / parser findings**: load-bearing claim. Expected to generalize across model scale (pre-registered W2-W5 cells will test this directly).
+- **Substrate / parser findings**: load-bearing claim. The scale boundary was tested directly by the pre-registered F1 cell: the effect generalizes across model scale and intensifies at 70B (H7 falsified). Frontier cells would extend this, not establish it.
 - **Model-policy findings**: deliberately retracted. The H3 hypothesis ("Mistral-Nemo more robust than Llama-8B") was retracted on substrate-confound grounds. The portfolio does not currently claim model-strength orderings, and would not claim them based on small-n frontier comparisons either.
 - **Mechanism vs rate**: small-n work is positioned as mechanism discovery, not as rate estimation. The interim WRITEUP cut on 2026-06-15 will tighten Wilson intervals at n=10 for the F-cells but not pivot to rate claims.
 
@@ -37,7 +37,7 @@ Specific cells we would add if frontier-model access were unconstrained:
 - Cline + GPT-5.x under same (independent provider check)
 - A cross-frontier sweep at M0-M3 mitigations to compare attenuation curves
 
-None of these would change the substrate-vs-policy thesis; they would test its scale boundary. The pre-registered H7 hypothesis explicitly commits to falsification if the 70B replication shows different behavior; H7 at frontier scale would extend the same falsification posture.
+None of these would change the substrate-vs-policy thesis; they would extend its already-measured scale boundary. The pre-registered H7 hypothesis committed to falsification if the 70B replication showed different behavior. It did: H7 is falsified, the open-weight 70B cell already establishes that capability amplifies the effect, and a frontier row would extend the same falsification posture rather than open the question.
 
 ## Citations
 

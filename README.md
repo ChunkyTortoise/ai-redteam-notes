@@ -1,10 +1,14 @@
 # AI Agent Product Security Portfolio
 
+[![ci](https://github.com/ChunkyTortoise/ai-redteam-notes/actions/workflows/ci.yml/badge.svg)](https://github.com/ChunkyTortoise/ai-redteam-notes/actions/workflows/ci.yml)
+
 **Pre-registered AI red-team research with public hypothesis retractions when data didn't support.** Methodology-first portfolio covering indirect prompt injection, unsafe tool use, MCP client substrate risk, remediation review, and automated evaluation. Wilson 95% confidence intervals at n=10, controlled substrate emulation, three-tier disclosure policy with automated pre-push gating. The work here is intentionally scoped to lab targets, public CTFs, open-weight models, and disclosure-safe research artifacts.
 
 ## Start Here
 
-For a fast hiring-reviewer path through the strongest evidence, start with [Start Here For Hiring Reviewers](REPORTS/start-here-for-hiring-reviewers.md). It links the flagship writeups, remediation review, claim ledger, reproducibility checklist, and preserved MCP n=10 artifacts.
+**Read first:** [RESEARCH-SUMMARY.md](RESEARCH-SUMMARY.md) frames the whole portfolio as one pre-registered research program: an attribution retraction, the substrate isolated as a registered factor, a cross-scale hypothesis (H7) falsified at 70B, mitigation ordering, and negative results surfaced deliberately. Reproduce the defensive deliverable in 60 seconds with `make repro`.
+
+For a fast hiring-reviewer path through the strongest evidence, then see [Start Here For Hiring Reviewers](REPORTS/start-here-for-hiring-reviewers.md). It links the flagship writeups, remediation review, claim ledger, reproducibility checklist, and preserved MCP n=10 artifacts.
 
 For a web landing page candidate, see [index.html](index.html). It is built for GitHub Pages from this repo root.
 
@@ -16,18 +20,19 @@ For a web landing page candidate, see [index.html](index.html). It is built for 
 2. [Hiring Reviewer Map](REPORTS/hiring-reviewer-map.md) - fastest route through the strongest public artifacts by role class.
 3. [Hiring Evidence Index](REPORTS/hiring-evidence-index.md) - claim-to-evidence map with commands, disclosure status, and limitations.
 4. [Agent Product Security Remediation Review](REPORTS/2026-05-15-agent-product-security-remediation-review.md) - code-review-style remediation artifact: boundary, exploitability, impact, fix, regression test, and residual risk.
-5. [Substrate vs Policy in MCP Tool-Output Indirect Prompt Injection](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) - pre-registered MCP matrix showing why an apparent model-policy bypass was actually a client-substrate effect.
+5. [Substrate vs Policy in MCP Tool-Output Indirect Prompt Injection](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) - pre-registered MCP matrix showing why an apparent model-policy bypass was actually a client-substrate effect. See **Addendum B**: the pre-registered cross-scale hypothesis H7 was falsified at 70B (the strongest single result).
+5b. [Cross-scale F1 replication](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md) - the H7 falsifier as a standalone ATTACKS entry: 10/10 strict canary exfil at 70B vs 0/5 at 8B, n=10, Wilson CIs.
 6. [Cross-Model ReAct Loop Injection Benchmark](WRITEUPS/2026-05-14-cross-model-react-loop-injection.md) - DVL-Agent Scenario 2 benchmark comparing llama3.1:8b and mistral-nemo behavior under bare vs camouflaged payloads.
 
 ## Why open weights?
 
-If you're about to ask "did you test on frontier?" — read [Open-Weights Rationale](REPORTS/open-weights-rationale.md). Short answer: substrate findings are expected to be transparent to model scale, and open-weight cells are reproducible by any reader.
+If you're about to ask "did you test on frontier?", read [Open-Weights Rationale](REPORTS/open-weights-rationale.md). Short answer: the pre-registered cross-scale cell (H7) shows the substrate effect does not wash out as the model gets more capable; it strengthens (8B reached 0/5 strict exfil, 70B reached 10/10). Open-weight cells are therefore a conservative lower bound for frontier behavior, and every cell is reproducible by any reader.
 
 ## Portfolio Snapshot
 
 | Signal | Current public evidence |
 |---|---:|
-| ATTACKS entries | 10 |
+| ATTACKS entries | 11 |
 | Long-form writeups | 3 |
 | CTF / arena artifacts | 1 |
 | Customer-style reports | 4 |

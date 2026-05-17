@@ -3,6 +3,10 @@
 **Status:** public
 **Purpose:** give a hiring reviewer a fast, conservative path through the strongest AI red-team evidence.
 
+## Read First
+
+[RESEARCH-SUMMARY.md](../RESEARCH-SUMMARY.md) frames the whole portfolio as one pre-registered through-line: attribution retraction, substrate isolated as a registered factor, the cross-scale hypothesis H7 falsified at 70B, mitigation ordering, and negative results surfaced deliberately. `make repro` reproduces the defensive deliverable in 60 seconds with no install.
+
 ## Claim Boundary
 
 This portfolio shows lab-only, disclosure-green agent-security evaluation work: small-scope experiments, synthetic canaries, localhost sinks, preserved artifacts, and conservative limitations. It does not claim a production exploit, a vendor-specific vulnerability, or a general result across all models and clients.
@@ -13,7 +17,7 @@ Jump to the [By-Role Reviewer Guide](by-role-reviewer-guide.md). It points you a
 
 ## Pre-empted Question
 
-If you're about to ask "did you test on frontier models?" — the answer is in [Open-Weights Rationale](open-weights-rationale.md). Short version: substrate findings are expected to be transparent to model scale; open-weight cells are reproducible by any reader without per-call API spend.
+If you're about to ask "did you test on frontier models?", the answer is in [Open-Weights Rationale](open-weights-rationale.md). Short version: the pre-registered cross-scale cell (H7) shows the substrate effect does not wash out as the model gets more capable; it strengthens (0/5 strict exfil at 8B, 10/10 at 70B). An open-weight cell is therefore a conservative lower bound for frontier behavior, and every cell is reproducible by any reader without per-call API spend.
 
 ## 60-Second Path
 

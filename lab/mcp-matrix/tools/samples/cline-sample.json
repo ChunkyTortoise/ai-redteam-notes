@@ -1,0 +1,11 @@
+{
+  "client": "Cline",
+  "mcpServers": {
+    "lab": {
+      "command": "node",
+      "args": [
+        "lab-mcp.js"
+      ]
+    }
+  }
+}

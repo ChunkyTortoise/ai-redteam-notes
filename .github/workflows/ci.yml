@@ -1,0 +1,24 @@
+name: ci
+# Runs the dependency-free substrate-auditor self-check on every push/PR.
+# The auditor is the defensive deliverable of the substrate-vs-policy research
+# (see WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md, Addendum B). It is
+# stdlib-only on purpose, so this job needs no install step and stays green
+# without flaky network or model calls. The full pre-registered measurement
+# harness lives in the private working repo; this badge reflects the auditor
+# and the reproducible reviewer path, which is exactly what it claims.
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  selfcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: substrate_auditor self-check
+        run: python3 lab/mcp-matrix/tools/selfcheck.py
+      - name: auditor demo on sample configs (make audit)
+        run: make audit

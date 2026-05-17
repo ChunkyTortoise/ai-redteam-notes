@@ -1,0 +1,12 @@
+{
+  "client": "Kilo Code",
+  "toolDispatch": "structured",
+  "mcpServers": {
+    "lab": {
+      "command": "node",
+      "args": [
+        "lab-mcp.js"
+      ]
+    }
+  }
+}
