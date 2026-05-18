@@ -39,8 +39,8 @@ make benchmark
 Expected key lines:
 
 ```text
-fixtures : 6
-matches  : 6/6
+fixtures : 10
+matches  : 10/10
 GATE: PASS - fixture benchmark is internally consistent
 ```
 
@@ -50,19 +50,22 @@ GATE: PASS - fixture benchmark is internally consistent
    - the packet-ready 60-second router and role-specific evidence blocks.
 2. [WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md)
    - methodology and **Addendum B**, the cross-scale correction.
-3. [ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md)
-   - the strongest single result: pre-registered H7 falsified at 70B.
-4. [ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md)
+3. [ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md)
+   - the current strongest result: a 7-cell 70B grid where M1 held baseline/v3 at zero but failed on v7.
+4. [ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md)
+   - the pre-registered H7 falsification that motivated the full H10b-G grid.
+5. [ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md)
    - concrete ReAct-loop observation injection with practical mitigations.
-5. [REPORTS/remediation-case-study-tool-output-injection.md](REPORTS/remediation-case-study-tool-output-injection.md)
+6. [REPORTS/remediation-case-study-tool-output-injection.md](REPORTS/remediation-case-study-tool-output-injection.md)
    - the attack-to-fix story: unsafe substrate, auditor, typed tool-call control,
      benchmark, and detection hooks.
-6. [docs/reports/hiring-reviewer-map.md](docs/reports/hiring-reviewer-map.md)
+7. [docs/reports/hiring-reviewer-map.md](docs/reports/hiring-reviewer-map.md)
    and [docs/reports/hiring-evidence-index.md](docs/reports/hiring-evidence-index.md)
    - every claim tied to a raw run directory.
 
-H10b-G is still in progress and not packet-ready; do not quote its rates until
-the full grid and control-validity gate clear.
+H10b-G is packet-ready after the 2026-05-18 control gate: all seven cells are
+complete at n=10, the chat-only control holds at zero, and the single-provider
+Groq provenance is documented in the final report.
 
 ## The defensive deliverable
 
@@ -91,7 +94,7 @@ working repo (not mirrored, to keep the public surface to reviewable artifacts):
 make test    # uv run pytest lab/mcp-matrix/harness/tests
 ```
 
-That suite reports `40 passed, 0 failed`.
+That suite reports `45 passed, 0 failed`.
 
 **Note.** A pre-existing defect in `verdict.py` was fixed as part of this work:
 `compute_verdict` sourced the canary from the scorer's `~/.lab/secret.txt`, so a

@@ -28,8 +28,8 @@ Expected output:
 
 ```text
 benchmark: agent-tool-output-injection-fixture-v1
-fixtures : 6
-matches  : 6/6
+fixtures : 10
+matches  : 10/10
 GATE: PASS - fixture benchmark is internally consistent
 ```
 
@@ -48,6 +48,8 @@ The repo already shows attack writeups. This benchmark adds the eval-engineering
 The current fixture set covers:
 
 - 70B inline-XML strict bypass under M0
+- H10b-G 70B M1 variant-selective boundary: v3 held at zero while v7 bypassed
+- H10b-G chat-only control holding at zero
 - 8B inline-XML intent-shift without strict bypass
 - typed tool-call clean behavior
 - M1 mitigation holding strict bypass at zero for a v7 all-tags cell

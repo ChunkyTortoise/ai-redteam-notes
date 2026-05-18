@@ -21,9 +21,10 @@ The companion case study is
 The research result (`WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md`) is that the
 client's tool-dispatch substrate, not the model, is the load-bearing variable in
 MCP tool-output indirect prompt injection, and that the inline-XML risk does not
-diminish at larger model scale (Addendum B: it strengthens). The defensive
-consequence is operational: before trusting an agent deployment, determine which
-substrate it uses. This tool automates that first check.
+diminish at larger model scale. H10b-G adds the mitigation boundary: prompt
+scaffolding can hold some payload families while failing on adversarial variants.
+The defensive consequence is operational: before trusting an agent deployment,
+determine which substrate it uses. This tool automates that first check.
 
 ## Usage
 
@@ -111,5 +112,5 @@ make verify-public
 This tool is intentionally small. That is the point: a hiring manager can see the
 full security loop without trusting a live model call. The writeup explains the
 failure mode, this CLI classifies the risky substrate, `make benchmark` validates
-preserved fixtures, and the detection notes describe how the same chain would be
-monitored in staging.
+ten preserved fixtures including the H10b-G M1 boundary, and the detection notes
+describe how the same chain would be monitored in staging.

@@ -1,20 +1,50 @@
 # Hiring Evidence Index
 
-**Date:** 2026-05-17
+**Date:** 2026-05-18
 **Status:** reviewer-ready
 **Purpose:** Tie the strongest hiring claims to concrete files, raw outputs, reproduction commands, disclosure status, limitations, and interview talking points.
 
 ## Packet-Ready Claim Order
 
-1. **Substrate attribution correction:** start with the flagship MCP writeup and the raw matrix evidence behind the substrate confound.
-2. **F1 / H7 cross-scale falsification:** follow with the 70B replication entry and its pre-registration.
-3. **DVL Scenario 2 agent exploit:** close the fast path with the concrete ReAct-loop SQL exfiltration benchmark and mitigations.
-
-The H10b-G grid is intentionally excluded from packet-ready claims until the full grid completes and the control-validity gate clears.
+1. **H10b-G mitigation boundary:** start with the completed 70B grid: control-validity passes, M1 holds baseline/v3, and v7 bypasses M1.
+2. **Substrate attribution correction:** follow with the flagship MCP writeup and the raw matrix evidence behind the substrate confound.
+3. **F1 / H7 cross-scale falsification:** use as the clean pre-registration story that led into H10b-G.
+4. **DVL Scenario 2 agent exploit:** close the fast path with the concrete ReAct-loop SQL exfiltration benchmark and mitigations.
 
 The defensive conversion artifact is [`REPORTS/remediation-case-study-tool-output-injection.md`](../../REPORTS/remediation-case-study-tool-output-injection.md): it connects the flagship exploit evidence to `substrate_auditor.py`, `make benchmark`, and detection hooks.
 
-## Claim 1: Client substrate can be the load-bearing variable in MCP tool-output indirect prompt injection.
+## Claim 1: H10b-G shows M1 is variant-selective at 70B, not a substrate fix.
+
+**Claim:** In a single-provider Groq-hosted Llama-3.3-70B grid, the inline-XML substrate remains exploitable while the chat-only control holds clean. M1 prompt scaffolding is useful but variant-selective: it drives strict bypass to 0/10 for baseline and v3 payloads, while v7 still reaches 10/10 strict bypass. The durable control is typed tool-call dispatch plus provenance and authorization outside the model.
+
+**Evidence:**
+
+- [`ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md`](../../ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md)
+- [`REPORTS/2026-05-17-h10b-g-70b-substrate-findings.md`](../../REPORTS/2026-05-17-h10b-g-70b-substrate-findings.md)
+- [`docs/preregistrations/2026-05-16-open-source-scale-substrate-h10b.md`](../preregistrations/2026-05-16-open-source-scale-substrate-h10b.md)
+- [`EVALS/fixtures/tool-output-injection-fixtures.json`](../../EVALS/fixtures/tool-output-injection-fixtures.json)
+
+**Raw output:**
+
+- [`lab/mcp-matrix/runs/2026-05-17-llama70b-xml-M0-v3/seeds.json`](../../lab/mcp-matrix/runs/2026-05-17-llama70b-xml-M0-v3/seeds.json)
+- [`lab/mcp-matrix/runs/2026-05-18-llama70b-xml-M1-v3/seeds.json`](../../lab/mcp-matrix/runs/2026-05-18-llama70b-xml-M1-v3/seeds.json)
+- [`lab/mcp-matrix/runs/2026-05-18-llama70b-xml-M1-v7/seeds.json`](../../lab/mcp-matrix/runs/2026-05-18-llama70b-xml-M1-v7/seeds.json)
+- [`lab/mcp-matrix/runs/2026-05-18-llama70b-chatonly-M0-baseline/seeds.json`](../../lab/mcp-matrix/runs/2026-05-18-llama70b-chatonly-M0-baseline/seeds.json)
+
+**Command:**
+
+```bash
+bash lab/mcp-matrix/scripts/run_h10b_sweep.sh --validate
+make benchmark
+```
+
+**Disclosure:** Green. Hosted open model, localhost-only harness, canary file, and localhost exfil sink. No production vendor target contacted.
+
+**Limitations:** H10b-G is not the pristine frozen OpenRouter H10b run; it is a logged Groq-provider deviation. It is one model family, one substrate class, and n=10 per cell. Treat it as a strong mechanism and mitigation-boundary result, not a population rate across products or vendors.
+
+**Interview:** "The high-value result is not just that 70B is exploitable. It is that a mitigation that looks good on baseline and v3 fails completely on v7. That is why I would make adversarial variants part of the regression gate before claiming a prompt scaffold is a control."
+
+## Claim 2: Client substrate can be the load-bearing variable in MCP tool-output indirect prompt injection.
 
 **Claim:** Holding model and payload family constant, typed tool-use API behavior and inline text/XML parser behavior diverged; the earlier model-policy attribution was retracted in favor of a substrate-confound explanation.
 
@@ -43,7 +73,7 @@ For exact historical cell commands, inspect the relevant run directory `attempts
 
 **Interview:** "The important thing I caught was an attribution error. A result that looked like model-policy weakness was actually explained by the client dispatch substrate, so I retracted the original hypothesis and registered a substrate axis before continuing."
 
-## Claim 2: A pre-registered cross-scale replication was falsified — capability amplifies exploitation within the insecure substrate.
+## Claim 3: A pre-registered cross-scale replication was falsified — capability amplifies exploitation within the insecure substrate.
 
 **Claim:** Cell F1 of the W1 to W5 pre-registration tested H7 (`|rate_70b - rate_8b| <= 0.15 AND CIs overlap`) by holding the Cline inline-XML substrate, payload, mitigation, and dispatch policy constant and varying only the model 8B to 70B. **H7 is falsified.** Llama-3.3-70B reached 10/10 strict canary exfiltration (Wilson 95% CI [0.72, 1.0]) where Llama-3.1-8B reached 0/5 strict and only 2/5 intent shifts. The substrate is the necessary enabler; within it, the more capable model is *more* reliably exploited, not safer. This extends Claim 1 with a pre-registered falsifier and inverts the original writeup's implicit "70B is fine" scoping.
 
@@ -68,11 +98,11 @@ bash lab/mcp-matrix/scripts/run_f1_cell.sh
 
 **Disclosure:** Green. Open-weight Llama-3.3-70B via OpenRouter `:free`, same localhost-only MCP harness and canary file as the 8B cells. No vendor production system contacted; $0 cost.
 
-**Limitations:** Single payload variant (v1-visible-notice) and single client (Cline inline-xml) at 70B; n=10 supports a mechanism-level / qualitative-mode-shift claim, not a population rate. The 8B baseline is n=5 (wide CI). OpenRouter `:free` quantization is provider-controlled. A confirmatory mitigation-tested grid (H10b-G) is in progress and gated; no H10b-G rates are claimed here.
+**Limitations:** Single payload variant (v1-visible-notice) and single client (Cline inline-xml) at 70B; n=10 supports a mechanism-level / qualitative-mode-shift claim, not a population rate. The 8B baseline is n=5 (wide CI). OpenRouter `:free` quantization is provider-controlled. H10b-G is the follow-on mitigation-tested grid and should be cited separately with its Groq-provider deviation boundary.
 
 **Interview:** "I wrote the falsifier before I ran the cell. The honest outcome was that my own implicit assumption, that bigger models would be safer here, was wrong by a wide margin. The defensible claim got sharper: the substrate is necessary, and capability amplifies exploitation inside it, so the architectural fix matters more at scale, not less."
 
-## Claim 3: A ReAct-loop observation injection can drive UNION-based SQL injection in an intentionally vulnerable agent benchmark.
+## Claim 4: A ReAct-loop observation injection can drive UNION-based SQL injection in an intentionally vulnerable agent benchmark.
 
 **Claim:** In DVL Agent Scenario 2, forged `Thought / Action / Observation` content caused the agent to pass a UNION payload into `GetUserTransactions`, exfiltrating cleartext password sentinels in the lab benchmark.
 
@@ -99,7 +129,7 @@ cd lab/vuln-agents/damn-vulnerable-llm-agent
 
 **Interview:** "This is the concrete exploitation story: the model mistook attacker-provided ReAct serialization for prior agent state, but the durable mitigation is not a better prompt. It is parameterized SQL and typed validation at the tool boundary."
 
-## Claim 4: The same attack chain showed a model-specific wrapper effect across two open-weight models.
+## Claim 5: The same attack chain showed a model-specific wrapper effect across two open-weight models.
 
 **Claim:** Both models exfiltrated 5/5 on the bare DVL Scenario 2 payload, but the camouflaged wrapper split the models: `mistral-nemo` held at 0/5 while `llama3.1:8b` still exfiltrated 5/5.
 
@@ -126,7 +156,7 @@ cd lab/vuln-agents/damn-vulnerable-llm-agent
 
 **Interview:** "I would not say the wrapper is universally stronger. The interesting result is the opposite: a wrapper that preserves success on one model can reduce success on another, so transferability needs to be measured, not assumed."
 
-## Claim 5: The repo has disclosure discipline and a reusable CVD report shape, but no live target-specific report has been submitted.
+## Claim 6: The repo has disclosure discipline and a reusable CVD report shape, but no live target-specific report has been submitted.
 
 **Claim:** The project has a draft CVD/HackerOne-style packet for the agent tool-output injection class, marked draft-not-submitted, with explicit approval and scope checklist gates.
 
@@ -151,7 +181,7 @@ rg -n "Disclosure Boundary|production vulnerability claim" REPORTS/remediation-c
 
 **Interview:** "I separated lab evidence from disclosure claims. The CVD packet is useful because it shows the shape of a responsible report, but it intentionally stops before target-specific claims until scope and approval exist."
 
-## Claim 6: Day-60 operational evidence reached the planned gates, with caveats documented.
+## Claim 7: Day-60 operational evidence reached the planned gates, with caveats documented.
 
 **Claim:** The Day-60 closeout reports a 5/5 operational score, packet links verified, CVD draft markers checked, and disclosure lint passing for the DVL Scenario 2 entry.
 
@@ -177,9 +207,9 @@ bash pipeline/scripts/check-disclosure.sh ATTACKS/2026-05-14-dvl-agent-scenario2
 
 **Interview:** "The key here is operating discipline: gates passed, caveats were logged, and local-only evidence was not presented as public proof."
 
-## Claim 7: The research has been converted into a reusable defensive check and fixture benchmark.
+## Claim 8: The research has been converted into a reusable defensive check and fixture benchmark.
 
-**Claim:** The repo now includes a dependency-free substrate auditor, a remediation case study, and a six-fixture benchmark that validates preserved evidence without making live model calls.
+**Claim:** The repo now includes a dependency-free substrate auditor, a remediation case study, and a ten-fixture benchmark that validates preserved evidence without making live model calls.
 
 **Evidence:**
 
@@ -188,7 +218,7 @@ bash pipeline/scripts/check-disclosure.sh ATTACKS/2026-05-14-dvl-agent-scenario2
 - [`EVALS/agent-tool-output-injection-benchmark.md`](../../EVALS/agent-tool-output-injection-benchmark.md)
 - [`REPORTS/remediation-case-study-tool-output-injection.md`](../../REPORTS/remediation-case-study-tool-output-injection.md)
 
-**Raw output:** `make repro` shows the auditor flagging an inline-XML sample as high risk and clearing a typed tool-call sample as low risk. `make benchmark` checks six fixtures and requires expected verdicts to match recorded verdicts.
+**Raw output:** `make repro` shows the auditor flagging an inline-XML sample as high risk and clearing a typed tool-call sample as low risk. `make benchmark` checks ten fixtures and requires expected verdicts to match recorded verdicts.
 
 **Command:**
 
@@ -206,7 +236,7 @@ make benchmark
 
 ## Gaps To Close Before Packet Expansion
 
-- Re-verify the public `REPORTS/substrate-vs-policy-assessment.md` artifact after any public mirror sync.
+- Re-verify the public H10b-G ATTACKS entry and final findings report after the reviewed public mirror sync.
 - Add exact reproduction command notes to MCP run directories where the command is currently inferential.
 - Decide whether to copy local-only DVL Day-60 evidence into a public-safe artifact or keep it private.
 - Re-run `check-d60.sh`, `check-portfolio.sh`, and disclosure lint before using these claims in a final application packet.

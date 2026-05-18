@@ -1,4 +1,4 @@
-# ai-redteam
+# ai-redteam-notes
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![CI](https://github.com/ChunkyTortoise/ai-redteam-notes/actions/workflows/ci.yml/badge.svg)](https://github.com/ChunkyTortoise/ai-redteam-notes/actions/workflows/ci.yml)
@@ -12,16 +12,17 @@ A research engineer's portfolio on AI-agent security. The through-line: find a s
 
 **Start with the research narrative**: [RESEARCH-SUMMARY.md](RESEARCH-SUMMARY.md) frames the whole program as one pre-registered through-line (attribution retraction, substrate isolation, cross-scale falsification, mitigation ordering) with negative results surfaced deliberately.
 
-**Private side (this repo)**: active specs, in-flight cells, pre-disclosure findings, pipeline trackers. Lane 3 (Agent/System Security) primary, Lane 1 (Prompt Injection / Jailbreaks) as bounty side-quest.
-
 ## Headline result
 
 | Cell | Substrate | Model | Strict canary exfiltration |
 |---|---|---|---|
+| H10b-G M1 v7 | inline-XML dispatch + M1 | Llama-3.3-70B | 10 / 10 |
+| H10b-G M1 v3 | inline-XML dispatch + M1 | Llama-3.3-70B | 0 / 10 |
+| H10b-G chat-only control | no XML dispatch | Llama-3.3-70B | 0 / 10 |
 | F1 (H7 falsified) | inline-XML dispatch | Llama-3.3-70B | 10 / 10 |
 | baseline | inline-XML dispatch | Llama-3.1-8B | 0 / 5 |
 
-A pre-registered cross-scale safety assumption (H7: "a larger model is safer here") was falsified. Capability amplifies exploitation inside an insecure substrate; it does not dissolve it. Full claim-to-run mapping: [docs/reports/hiring-evidence-index.md](docs/reports/hiring-evidence-index.md).
+The current strongest result is H10b-G: a single-provider 70B grid where the M1 content-trust scaffold neutralized baseline and v3 payloads but failed completely against v7. A pre-registered cross-scale safety assumption (H7: "a larger model is safer here") was also falsified. Capability amplifies exploitation inside an insecure substrate; prompt scaffolding is variant-selective, so the durable fix remains typed tool-call dispatch. Full claim-to-run mapping: [docs/reports/hiring-evidence-index.md](docs/reports/hiring-evidence-index.md).
 
 **By the numbers**: ~2.5K LOC Python/shell harness and tooling, 45 pure-function harness tests run in CI, a zero-dependency `substrate_auditor.py`, 5 dated pre-registrations, 8 ADRs.
 
@@ -49,9 +50,10 @@ flowchart LR
 
 ## Reviewer Path
 
-1. [WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) - substrate attribution correction, controlled isolation, and Addendum B.
-2. [ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md) - strongest single result: H7 falsified at 70B under the inline-XML substrate.
-3. [ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md) - concrete ReAct-loop observation injection with tool-boundary mitigations.
+1. [ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md) - current strongest result: H10b-G 70B grid, control-validity gate passed, M1 variant-selective.
+2. [WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) - substrate attribution correction, controlled isolation, and Addendum B/C.
+3. [ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md) - H7 falsified at 70B under the inline-XML substrate.
+4. [ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md) - concrete ReAct-loop observation injection with tool-boundary mitigations.
 
 One-command public-safe demo:
 
@@ -62,37 +64,16 @@ make benchmark
 
 ## Status
 
-H10b-G (the confirmatory mitigation grid) is in progress and not packet-ready; do not quote its rates until the full grid and control gate clear. Everything in the Reviewer Path and Headline result above is confirmed and reproducible.
+H10b-G is packet-ready as of 2026-05-18: all seven cells completed at n=10 on Groq-hosted Llama-3.3-70B, the chat-only control passed, and the final report documents the single-provider provenance and deviation boundary. Use the H10b-G entry as the lead hiring artifact after public mirror sync.
 
 ## Layout
 | Path | Purpose |
 |---|---|
-| `docs/specs/` | Master spec + research companion |
-| `docs/adr/` | Architecture decision records (ADR-001 .. 008) |
-| `docs/research/` | Multi-LLM research artifacts (raw outputs by source) |
 | `docs/reports/` | Hiring reviewer map and claim-to-evidence index |
 | `EVALS/` | Fixture-only benchmark artifacts and scorer |
 | `DETECTIONS/` | Operational detection and incident-triage companion notes |
-| `waves/` | Weekly task queues, one folder per wave |
-| `agents/` | Agent specs: pipeline-tracker and lab-runner deployed with run evidence; research-prep and content-drafter are design specs |
 | `lab/` | Local LLM stack, garak/PyRIT/promptfoo configs, vuln-agent harnesses |
-| `pipeline/` | HackerOne/job/bounty tracker + weekly digests |
-| `content/drafts/` | Blog/writeup drafts staged for review |
-| `.claude/` | Project context + permissions for Claude Code |
-
-## Quickstart (full local lab)
-
-```bash
-cd ai-redteam-notes                                   # the cloned public mirror
-docker compose -f lab/docker-compose.yml up -d        # ollama stack
-ollama pull llama3.1:8b qwen2.5:7b mistral:7b
-# read the spec, then start Wave 0
-cat docs/specs/2026-05-03-feature-ai-redteam-90day-spec.md
-```
-
-## Spec status
-
-See `docs/specs/2026-05-03-feature-ai-redteam-90day-spec.md` (this file is the source of truth, the README only orients).
+| `pipeline/` | Bounty/job tracker + weekly digests |
 
 ## Validation (CI and local)
 
@@ -100,11 +81,8 @@ This repo has gate scripts under `pipeline/scripts/`, and a GitHub Actions workf
 
 Local equivalents:
 
-- `bash pipeline/scripts/validate-spec.sh`
 - `for f in ATTACKS/*.md; do bash pipeline/scripts/check-attack-entry.sh "$f"; done`
 - `for f in ATTACKS/*.md; do bash pipeline/scripts/check-disclosure.sh "$f"; done`
-- `bash pipeline/scripts/lint-digest.sh content/drafts/digest-*.md`
-- `for f in pipeline/digests/*.md; do bash pipeline/scripts/check-digest.sh "$f"; done`
 - `make repro`
 - `make benchmark`
 - `make test`

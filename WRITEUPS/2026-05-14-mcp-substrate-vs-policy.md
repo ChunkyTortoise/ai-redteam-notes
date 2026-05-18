@@ -195,11 +195,26 @@ fix applies at every scale.
 ### Boundary and status
 
 F1 is `green` disclosure (open-weight model, localhost-only scaffold emulation, no
-vendor production system) and is independently published in ATTACKS. A confirmatory,
-mitigation-tested grid (H10b-G: M0/M1 by payload variants plus a chat-only control)
-is **in progress**; its cells are gated and no H10b-G rates are claimed here until
-that grid and its control cell clear their pre-registered packaging gate. F1 stands
-on its own as the H7 falsifier; H10b-G will test how the M1 boundary holds at 70B.
+vendor production system) and is independently published in ATTACKS. The follow-up
+H10b-G grid has now completed on Groq-hosted Llama-3.3-70B with all seven cells at
+n=10 and a passing chat-only control. It confirms that open-source scale does not
+patch the substrate vulnerability and adds a sharper mitigation boundary: M1 holds
+baseline and v3 payloads at zero strict bypass, but v7 bypasses M1 at 10/10. F1
+stands on its own as the H7 falsifier; H10b-G is the packet-ready mitigation-tested
+extension, not the pristine frozen OpenRouter H10b run.
+
+### Addendum C — H10b-G: mitigation is variant-selective at 70B
+
+The 2026-05-18 H10b-G entry extends this writeup from "scale does not wash out the
+substrate effect" to "prompt scaffolding does not uniformly cover the substrate
+effect." In a single-provider Groq grid, the chat-only control collapses to zero
+while the inline-XML substrate produces strict bypasses under M0. M1 then splits
+by payload family: it neutralizes baseline and v3, but v7 walks through it.
+
+The defender lesson is narrow and useful. M1-style language is valuable defense in
+depth, but it must not be sold as an architectural fix. The durable control remains
+separating executable tool dispatch from assistant text with typed tool-call
+events, plus authorization and provenance checks outside the model.
 
 ---
 

@@ -13,8 +13,9 @@ The measured failure mode is not just "the model followed a bad prompt." In the 
 | Stage | Evidence | Result | Hiring signal |
 |---|---|---|---|
 | Unsafe substrate | `make audit` against `cline-sample.json` | Auditor flags `inline-xml-dispatch` as high risk | Can turn a research finding into a pre-deploy check |
-| Exploit evidence | [`ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md`](../ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md) | H7 falsified; capability amplified exploitation inside the insecure substrate | Pre-registered, bounded, falsifiable security research |
+| Exploit evidence | [`ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md`](../ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md) | H10b-G control gate passed; M1 held baseline/v3 but failed on v7 | Pre-registered, bounded, mitigation-aware security research |
 | Safer substrate | `make audit` against `kilo-sample.json` | Auditor clears `typed-toolcall-api` as low risk | Architectural mitigation, not prompt-only hardening |
+| Benchmark gate | `make benchmark` | Ten fixtures validate preserved verdicts, including the H10b-G M1 boundary | Eval engineering tied to public-safe evidence |
 | Detection layer | [`DETECTIONS/tool-chain-detections.md`](../DETECTIONS/tool-chain-detections.md) | Untrusted fetch -> sensitive read -> outbound send becomes alertable | Product security and MLSecOps translation |
 
 ## Reproduce The Defensive Check
@@ -35,7 +36,7 @@ Expected reviewer-level outcome:
 
 The unsafe path lets assistant text carry executable-looking tags such as `<file_read>` or `<lab_fetch>`. Once a client parses those tags for dispatch, model output becomes part of the privileged tool-control plane. A typed tool-call API moves dispatch back into structured events and makes tool calls easier to authorize, log, and block.
 
-The M1 content-trust boundary remains useful defense in depth. The M2 tool-naming variant is kept as a cautionary result: naming specific tools inside a prompt mitigation can increase tool salience for smaller models. That is why the recommended order is substrate first, provenance and authorization second, prompt hardening third.
+The M1 content-trust boundary remains useful defense in depth, but H10b-G shows why it is not the substrate fix: it held baseline and v3 payloads at 70B while v7 still bypassed it cleanly. The M2 tool-naming variant is kept as a cautionary result: naming specific tools inside a prompt mitigation can increase tool salience for smaller models. That is why the recommended order is substrate first, provenance and authorization second, prompt hardening third.
 
 ## Detection Hooks
 
@@ -49,4 +50,4 @@ Use these signals in staging, CI, or agent telemetry:
 
 ## Reviewer Boundary
 
-All evidence cited here is disclosure-green: localhost harnesses, open-weight models, canary files, and intentionally vulnerable benchmarks. No production vendor target is claimed. H10b-G remains excluded from packet-ready claims until its full grid and control-validity gate clear.
+All evidence cited here is disclosure-green: localhost harnesses, open-weight models, canary files, and intentionally vulnerable benchmarks. No production vendor target is claimed. H10b-G is packet-ready as lab evidence only: Groq-hosted Llama-3.3-70B, one provider, n=10 cells, and no production system under test.

@@ -13,9 +13,11 @@ for every claim tied to raw runs.
 
 1. [WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md)
    - the attribution correction, substrate isolation, and Addendum B.
-2. [ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md)
-   - the strongest single result: H7 falsified at 70B.
-3. [ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md)
+2. [ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md)
+   - the current strongest result: the 70B control gate passes and M1 is variant-selective.
+3. [ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md)
+   - H7 falsified at 70B, motivating the full H10b-G grid.
+4. [ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md)
    - the concrete vulnerable-agent exploitation study and tool-boundary mitigation story.
 
 ## The arc
@@ -47,11 +49,12 @@ for every claim tied to raw runs.
    model: the names acted as a salience prime. Client-side tag-dispatch order
    (first-tag / last-tag / all-tags) is itself a security boundary, not a UI detail.
 
-5. **What is next.** The architectural recommendation is to prefer the typed
-   tool-use API substrate over inline-XML dispatch at every model scale. A
-   confirmatory, mitigation-tested grid (H10b-G) is in progress and gated; no
-   H10b-G rates are stated until its control cell clears its pre-registered
-   packaging gate.
+5. **The 70B mitigation boundary is now measured (H10b-G).** The full H10b-G
+   grid completed on one provider with its chat-only control passing. M1
+   neutralized baseline and v3 payloads at 70B, but v7 bypassed it cleanly. The
+   architectural recommendation is therefore stronger: prefer typed tool-use API
+   substrates over inline-XML dispatch, and do not treat prompt scaffolds as a
+   substrate fix unless adversarial variants are in the test matrix.
 
 ## The contribution, stated plainly
 
@@ -66,6 +69,10 @@ Two things here are uncommon and are the point of the work:
   models are safer": the substrate is the necessary enabler, and a more capable
   model is *more* reliably exploited inside it. The fix matters more at scale, not
   less.
+- **Mitigation coverage has to be variant-tested.** H10b-G shows a prompt-level
+  content-trust boundary can look strong on baseline and v3 payloads while
+  offering no measurable protection against v7. That is an eval-design lesson,
+  not just another bypass.
 
 ## Negative and falsified results
 
@@ -81,6 +88,8 @@ trustworthy than one that reports them.
 - **H11 / last-tag-wins ablation.** 0/10 strict bypasses; one real callback carried
   placeholder data, not the canary. The dispatch-policy risk was narrowed, not
   inflated.
+- **H10b-G M1 boundary.** M1 held two 70B payload families but failed on v7; the
+  mitigation is useful defense in depth, not a substrate fix.
 - **M2 regression.** Tool-naming inside a mitigation prompt performed worse than no
   mitigation on the 8B model.
 - **8B M0 nulls and a hardened-target hold.** 0/5 strict bypass at 8B M0; a

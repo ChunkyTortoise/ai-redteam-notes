@@ -41,9 +41,9 @@ remediation-demo:
 repro: selfcheck audit
 	@echo
 	@echo "Reviewer path: REPORTS/start-here-for-hiring-reviewers.md -> WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md (Addendum B)"
-	@echo "Strongest single result: ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md"
+	@echo "Strongest current result: ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md"
 	@echo "Full pre-registered harness suite lives in the private repo (make test):"
-	@echo "40 passed, 0 failed. See REPRODUCE.md for the verdict canary-sourcing fix."
+	@echo "45 passed, 0 failed. See REPRODUCE.md for the verdict canary-sourcing fix."
 
 benchmark:
 	$(PY) EVALS/score_tool_output_injection.py EVALS/fixtures/tool-output-injection-fixtures.json
