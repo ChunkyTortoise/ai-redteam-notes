@@ -4,10 +4,19 @@ One pre-registered research program, not a collection of attacks. The through-li
 **where does an MCP agent's indirect-prompt-injection risk actually live, and does
 it get better or worse as models get more capable?**
 
-Start here, then follow [REPORTS/hiring-reviewer-map.md](REPORTS/hiring-reviewer-map.md)
+Start here, then follow [docs/reports/hiring-reviewer-map.md](docs/reports/hiring-reviewer-map.md)
 for a 60-second / 5-minute / deep path, and
-[REPORTS/hiring-evidence-index.md](REPORTS/hiring-evidence-index.md)
+[docs/reports/hiring-evidence-index.md](docs/reports/hiring-evidence-index.md)
 for every claim tied to raw runs.
+
+## 60-second reviewer path
+
+1. [WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md)
+   - the attribution correction, substrate isolation, and Addendum B.
+2. [ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md)
+   - the strongest single result: H7 falsified at 70B.
+3. [ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md)
+   - the concrete vulnerable-agent exploitation study and tool-boundary mitigation story.
 
 ## The arc
 

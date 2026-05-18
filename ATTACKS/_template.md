@@ -1,60 +1,34 @@
 ---
-title: "<short attack title>"
-class: "<OWASP LLM Top 10 ID + name>"
-lane: 3
-affected_systems: "<generic class - e.g., 'CRM-integrated agents with tool calling'>"
+title: <Attack title>
+date: 2026-05-06
+class: <OWASP LLM Top 10 class (or equivalent)>
+lane: <1|2|3>
+affected_systems: <Generic description of impacted systems>
 disclosure_status: green
-disclosure_target: "none"
-disclosure_first_contact: null
-disclosure_clearance_date: null
-disclosure_notes: "Generic open-weight model / vuln-agent reproduction. No specific vendor."
-date: 2026-MM-DD
+disclosure_target: none
+disclosure_notes: <Optional notes about disclosure status>
 ---
-
-# <Attack title>
 
 ## Threat model
 
-What attacker, what capability, what goal. One paragraph.
+Describe the attacker, capability, and goal in one paragraph.
 
 ## Scenario
 
-Concrete reproduction. Diagram if helpful (mermaid):
-
-```mermaid
-sequenceDiagram
-  Attacker->>WebPage: plant indirect injection
-  User->>Agent: "summarize my email"
-  Agent->>WebPage: fetch
-  WebPage-->>Agent: hidden instruction
-  Agent->>Tool: invoke (against user's interest)
-```
+Describe the end-to-end setup and how the attack is triggered (include roles and key steps).
 
 ## Proof of concept
 
-Generic targets only. No account-binding info.
-
-```bash
-# exact reproduction commands - paste-runnable
-docker compose -f lab/docker-compose.yml up -d
-ollama pull <model>
-python -m garak --model_type litellm --model_name ollama/<model> --probes <probe>
-```
+Provide exact reproduction steps and/or the payloads needed to elicit the result.
 
 ## Result
 
-Success rate over N trials. Logs / screenshots redacted.
+Describe what happened, including success/failure and any evidence (redact sensitive info).
 
 ## Mitigation
 
-What defenders should do. Reference framework guidance:
+Provide defensive mitigations mapped to the scenario (framework citations encouraged).
 
-- OWASP LLM Top 10 mitigation for [LLM01 / LLM06 / etc.]
-- MITRE ATLAS technique [Txxxx] with countermeasures [Mxxxx]
-- NIST AI RMF mapping if applicable
+## MITRE ATT&CK Mapping
 
-## References
-
-- digest: `content/drafts/digest-<slug>.md`
-- run: `content/drafts/run-<slug>.md`
-- prior art: <citations>
+Add mapping to MITRE ATT&CK tactics and techniques here.

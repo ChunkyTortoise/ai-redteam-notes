@@ -1,63 +1,36 @@
-# Start Here For Hiring Reviewers
+# Start Here for Hiring Reviewers
 
-**Status:** public
-**Purpose:** give a hiring reviewer a fast, conservative path through the strongest AI red-team evidence.
-
-## Read First
-
-[RESEARCH-SUMMARY.md](../RESEARCH-SUMMARY.md) frames the whole portfolio as one pre-registered through-line: attribution retraction, substrate isolated as a registered factor, the cross-scale hypothesis H7 falsified at 70B, mitigation ordering, and negative results surfaced deliberately. `make repro` reproduces the defensive deliverable in 60 seconds with no install.
-
-## Claim Boundary
-
-This portfolio shows lab-only, disclosure-green agent-security evaluation work: small-scope experiments, synthetic canaries, localhost sinks, preserved artifacts, and conservative limitations. It does not claim a production exploit, a vendor-specific vulnerability, or a general result across all models and clients.
-
-## If You Know The Role
-
-Jump to the [By-Role Reviewer Guide](by-role-reviewer-guide.md). It points you at the strongest two or three artifacts in reading order for OpenAI Agent Products, DeepMind agent security or frontier safety, Lakera delivery, Anthropic / Microsoft AIRT, and a reusable eval engineer.
-
-## Pre-empted Question
-
-If you're about to ask "did you test on frontier models?", the answer is in [Open-Weights Rationale](open-weights-rationale.md). Short version: the pre-registered cross-scale cell (H7) shows the substrate effect does not wash out as the model gets more capable; it strengthens (0/5 strict exfil at 8B, 10/10 at 70B). An open-weight cell is therefore a conservative lower bound for frontier behavior, and every cell is reproducible by any reader without per-call API spend.
+**Date:** 2026-05-17
+**Status:** reviewer-ready
+**Audience:** Recruiters, hiring managers, and technical interviewers.
 
 ## 60-Second Path
 
-1. **Substrate vs policy writeup**
-   - Public artifact: <https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md>
-   - Why it matters: shows pre-registration, attribution correction, and a defender-focused client-boundary conclusion.
-2. **DVL Scenario 2 ATTACKS entry**
-   - Public artifact: <https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md>
-   - Why it matters: concrete ReAct-loop observation-injection evidence with a practical mitigation lesson.
-3. **Agent product security remediation review**
-   - Public artifact: [`2026-05-15-agent-product-security-remediation-review.md`](2026-05-15-agent-product-security-remediation-review.md)
-   - Why it matters: code-review-style artifact covering vulnerable boundary, exploitability, impact, durable fix, regression test, and residual risk.
+1. **Substrate vs policy:** [`WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md`](../WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) proves the original model-policy attribution was wrong, matters because it isolates client dispatch substrate as the load-bearing variable, and is bounded to measured MCP-style inline-XML versus typed-tool-call substrates.
+2. **F1 / H7 falsification:** [`ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md`](../ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md) proves a pre-registered cross-scale hypothesis failed at 70B, matters because capability amplified exploitation inside the insecure substrate, and is bounded to one payload, one client class, and n=10.
+3. **DVL Scenario 2:** [`ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md`](../ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md) proves ReAct-loop observation injection can drive SQL exfiltration in a vulnerable agent benchmark, matters because it translates to tool-boundary mitigations, and is bounded to localhost lab evidence.
 
-## 5-Minute Path
+For a runnable public-safe proof path:
 
-- Defender-synthesis whitepaper: [`../WRITEUPS/2026-05-15-ai-redteam-defender-synthesis.md`](../WRITEUPS/2026-05-15-ai-redteam-defender-synthesis.md) — the whole portfolio reduced to four defendable failure classes, with a pre-registration/retraction methodology callout
-- Hiring evidence index: [`hiring-evidence-index.md`](hiring-evidence-index.md)
-- Claim ledger: [`claim-ledger.md`](claim-ledger.md)
-- Substrate assessment report: [`substrate-vs-policy-assessment.md`](substrate-vs-policy-assessment.md)
-- Agent-security eval methodology: [`2026-05-14-agent-security-eval-methodology.md`](2026-05-14-agent-security-eval-methodology.md)
-- Negative-result note: [`2026-05-14-mcp-n10-replication-negative-result.md`](2026-05-14-mcp-n10-replication-negative-result.md)
+```bash
+make repro
+make benchmark
+```
 
-## 20-Minute Path
+For the attack-to-fix story, read [`REPORTS/remediation-case-study-tool-output-injection.md`](remediation-case-study-tool-output-injection.md).
 
-- Evidence traceability manifest: [`2026-05-14-evidence-traceability-manifest.md`](2026-05-14-evidence-traceability-manifest.md)
-- MCP matrix reviewer checklist: [`mcp-reproducibility-checklist.md`](mcp-reproducibility-checklist.md)
-- MCP matrix README: [`../lab/mcp-matrix/README.md`](../lab/mcp-matrix/README.md)
-- Preserved n=10 run summary: [`../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/summary.md`](../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/summary.md)
-- Preserved n=10 run command: [`../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/run-command.md`](../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/run-command.md)
+For deeper review, continue to [`docs/reports/hiring-reviewer-map.md`](../docs/reports/hiring-reviewer-map.md) and [`docs/reports/hiring-evidence-index.md`](../docs/reports/hiring-evidence-index.md).
 
-## What To Look For
+## Role-Specific Evidence Blocks
 
-- Clear separation between strict bypass, intent shift, clean ignore, and harness failure.
-- Claims that narrow after replication rather than inflate.
-- Raw artifacts that preserve commands, summaries, transcripts, and limitations.
-- Remediation language aimed at engineering controls: typed tool schemas, parser hardening, provenance, confirmation flow, logging, replay, parameterized tool boundaries, and regression tests.
+| Role | Flagship artifact | Raw evidence / pre-registration | Defensive / operational artifact |
+|---|---|---|---|
+| Frontier red-team / preparedness | [`ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md`](../ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md) | [`docs/preregistrations/2026-05-13-tier-a-w1-w5.md`](../docs/preregistrations/2026-05-13-tier-a-w1-w5.md) | [`REPORTS/substrate-vs-policy-assessment.md`](substrate-vs-policy-assessment.md) |
+| Agent security / tool-use security | [`ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md`](../ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md) | [`lab/promptfoo/runs/2026-05-13-dvl-scenario2-crossmodel/wilson_summary.json`](../lab/promptfoo/runs/2026-05-13-dvl-scenario2-crossmodel/wilson_summary.json) | [`DETECTIONS/tool-chain-detections.md`](../DETECTIONS/tool-chain-detections.md) |
+| AI evals / research engineering | [`EVALS/agent-tool-output-injection-benchmark.md`](../EVALS/agent-tool-output-injection-benchmark.md) | [`docs/preregistrations/2026-mcp-matrix.md`](../docs/preregistrations/2026-mcp-matrix.md) | [`lab/mcp-matrix/tools/README.md`](../lab/mcp-matrix/tools/README.md) |
+| Product security / MLSecOps | [`WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md`](../WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) | [`ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md`](../ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md) | [`REPORTS/remediation-case-study-tool-output-injection.md`](remediation-case-study-tool-output-injection.md) |
+| Security consulting | [`WRITEUPS/2026-05-14-cross-model-react-loop-injection.md`](../WRITEUPS/2026-05-14-cross-model-react-loop-injection.md) | [`docs/reports/hiring-evidence-index.md`](../docs/reports/hiring-evidence-index.md) | [`REPORTS/remediation-case-study-tool-output-injection.md`](remediation-case-study-tool-output-injection.md) |
 
-## What Not To Infer
+## Use Boundary
 
-- Do not infer production exploitability.
-- Do not infer a universal MCP vulnerability.
-- Do not infer frontier-model benchmark rates.
-- Do not treat small-n mechanism evidence as population-level prevalence.
+H10b-G is still in progress and not packet-ready. Do not quote H10b-G rates or use its interim report in applications until the full grid completes and the control-validity gate clears.

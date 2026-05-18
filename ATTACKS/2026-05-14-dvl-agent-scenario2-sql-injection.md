@@ -16,8 +16,8 @@ disclosure_notes: >
   (mistral-nemo and llama3.1:8b) in a localhost-only harness. No production vendor
   endpoint was contacted. No disclosure required.
 related_attacks:
-  - ATTACKS/2026-05-03-promptfoo-dvl-agent-redteam.md
-  - ATTACKS/2026-05-06-pair-agent-dvl-scenario1.md
+  - ATTACKS/2026-05-03-indirect-injection-tool-description.md
+  - ATTACKS/2026-05-12-dvl-agent-promptfoo-baseline.md
 references:
   - title: "WithSecure Labs — Damn Vulnerable LLM Agent (DVL Agent) README"
     url: "https://github.com/WithSecureLabs/damn-vulnerable-llm-agent"
@@ -33,7 +33,7 @@ The DVL Agent is a LangChain `ConversationalChatAgent` that reads bank transacti
 
 The attacker controls the user-turn content. Two failure modes follow from the agent's ReAct-loop formatting: (1) the user can inject a forged `Thought / Action / Observation` block that the model accepts as legitimate prior tool output, overriding `GetCurrentUser`'s return; (2) because `GetUserTransactions` interpolates the userId directly into SQL, a UNION-based payload in the forged Observation can exfiltrate arbitrary columns from joined tables — specifically the cleartext password column of the `Users` table.
 
-The Scenario 1 spoofed-`(#system)` attack (covered in [`2026-05-03-promptfoo-dvl-agent-redteam.md`](2026-05-03-promptfoo-dvl-agent-redteam.md) and [`2026-05-06-pair-agent-dvl-scenario1.md`](2026-05-06-pair-agent-dvl-scenario1.md)) targets failure mode (1) for cross-account data access. This entry targets failure mode (2) for cleartext password exfiltration via cross-table UNION SELECT — and measures both failure modes across two open-weight models to ground a cross-model statistical comparison.
+The Scenario 1 spoofed-`(#system)` attack (covered in [`2026-05-03-indirect-injection-tool-description.md`](2026-05-03-indirect-injection-tool-description.md) and expanded into the later [`2026-05-12-dvl-agent-promptfoo-baseline.md`](2026-05-12-dvl-agent-promptfoo-baseline.md)) targets failure mode (1) for cross-account data access. This entry targets failure mode (2) for cleartext password exfiltration via cross-table UNION SELECT — and measures both failure modes across two open-weight models to ground a cross-model statistical comparison.
 
 ## Scenario
 

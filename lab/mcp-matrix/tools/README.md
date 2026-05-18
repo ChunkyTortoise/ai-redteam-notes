@@ -5,6 +5,17 @@ into a usable check: given an MCP client config (JSON / JSONC) or a captured
 transcript (JSONL), it classifies the tool-dispatch substrate and recommends a
 mitigation.
 
+For hiring reviewers, this is the reusable deliverable: it converts the research
+claim into a dependency-free CI/pre-deploy check. The fastest path is:
+
+```bash
+make repro
+make remediation-demo
+```
+
+The companion case study is
+`REPORTS/remediation-case-study-tool-output-injection.md`.
+
 ## Why
 
 The research result (`WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md`) is that the
@@ -19,6 +30,8 @@ substrate it uses. This tool automates that first check.
 ```bash
 python lab/mcp-matrix/tools/substrate_auditor.py <path-to-config-or-transcript>
 python lab/mcp-matrix/tools/substrate_auditor.py client.json --json
+make audit
+make remediation-demo
 ```
 
 Exit code: `1` when a high-risk (inline-XML dispatch) substrate is detected,
@@ -27,6 +40,32 @@ as a CI / pre-deploy gate.
 
 Output fields: `substrate` (`inline-xml-dispatch` | `typed-toolcall-api` |
 `unknown`), `risk`, `rationale`, `recommendation`, `citation`.
+
+## Expected output
+
+Risky inline-XML sample:
+
+```text
+substrate : inline-xml-dispatch
+risk      : high
+why       : client identified as 'cline' (parser audit, Addendum A)
+recommend : Prefer a typed tool-use API substrate ...
+```
+
+Typed tool-call sample:
+
+```text
+substrate : typed-toolcall-api
+risk      : low
+why       : explicit dispatch field 'toolDispatch'='structured'
+recommend : Typed tool-use API substrate detected ...
+```
+
+JSON mode is intended for CI:
+
+```bash
+python lab/mcp-matrix/tools/substrate_auditor.py lab/mcp-matrix/tools/samples/cline-sample.json --json
+```
 
 ## What it checks
 
@@ -58,3 +97,19 @@ source code. The tool exists to triage and prioritize that review, not replace i
 ## Tests
 
 `uv run pytest lab/mcp-matrix/harness/tests/test_substrate_auditor.py`
+
+CI / pre-publication gates:
+
+```bash
+make selfcheck
+make remediation-demo
+make verify-public
+```
+
+## Portfolio Signal
+
+This tool is intentionally small. That is the point: a hiring manager can see the
+full security loop without trusting a live model call. The writeup explains the
+failure mode, this CLI classifies the risky substrate, `make benchmark` validates
+preserved fixtures, and the detection notes describe how the same chain would be
+monitored in staging.
