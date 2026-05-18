@@ -1,0 +1,50 @@
+# === PUBLIC-MIRROR SAFETY (read before editing) ===
+#
+# This working copy is Cayman's ENTIRE private ~/Projects workspace, but
+# `origin` is the PUBLIC repo github.com/ChunkyTortoise/ai-redteam-notes.
+#
+# Strategy: ALLOWLIST. Ignore everything by default, then re-include ONLY the
+# verified public red-team paths. Every new top-level entry is private by
+# default and is NOT committable unless an explicit `!` line is added below.
+# This failed safe once already (a near-miss that staged 5,786 private files
+# incl. secrets). Do not switch to a denylist.
+
+# 1) Ignore every top-level entry
+/*
+
+# 2) Re-include the verified public red-team surface (matches origin/main)
+!/.gitignore
+!/.github/
+!/ATTACKS/
+!/BOUNTIES/
+!/CASE_STUDIES.md
+!/CTF/
+!/DETECTIONS/
+!/EVALS/
+!/LICENSE
+!/Makefile
+!/PUBLISHING.md
+!/README.md
+!/REPORTS/
+!/REPRODUCE.md
+!/RESEARCH-SUMMARY.md
+!/SECURITY.md
+!/WRITEUPS/
+!/docs/
+!/index.html
+!/lab/
+!/pipeline/
+!/site/
+
+# 3) Defense in depth: never commit secrets/junk even under an allowed path
+**/.env
+**/.env.*
+!**/.env.example
+**/.mcp.json
+**/.mcp.json.bak
+**/.jwt_secret
+**/*.pem
+**/id_rsa*
+**/*.key
+**/node_modules/
+**/.DS_Store
