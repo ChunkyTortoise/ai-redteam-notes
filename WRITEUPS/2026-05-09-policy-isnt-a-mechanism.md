@@ -1,17 +1,29 @@
 ---
 title: "Policy isn't a mechanism: how a fake (#system) tag exfiltrated the wrong user's data"
 date: 2026-05-09
-canonical_url:
+authors: Cayman Roden
+status: published
+attacks_entry: ATTACKS/2026-05-03-indirect-injection-tool-description.md
+canonical_url: "https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/WRITEUPS/2026-05-09-policy-isnt-a-mechanism.md"
 tags: ["aisecurity", "promptinjection", "llm", "redteam"]
-published: false
+published: true
 description: "A ReAct agent told to never trust user-supplied userIds did exactly that, after a single line of injected text. The bug wasn't the model — it was treating a system prompt as if it were an access-control check."
 disclosure_status: green
 disclosure_target: none
 target: damn-vulnerable-llm-agent (WithSecureLabs, intentionally vulnerable)
 lane: 3
+cvss_v3: "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:N/A:N"
+cvss_score: 7.4
+cvss_severity: High
+atlas_techniques:
+  - id: AML.T0051.001
+    name: "LLM Prompt Injection - Indirect"
+    url: "https://atlas.mitre.org/techniques/AML.T0051/001"
 ---
 
 # Policy isn't a mechanism
+
+> **MITRE ATLAS**: AML.T0051.001 — LLM Prompt Injection (Indirect) | **CVSS v3.1**: 7.4 High (`CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:N/A:N`) | **Target**: WithSecureLabs DVL-Agent (intentionally vulnerable benchmark)
 
 Here's the moment that mattered, from a 327-line agent trace I ran earlier this week:
 
@@ -160,6 +172,6 @@ Lane 3 red-team work is, mostly, walking around looking for system prompts that 
 - Greshake et al. (2023), *Indirect Prompt Injection Attacks on LLM-Integrated Applications* — [arxiv.org/abs/2302.12173](https://arxiv.org/abs/2302.12173)
 - WithSecure Labs, *LLM Agent Prompt Injection* — [labs.withsecure.com/publications/llm-agent-prompt-injection](https://labs.withsecure.com/publications/llm-agent-prompt-injection)
 - WithSecure Labs, *Damn Vulnerable LLM Agent* — [github.com/WithSecureLabs/damn-vulnerable-llm-agent](https://github.com/WithSecureLabs/damn-vulnerable-llm-agent)
-- MITRE ATLAS T0051, *LLM Prompt Injection* — [atlas.mitre.org/techniques/T0051](https://atlas.mitre.org/techniques/T0051)
+- MITRE ATLAS AML.T0051.001, *LLM Prompt Injection - Indirect* — [atlas.mitre.org/techniques/AML.T0051/001](https://atlas.mitre.org/techniques/AML.T0051/001)
 
 Reproduction harness, raw transcripts, and the technical ATTACKS entry: [github.com/ChunkyTortoise/ai-redteam-notes/blob/main/ATTACKS/2026-05-03-indirect-injection-tool-description.md](https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/ATTACKS/2026-05-03-indirect-injection-tool-description.md)
