@@ -54,6 +54,7 @@ flowchart LR
 2. [WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) - substrate attribution correction, controlled isolation, and Addendum B/C.
 3. [ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md) - H7 falsified at 70B under the inline-XML substrate.
 4. [ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md) - concrete ReAct-loop observation injection with tool-boundary mitigations.
+5. [CTF/2026-05-09-lakera-gandalf-walkthrough.md](CTF/2026-05-09-lakera-gandalf-walkthrough.md) - Gandalf L1-L8 scripted probe: 6 values extracted, feature-inference side-channel at L4, system-prompt exfiltration at L5/L6.
 
 One-command public-safe demo:
 
