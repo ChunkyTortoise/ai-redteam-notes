@@ -73,7 +73,7 @@ For exact historical cell commands, inspect the relevant run directory `attempts
 
 **Interview:** "The important thing I caught was an attribution error. A result that looked like model-policy weakness was actually explained by the client dispatch substrate, so I retracted the original hypothesis and registered a substrate axis before continuing."
 
-## Claim 3: A pre-registered cross-scale replication was falsified — capability amplifies exploitation within the insecure substrate.
+## Claim 3: A pre-registered cross-scale replication was falsified: capability amplifies exploitation within the insecure substrate.
 
 **Claim:** Cell F1 of the W1 to W5 pre-registration tested H7 (`|rate_70b - rate_8b| <= 0.15 AND CIs overlap`) by holding the Cline inline-XML substrate, payload, mitigation, and dispatch policy constant and varying only the model 8B to 70B. **H7 is falsified.** Llama-3.3-70B reached 10/10 strict canary exfiltration (Wilson 95% CI [0.72, 1.0]) where Llama-3.1-8B reached 0/5 strict and only 2/5 intent shifts. The substrate is the necessary enabler; within it, the more capable model is *more* reliably exploited, not safer. This extends Claim 1 with a pre-registered falsifier and inverts the original writeup's implicit "70B is fine" scoping.
 

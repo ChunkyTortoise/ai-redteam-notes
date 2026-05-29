@@ -94,7 +94,7 @@ working repo (not mirrored, to keep the public surface to reviewable artifacts):
 make test    # uv run pytest lab/mcp-matrix/harness/tests
 ```
 
-That suite reports `45 passed, 0 failed`.
+That suite contains 226 tests at 94% coverage with an 80% gate enforced in CI (private repo).
 
 **Note.** A pre-existing defect in `verdict.py` was fixed as part of this work:
 `compute_verdict` sourced the canary from the scorer's `~/.lab/secret.txt`, so a

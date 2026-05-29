@@ -8,9 +8,9 @@
 
 A research engineer's portfolio on AI-agent security. The through-line: find a substrate-level indirect-prompt-injection failure, build a dependency-free auditor that detects it, and wire that auditor into a CI / pre-deploy gate. The research is pre-registered with public hypothesis retractions (Wilson 95% CIs at n=10, controlled substrate emulation) under a three-tier disclosure policy enforced by an automated pre-push hook.
 
-**Public mirror**: [`github.com/ChunkyTortoise/ai-redteam-notes`](https://github.com/ChunkyTortoise/ai-redteam-notes) — start at [REPORTS/start-here-for-hiring-reviewers.md](https://github.com/ChunkyTortoise/ai-redteam-notes/blob/main/REPORTS/start-here-for-hiring-reviewers.md). Local packet-ready router: [REPORTS/start-here-for-hiring-reviewers.md](REPORTS/start-here-for-hiring-reviewers.md).
+**Public mirror**: [`github.com/ChunkyTortoise/ai-redteam-notes`](https://github.com/ChunkyTortoise/ai-redteam-notes).
 
-**Start with the research narrative**: [RESEARCH-SUMMARY.md](RESEARCH-SUMMARY.md) frames the whole program as one pre-registered through-line (attribution retraction, substrate isolation, cross-scale falsification, mitigation ordering) with negative results surfaced deliberately.
+**Hiring reviewer:** [REPORTS/start-here-for-hiring-reviewers.md](REPORTS/start-here-for-hiring-reviewers.md) is the canonical 60-second router with role-specific evidence blocks. Research narrative: [RESEARCH-SUMMARY.md](RESEARCH-SUMMARY.md).
 
 ## Headline result
 
@@ -20,11 +20,13 @@ A research engineer's portfolio on AI-agent security. The through-line: find a s
 | H10b-G M1 v3 | inline-XML dispatch + M1 | Llama-3.3-70B | 0 / 10 |
 | H10b-G chat-only control | no XML dispatch | Llama-3.3-70B | 0 / 10 |
 | F1 (H7 falsified) | inline-XML dispatch | Llama-3.3-70B | 10 / 10 |
-| baseline | inline-XML dispatch | Llama-3.1-8B | 0 / 5 |
+| baseline | inline-XML dispatch | Llama-3.1-8B | 0 / 5 \* |
+
+\* baseline n=5 directional comparison on a free inference tier; H10b-G grid is n=10 throughout.
 
 The current strongest result is H10b-G: a single-provider 70B grid where the M1 content-trust scaffold neutralized baseline and v3 payloads but failed completely against v7. A pre-registered cross-scale safety assumption (H7: "a larger model is safer here") was also falsified. Capability amplifies exploitation inside an insecure substrate; prompt scaffolding is variant-selective, so the durable fix remains typed tool-call dispatch. Full claim-to-run mapping: [docs/reports/hiring-evidence-index.md](docs/reports/hiring-evidence-index.md).
 
-**By the numbers**: ~2.5K LOC Python/shell harness and tooling, 45 pure-function harness tests run in CI, a zero-dependency `substrate_auditor.py`, 5 dated pre-registrations, 8 ADRs.
+**By the numbers**: ~2.5K LOC Python/shell harness and tooling, a zero-dependency `substrate_auditor.py` with 7-case selfcheck that runs in CI, 226 pre-registered harness tests at 94% coverage and 80% gate in the private working repo, 5 dated pre-registrations, 8 ADRs.
 
 **Retractions and falsifications (surfaced on purpose)**: H3 retracted (substrate confound); H6, H7, H11 falsified; M2 a measured regression. Ledger: [docs/preregistrations/INDEX.md](docs/preregistrations/INDEX.md). A portfolio that hides its nulls is less trustworthy than one that reports them.
 

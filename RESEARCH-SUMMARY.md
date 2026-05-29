@@ -11,14 +11,7 @@ for every claim tied to raw runs.
 
 ## 60-second reviewer path
 
-1. [WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md)
-   - the attribution correction, substrate isolation, and Addendum B.
-2. [ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md)
-   - the current strongest result: the 70B control gate passes and M1 is variant-selective.
-3. [ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md)
-   - H7 falsified at 70B, motivating the full H10b-G grid.
-4. [ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md)
-   - the concrete vulnerable-agent exploitation study and tool-boundary mitigation story.
+Use [`REPORTS/start-here-for-hiring-reviewers.md`](REPORTS/start-here-for-hiring-reviewers.md) as the single entry point. It provides role-specific evidence blocks and the canonical 4-artifact path. The arc below gives the research context behind those artifacts.
 
 ## The arc
 

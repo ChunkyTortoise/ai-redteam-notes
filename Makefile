@@ -43,7 +43,7 @@ repro: selfcheck audit
 	@echo "Reviewer path: REPORTS/start-here-for-hiring-reviewers.md -> WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md (Addendum B)"
 	@echo "Strongest current result: ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md"
 	@echo "Full pre-registered harness suite lives in the private repo (make test):"
-	@echo "45 passed, 0 failed. See REPRODUCE.md for the verdict canary-sourcing fix."
+	@echo "Full pre-registered suite (226 tests, 94% coverage, 80% gate) runs in the private repo via: make test"
 
 benchmark:
 	$(PY) EVALS/score_tool_output_injection.py EVALS/fixtures/tool-output-injection-fixtures.json
