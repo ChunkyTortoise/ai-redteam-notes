@@ -9,7 +9,7 @@ PY := $(shell command -v uv >/dev/null 2>&1 && echo "PYTHONDONTWRITEBYTECODE=1 u
 AUDITOR := lab/mcp-matrix/tools/substrate_auditor.py
 SAMPLES := lab/mcp-matrix/tools/samples
 
-.PHONY: help repro selfcheck audit remediation-demo benchmark test packet-ready verify-public
+.PHONY: help repro selfcheck audit remediation-demo benchmark test packet-ready public-surface verify-public
 
 help:
 	@echo "make repro      - 60-second reviewer path: selfcheck + auditor demo (no install)"
@@ -19,6 +19,7 @@ help:
 	@echo "make benchmark  - score fixture-only agent tool-output injection benchmark"
 	@echo "make test       - full pre-registered harness pytest suite (private repo)"
 	@echo "make packet-ready - validate reviewer/application packet-ready docs"
+	@echo "make public-surface - local tracked public-surface drift and safety gate"
 	@echo "make verify-public - pre-publication gate: repro, optional private tests, disclosure, links, secrets"
 
 selfcheck:
@@ -26,17 +27,17 @@ selfcheck:
 
 audit:
 	@echo "== risky (Cline / inline-xml) =="
-	-$(PY) $(AUDITOR) $(SAMPLES)/cline-sample.json
+	$(PY) $(AUDITOR) $(SAMPLES)/cline-sample.json --expect-risk high
 	@echo
 	@echo "== safe (Kilo Code / typed API) =="
-	$(PY) $(AUDITOR) $(SAMPLES)/kilo-sample.json
+	$(PY) $(AUDITOR) $(SAMPLES)/kilo-sample.json --expect-risk low
 
 remediation-demo:
 	@echo "== before: inline XML dispatch transcript =="
-	-$(PY) $(AUDITOR) $(SAMPLES)/before-inline-xml-transcript.jsonl
+	$(PY) $(AUDITOR) $(SAMPLES)/before-inline-xml-transcript.jsonl --expect-risk high
 	@echo
 	@echo "== after: structured tool-call transcript =="
-	$(PY) $(AUDITOR) $(SAMPLES)/after-typed-toolcall-transcript.jsonl
+	$(PY) $(AUDITOR) $(SAMPLES)/after-typed-toolcall-transcript.jsonl --expect-risk low
 
 repro: selfcheck audit
 	@echo
@@ -53,6 +54,9 @@ test:
 
 packet-ready:
 	bash pipeline/scripts/check-packet-ready.sh
+
+public-surface:
+	bash pipeline/scripts/check-public-surface.sh
 
 verify-public:
 	bash pipeline/scripts/verify-public.sh

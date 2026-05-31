@@ -71,33 +71,7 @@ for required in "${evidence_files[@]}"; do
   [ -f "$required" ] || { echo "FAIL: missing public evidence artifact $required"; exit 1; }
 done
 
-if find REPORTS docs/reports EVALS DETECTIONS -type f -name '2026-05-31*' | grep -q .; then
-  echo "FAIL: future-dated public artifact names found"
-  find REPORTS docs/reports EVALS DETECTIONS -type f -name '2026-05-31*'
-  exit 1
-fi
-
-if grep -RInE '2026-05-31|Status:\s*(public-safe draft|draft-reviewer-ready|draft-review-required)' "${public_scan_files[@]}"; then
-  echo "FAIL: future-dated or draft status text found in public surface"
-  exit 1
-fi
-
-if grep -RInE 'H10b-G[^.]*((still )?in progress|not packet-ready|excluded from packet-ready|no H10b-G rates|Do not quote|do not quote)' "${public_scan_files[@]}"; then
-  echo "FAIL: stale H10b-G gating language found in public surface"
-  exit 1
-fi
-
-if git ls-files | grep -E '(__pycache__/|\.pyc$)' >/dev/null; then
-  echo "FAIL: generated Python cache files are tracked"
-  git ls-files | grep -E '(__pycache__/|\.pyc$)'
-  exit 1
-fi
-
-if find REPORTS docs/reports EVALS DETECTIONS lab/mcp-matrix/tools -type d \( -name __pycache__ -o -name .pytest_cache \) | grep -q .; then
-  echo "FAIL: generated cache directories are present in public sync candidates"
-  find REPORTS docs/reports EVALS DETECTIONS lab/mcp-matrix/tools -type d \( -name __pycache__ -o -name .pytest_cache \)
-  exit 1
-fi
+bash pipeline/scripts/check-public-surface.sh
 
 make repro
 make remediation-demo

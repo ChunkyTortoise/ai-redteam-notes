@@ -3,10 +3,9 @@
 This is an AI security **research** repository. All experiments target **intentionally
 vulnerable benchmarks** (DVL Agent, vuln-agent framework), **open-weight models** via public
 APIs, or **localhost** harnesses. No production system or hosted vendor is tested without
-explicit prior authorization. This policy is enforced in code, not just stated. See
-[`docs/adr/ADR-003-portfolio-cadence.md`](docs/adr/ADR-003-portfolio-cadence.md) for the full
-decision record and [`docs/adr/ADR-005-lab-safety.md`](docs/adr/ADR-005-lab-safety.md) for lab
-safety and identity separation.
+explicit prior authorization. This policy is enforced in code, not just stated: disclosure
+frontmatter is linted by `pipeline/scripts/check-disclosure.sh`, and public release checks run
+through `make verify-public`.
 
 ## Three-tier disclosure ladder
 

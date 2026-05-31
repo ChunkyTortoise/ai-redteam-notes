@@ -13,8 +13,8 @@ chain legible at a glance. The narrative source of truth is
 | [`2026-mcp-matrix.md`](2026-mcp-matrix.md) | 2026-05-08 | 8B-class MCP tool-output injection matrix; substrate axis registered after the H3 retraction | executed |
 | [`2026-05-13-tier-a-w1-w5.md`](2026-05-13-tier-a-w1-w5.md) | scaffolded 2026-05-13 (commit-SHA freeze before F1) | Tier A model-axis sweep; registers the H7 cross-scale claim | executed (F1 cell) |
 | [`2026-05-15-frontier-substrate-h10.md`](2026-05-15-frontier-substrate-h10.md) | 2026-05-15 | Does frontier RLHF (claude-sonnet-4-6) dampen the 8B substrate effect (H10) | gated |
-| [`2026-05-15-last-tag-wins-dispatch-ablation.md`](2026-05-15-last-tag-wins-dispatch-ablation.md) | 2026-05-15 (commit `40ad86a`) | Last-tag-wins XML dispatch ablation (H11) | executed |
-| [`2026-05-16-open-source-scale-substrate-h10b.md`](2026-05-16-open-source-scale-substrate-h10b.md) | 2026-05-16 | Open-source scale replication 8B to 70B (H10b); confirmatory grid H10b-G | in progress (gated) |
+| Last-tag-wins dispatch ablation (H11) | 2026-05-15 (commit `40ad86a`) | Public result is preserved in [`../../ATTACKS/2026-05-15-mcp-xml-last-tag-dispatch-ablation.md`](../../ATTACKS/2026-05-15-mcp-xml-last-tag-dispatch-ablation.md); the pre-registration file is not part of this public mirror surface | executed |
+| [`2026-05-16-open-source-scale-substrate-h10b.md`](2026-05-16-open-source-scale-substrate-h10b.md) | 2026-05-16 | Open-source scale replication 8B to 70B (H10b); confirmatory grid H10b-G | executed; H10b-G packet-ready |
 
 ## Hypothesis ledger
 
@@ -25,7 +25,7 @@ chain legible at a glance. The narrative source of truth is
 | H6 (combined-framing payload v7) | `2026-mcp-matrix.md` | Falsified. 0 strict bypasses on M0 across the registered seed budget. |
 | H7 (larger model is safer here) | `2026-05-13-tier-a-w1-w5.md` | Falsified. 70B 10/10 vs 8B 0/5 strict canary exfiltration under inline-XML. |
 | H10 (frontier RLHF dampens effect) | `2026-05-15-frontier-substrate-h10.md` | Gated. No rates stated until the control cell clears its packaging gate. |
-| H10b / H10b-G (scale + mitigations) | `2026-05-16-open-source-scale-substrate-h10b.md` | In progress, gated. Do not quote rates pre-clearance. |
+| H10b / H10b-G (scale + mitigations) | `2026-05-16-open-source-scale-substrate-h10b.md` | Executed. H10b-G is packet-ready as bounded lab evidence: Groq-hosted Llama-3.3-70B, one provider/model family, inline-XML substrate, n=10 cells. |
 | H11 (last-tag-wins dispatch risk) | `2026-05-15-last-tag-wins-dispatch-ablation.md` | Falsified. 0/10 strict; one callback carried placeholder data, not the canary. |
 | M2 (name tools inside mitigation) | `2026-mcp-matrix.md` | Regression. Performed worse than no mitigation on the 8B model. |
 

@@ -192,6 +192,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Audit an MCP client config or transcript for inline-XML dispatch risk.")
     ap.add_argument("path", help="path to an MCP client config (JSON/JSONC) or a transcript (JSONL)")
     ap.add_argument("--json", action="store_true", help="emit the verdict as JSON")
+    ap.add_argument("--expect-risk", choices=("high", "low", "unknown"), help="return 0 only if the observed risk matches")
     ns = ap.parse_args(argv)
 
     try:
@@ -208,6 +209,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"why       : {result['rationale']}")
         print(f"recommend : {result['recommendation']}")
         print(f"reference : {result['citation']}")
+
+    if ns.expect_risk is not None:
+        if result["risk"] != ns.expect_risk:
+            print(f"error: expected risk {ns.expect_risk!r}, got {result['risk']!r}", file=sys.stderr)
+            return 1
+        return 0
 
     return 1 if result["risk"] == "high" else 0
 
