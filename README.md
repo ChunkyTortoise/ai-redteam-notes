@@ -26,7 +26,7 @@ A research engineer's portfolio on AI-agent security. The through-line: find a s
 
 The current strongest result is H10b-G: a single-provider 70B grid where the M1 content-trust scaffold neutralized baseline and v3 payloads but failed completely against v7. A pre-registered cross-scale safety assumption (H7: "a larger model is safer here") was also falsified. Capability amplifies exploitation inside an insecure substrate; prompt scaffolding is variant-selective, so the durable fix remains typed tool-call dispatch. Full claim-to-run mapping: [docs/reports/hiring-evidence-index.md](docs/reports/hiring-evidence-index.md).
 
-**By the numbers**: ~2.5K LOC Python/shell harness and tooling, a zero-dependency `substrate_auditor.py` with 7-case selfcheck that runs in CI, 226 pre-registered harness tests at 94% coverage and 80% gate in the private working repo, 5 dated pre-registrations, 8 ADRs.
+**By the numbers**: ~2.5K LOC Python/shell harness and tooling, a zero-dependency `substrate_auditor.py` with 7-case selfcheck that runs in CI, 226 pre-registered harness tests at 94% coverage and 80% gate in the private working repo, 4 dated pre-registrations, 8 ADRs.
 
 **Retractions and falsifications (surfaced on purpose)**: H3 retracted (substrate confound); H6, H7, H11 falsified; M2 a measured regression. Ledger: [docs/preregistrations/INDEX.md](docs/preregistrations/INDEX.md). A portfolio that hides its nulls is less trustworthy than one that reports them.
 

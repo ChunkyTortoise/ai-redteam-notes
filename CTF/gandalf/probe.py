@@ -120,9 +120,9 @@ def send(defender: str, prompt: str) -> dict:
 
 def extract_acrostic(text: str) -> str | None:
     """Pull first letter of each non-empty line, return 4-12 char uppercase string."""
-    lines = [l.strip() for l in text.splitlines() if l.strip()]
-    letters = "".join(re.match(r"[*_`#>\s]*([A-Za-z])", l).group(1) for l in lines
-                      if re.match(r"[*_`#>\s]*([A-Za-z])", l))
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    letters = "".join(re.match(r"[*_`#>\s]*([A-Za-z])", line).group(1) for line in lines
+                      if re.match(r"[*_`#>\s]*([A-Za-z])", line))
     candidates = []
     for size in range(12, 3, -1):
         for start in range(len(letters) - size + 1):

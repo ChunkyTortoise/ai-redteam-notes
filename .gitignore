@@ -31,6 +31,9 @@
 !/SECURITY.md
 !/WRITEUPS/
 !/docs/
+# docs/ is re-included recursively above; docs/specs/ holds internal infra specs
+# that reference private repos. Re-ignore it so it can never reach the public mirror.
+/docs/specs/
 !/index.html
 !/lab/
 !/pipeline/
