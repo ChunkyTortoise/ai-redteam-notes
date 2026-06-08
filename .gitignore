@@ -36,6 +36,12 @@
 /docs/specs/
 !/index.html
 !/lab/
+# lab/mcp-matrix: re-exclude generated/local-only artifacts (the line above
+# re-includes all of lab/). Scratch run dirs regenerate via `just demo`; the real
+# client configs carry absolute /Users paths. Config TEMPLATES stay publishable.
+/lab/mcp-matrix/runs/_current/
+/lab/mcp-matrix/runs/demo-latest/
+/lab/mcp-matrix/clients/*.config.json
 !/pipeline/
 !/site/
 
@@ -51,3 +57,6 @@
 **/*.key
 **/node_modules/
 **/.DS_Store
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
