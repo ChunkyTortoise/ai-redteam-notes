@@ -7,4 +7,4 @@ The canonical reviewer map now lives at
 [`docs/reports/hiring-reviewer-map.md`](../docs/reports/hiring-reviewer-map.md).
 
 Start reviewer packets at
-[`REPORTS/start-here-for-hiring-reviewers.md`](start-here-for-hiring-reviewers.md).
+[`REPORTS/START_HERE.md`](START_HERE.md).

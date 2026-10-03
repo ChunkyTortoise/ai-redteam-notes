@@ -5,7 +5,7 @@
 
 This guide answers one question per role: *if you're hiring for X, what should you read first, second, and third?* Each path leads to the strongest two or three artifacts for that role, in reading order.
 
-If you only have five minutes, skip to [`start-here-for-hiring-reviewers.md`](start-here-for-hiring-reviewers.md). If you want the evidence-to-claim map, read [`hiring-evidence-index.md`](hiring-evidence-index.md).
+If you only have five minutes, skip to [`START_HERE.md`](START_HERE.md). If you want the evidence-to-claim map, read [`hiring-evidence-index.md`](hiring-evidence-index.md).
 
 ---
 
@@ -57,7 +57,7 @@ If you only have five minutes, skip to [`start-here-for-hiring-reviewers.md`](st
 
 **Read in this order**:
 
-1. [`start-here-for-hiring-reviewers.md`](start-here-for-hiring-reviewers.md) — five-minute entry point. Customer-readable, no jargon stack.
+1. [`START_HERE.md`](START_HERE.md) — five-minute entry point. Customer-readable, no jargon stack.
 2. [`hiring-reviewer-map.md`](hiring-reviewer-map.md) — claim-to-evidence map for technical screens.
 3. [`WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md`](../WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) — flagship; demonstrates the end-to-end engagement shape a customer would receive.
 

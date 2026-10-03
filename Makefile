@@ -41,7 +41,7 @@ remediation-demo:
 
 repro: selfcheck audit
 	@echo
-	@echo "Reviewer path: REPORTS/start-here-for-hiring-reviewers.md -> WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md (Addendum B)"
+	@echo "Start here: REPORTS/START_HERE.md -> WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md (Addendum B)"
 	@echo "Strongest current result: ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md"
 	@echo "Full pre-registered harness suite lives in the private repo (make test):"
 	@echo "Full pre-registered suite (226 tests, 94% coverage, 80% gate) runs in the private repo via: make test"
