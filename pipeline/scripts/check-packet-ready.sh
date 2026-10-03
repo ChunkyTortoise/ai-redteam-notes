@@ -18,7 +18,7 @@ packet_files=(
   README.md
   REPRODUCE.md
   RESEARCH-SUMMARY.md
-  REPORTS/start-here-for-hiring-reviewers.md
+  REPORTS/START_HERE.md
   REPORTS/2026-05-17-h10b-g-70b-substrate-findings.md
   REPORTS/remediation-case-study-tool-output-injection.md
   docs/reports/hiring-reviewer-map.md
@@ -55,7 +55,7 @@ import re
 import sys
 from pathlib import Path
 
-path = Path("REPORTS/start-here-for-hiring-reviewers.md")
+path = Path("REPORTS/START_HERE.md")
 text = path.read_text()
 
 expected_roles = {

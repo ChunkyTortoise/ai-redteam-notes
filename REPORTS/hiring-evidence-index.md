@@ -7,4 +7,4 @@ The canonical hiring evidence index now lives at
 [`docs/reports/hiring-evidence-index.md`](../docs/reports/hiring-evidence-index.md).
 
 Start reviewer packets at
-[`REPORTS/start-here-for-hiring-reviewers.md`](start-here-for-hiring-reviewers.md).
+[`REPORTS/START_HERE.md`](START_HERE.md).

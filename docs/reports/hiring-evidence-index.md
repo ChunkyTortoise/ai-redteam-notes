@@ -187,7 +187,7 @@ rg -n "Disclosure Boundary|production vulnerability claim" REPORTS/remediation-c
 
 **Evidence:**
 
-- [`REPORTS/start-here-for-hiring-reviewers.md`](../../REPORTS/start-here-for-hiring-reviewers.md)
+- [`REPORTS/START_HERE.md`](../../REPORTS/START_HERE.md)
 - [`REPRODUCE.md`](../../REPRODUCE.md)
 - [`pipeline/scripts/check-packet-ready.sh`](../../pipeline/scripts/check-packet-ready.sh)
 

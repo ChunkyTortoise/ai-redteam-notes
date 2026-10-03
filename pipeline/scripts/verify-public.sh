@@ -10,7 +10,7 @@ public_files=(
   RESEARCH-SUMMARY.md
   Makefile
   site/index.html
-  REPORTS/start-here-for-hiring-reviewers.md
+  REPORTS/START_HERE.md
   REPORTS/substrate-vs-policy-assessment.md
   REPORTS/2026-05-17-h10b-g-70b-substrate-findings.md
   REPORTS/remediation-case-study-tool-output-injection.md

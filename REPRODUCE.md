@@ -46,7 +46,7 @@ GATE: PASS - fixture benchmark is internally consistent
 
 ## The reviewer reading path
 
-1. [REPORTS/start-here-for-hiring-reviewers.md](REPORTS/start-here-for-hiring-reviewers.md)
+1. [REPORTS/START_HERE.md](REPORTS/START_HERE.md)
    - the packet-ready 60-second router and role-specific evidence blocks.
 2. [WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md)
    - methodology and **Addendum B**, the cross-scale correction.

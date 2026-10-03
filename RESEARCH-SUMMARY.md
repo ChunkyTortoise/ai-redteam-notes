@@ -11,7 +11,7 @@ for every claim tied to raw runs.
 
 ## 60-second reviewer path
 
-Use [`REPORTS/start-here-for-hiring-reviewers.md`](REPORTS/start-here-for-hiring-reviewers.md) as the single entry point. It provides role-specific evidence blocks and the canonical 4-artifact path. The arc below gives the research context behind those artifacts.
+Use [`REPORTS/START_HERE.md`](REPORTS/START_HERE.md) as the single entry point. It provides role-specific evidence blocks and the canonical 4-artifact path. The arc below gives the research context behind those artifacts.
 
 ## The arc
 

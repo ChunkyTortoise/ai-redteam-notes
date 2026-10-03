@@ -56,7 +56,7 @@ Three rows pulled from [`by-role-reviewer-guide.md`](by-role-reviewer-guide.md);
 
 ## What To Look For (and Not To Infer)
 
-From [`start-here-for-hiring-reviewers.md`](start-here-for-hiring-reviewers.md):
+From [`START_HERE.md`](START_HERE.md):
 
 **Look for**: clear separation between strict bypass, intent shift, clean ignore, and harness failure; claims that narrow after replication rather than inflate; raw artifacts that preserve commands, summaries, transcripts, and limitations; remediation language aimed at engineering controls.
 

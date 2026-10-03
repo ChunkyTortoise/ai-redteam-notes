@@ -1,8 +1,8 @@
-# Start Here for Hiring Reviewers
+# Start Here
 
 **Date:** 2026-05-18
 **Status:** reviewer-ready
-**Audience:** Recruiters, hiring managers, and technical interviewers.
+**Audience:** Engineers and security reviewers who want the shortest path from claim to evidence.
 
 ## 60-Second Path
 
@@ -20,7 +20,7 @@ make benchmark
 
 For the attack-to-fix story, read [`REPORTS/remediation-case-study-tool-output-injection.md`](remediation-case-study-tool-output-injection.md).
 
-For deeper review, continue to [`docs/reports/hiring-reviewer-map.md`](../docs/reports/hiring-reviewer-map.md) and [`docs/reports/hiring-evidence-index.md`](../docs/reports/hiring-evidence-index.md).
+For deeper review, continue to the [reading map](../docs/reports/hiring-reviewer-map.md) and the [claim-to-evidence index](../docs/reports/hiring-evidence-index.md).
 
 ## Role-Specific Evidence Blocks
 
@@ -34,4 +34,4 @@ For deeper review, continue to [`docs/reports/hiring-reviewer-map.md`](../docs/r
 
 ## Use Boundary
 
-H10b-G is packet-ready but remains bounded: it is a lab-only, single-provider Groq-hosted Llama-3.3-70B grid. Do not describe it as the pristine frozen OpenRouter H10b run, a production exploit, or a frontier-model benchmark.
+H10b-G is complete but remains bounded: it is a lab-only, single-provider Groq-hosted Llama-3.3-70B grid. Do not describe it as the pristine frozen OpenRouter H10b run, a production exploit, or a frontier-model benchmark.

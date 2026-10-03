@@ -10,7 +10,7 @@ Cayman can run scoped, reproducible AI-agent security experiments; distinguish m
 
 ## 60-second Path
 
-Start from the packet-ready router: [`REPORTS/start-here-for-hiring-reviewers.md`](../../REPORTS/start-here-for-hiring-reviewers.md).
+Start from the packet-ready router: [`REPORTS/START_HERE.md`](../../REPORTS/START_HERE.md).
 
 1. **H10b-G 70B substrate grid:** [`ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md`](../../ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md)
    - Proves the 70B substrate effect survives the chat-only control gate and that M1 prompt scaffolding is variant-selective: baseline/v3 held, v7 bypassed.
@@ -57,7 +57,7 @@ For the attack-to-fix version of the same story, read [`REPORTS/remediation-case
 
 ## Role-Specific Evidence Blocks
 
-Use [`REPORTS/start-here-for-hiring-reviewers.md`](../../REPORTS/start-here-for-hiring-reviewers.md) as the source of truth for packet-ready role blocks. Each role has exactly three links: one flagship artifact, one raw-evidence or pre-registration artifact, and one defensive or operational artifact.
+Use [`REPORTS/START_HERE.md`](../../REPORTS/START_HERE.md) as the source of truth for packet-ready role blocks. Each role has exactly three links: one flagship artifact, one raw-evidence or pre-registration artifact, and one defensive or operational artifact.
 
 ## Known limitations and How to Discuss Them
 
