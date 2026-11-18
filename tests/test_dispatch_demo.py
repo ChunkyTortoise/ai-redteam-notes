@@ -57,8 +57,8 @@ def test_typed_dispatcher_was_actually_shown_the_injection():
 
 def test_typed_dispatch_alone_does_not_stop_a_structured_canary_read():
     # Documents a limit, not a defense: a well-formed structured call to the
-    # canary path passes schema validation. Stopping it needs authorization
-    # and provenance checks, which this demo does not implement.
+    # canary path passes schema validation. Stopping it needs a check outside
+    # the dispatcher; see the provenance_gate tests below.
     call = {"name": "file_read", "args": {"path": d.CANARY_PATH}}
     assert d.typed_calls(d.Reply("", [call])) == [call]
 
