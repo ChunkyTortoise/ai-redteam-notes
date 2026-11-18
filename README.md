@@ -64,11 +64,11 @@ GATE: PASS - fixture benchmark is internally consistent
 
 `python3 demo/dispatch_demo.py` prints which tools each dispatcher executed. `make remediation-demo` runs the auditor on a vulnerable and a typed tool-call transcript.
 
-What it shows: a toy agent loop where a fetched document (attacker-controlled) contains an inline `<file_read>` tag naming a canary file. A naive dispatcher that parses tool calls out of the model's free text reads the canary. A typed dispatcher that only runs schema-validated structured calls from a separate channel does not, and the legitimate structured `lab_fetch` call still runs.
+What the demo shows: a toy agent loop where a fetched document (attacker-controlled) contains an inline `<file_read>` tag naming a canary file. A naive dispatcher that parses tool calls out of the model's free text reads the canary. A typed dispatcher that only runs schema-validated structured calls from a separate channel does not, and the legitimate structured `lab_fetch` call still runs.
 
 What it does NOT show: the model output is scripted, not a live model, so it says nothing about how often a real model repeats injected text. It covers one attack shape (inline XML repeated in assistant text) and one typed-dispatch design. It adds no authorization or provenance checks, so if a model put the injected `file_read` into the structured channel, this typed dispatcher would run it (a test records this). It is not a measurement. The measured results above come from the lab runs, not this demo.
 
-**2. Audit your own agent client.** Point the auditor at an MCP client config (JSON/JSONC) or a captured transcript (JSONL):
+**Audit your own agent client.** Point the auditor at an MCP client config (JSON/JSONC) or a captured transcript (JSONL):
 
 ```bash
 python3 lab/mcp-matrix/tools/substrate_auditor.py path/to/client-config.json --json
@@ -76,7 +76,7 @@ python3 lab/mcp-matrix/tools/substrate_auditor.py path/to/client-config.json --j
 
 It exits 1 when it rates the input high-risk (inline-XML dispatch), 0 for low-risk or unknown, and 2 on a missing file. It is a text heuristic over the config or transcript, and an unknown result also exits 0. In this repo's CI it only checks the two bundled samples (`--expect-risk`); it is not wired into any deploy step here. Usage, output fields and exit codes: [lab/mcp-matrix/tools/README.md](lab/mcp-matrix/tools/README.md).
 
-**3. Start here: read the evidence.** [REPORTS/START_HERE.md](REPORTS/START_HERE.md) is the shortest path from claim to evidence. In order:
+**Read the evidence.** [REPORTS/START_HERE.md](REPORTS/START_HERE.md) is the shortest path from claim to evidence. In order:
 
 1. [H10b-G 70B grid](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md): control-validity gate passed; M1 is variant-selective.
 2. [Substrate vs policy writeup](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md): the attribution correction, controlled isolation, and Addendum B/C.
@@ -86,7 +86,7 @@ It exits 1 when it rates the input high-risk (inline-XML dispatch), 0 for low-ri
 
 Also: [RESEARCH-SUMMARY.md](RESEARCH-SUMMARY.md) (the research arc), [remediation case study](REPORTS/remediation-case-study-tool-output-injection.md) (attack to fix in one place), [claim ledger](REPORTS/claim-ledger.md) (each claim with its evidence, limitation and do-not-claim boundary), [CASE_STUDIES.md](CASE_STUDIES.md).
 
-Re-running the experiments themselves needs the private harness and a model provider key; see [Methodology & limits](#methodology--limits).
+Re-running the experiments themselves needs the private harness and a model provider key; see [limits](#decisions-failures-limits).
 
 ## How it works
 
@@ -120,7 +120,7 @@ The diagram at the top is the chain under test and where the defense sits.
 
 ## How it's evaluated
 
-- **Pre-registration.** Each hypothesis was frozen in a dated file before the cell that tested it ran, and deviations are recorded in the entry that reports the result ([index](docs/preregistrations/INDEX.md)).
+- **Pre-registration.** Each hypothesis has a dated file meant to be frozen before the cell that tested it ran, and deviations are recorded in the entry that reports the result ([index](docs/preregistrations/INDEX.md)). The freeze commits are in the private repo, so this public history cannot prove the ordering.
 - **Control-validity gate.** A bypass is attributed to the substrate only if a chat-only control with the identical payload holds clean. H10b-G's control did (see [Results](#results)).
 - **Strict scoring with intervals.** Strict bypass (canary in a real exfil callback) is scored separately from intent shift, and cell rates carry Wilson intervals; H10b-G's were hand-recomputed from the result JSON ([methodology](REPORTS/2026-05-14-agent-security-eval-methodology.md)).
 - **CI gate, every PR and every push to `main`** ([`ci.yml`](.github/workflows/ci.yml), no network or model calls): `make repro` (auditor self-check plus expected-risk audits), `make benchmark` (fixture re-score), and `make public-surface` (disclosure frontmatter on every dated ATTACKS entry, secret-pattern scan, local link check, no future-dated artifacts, no private paths).
@@ -135,18 +135,40 @@ make verify-public                                    # pre-publication gate; ne
 make help                                             # every target
 ```
 
-## Design decisions
+## Decisions, failures, limits
 
-| Decision | Where it's argued |
-|---|---|
-| Fix the substrate (typed tool-call dispatch) before hardening prompts | [Remediation case study](REPORTS/remediation-case-study-tool-output-injection.md#why-the-fix-is-architectural) |
-| Treat client tag-dispatch order as part of the security boundary | [Substrate vs policy writeup](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) |
-| Open-weight models only, for reproducibility and cost discipline | [Open-weights rationale](REPORTS/open-weights-rationale.md) |
-| A three-tier disclosure ladder, linted in CI | [SECURITY.md](SECURITY.md) |
-| A heuristic auditor that triages review rather than proving safety | [Auditor limitations](lab/mcp-matrix/tools/README.md#limitations-read-this) |
-| Register hypotheses first, then publish the nulls | [Hypothesis ledger](docs/preregistrations/INDEX.md) |
+**Decisions**
+
+| Decision | Why | Where it's argued |
+|---|---|---|
+| Fix the substrate (typed tool-call dispatch) before hardening prompts | M1 went from 0/10 (v3) to 10/10 (v7) on the same model by changing only the payload | [Remediation case study](REPORTS/remediation-case-study-tool-output-injection.md#why-the-fix-is-architectural) |
+| Treat client tag-dispatch order (first, last or all tags) as part of the security boundary | It changes which injected call executes | [Substrate vs policy writeup](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) |
+| Open-weight models only | Reproducible and cheap; every H10b-G call logged `cost_usd=0.0` | [Open-weights rationale](REPORTS/open-weights-rationale.md) |
+| Score strict bypass (canary in a real callback) apart from intent shift | At M0 intent shift was 10/10 on every payload, which would hide the M1 effect | [Methodology](REPORTS/2026-05-14-agent-security-eval-methodology.md) |
+| Three-tier disclosure ladder, checked in CI | Only `green` entries are published | [SECURITY.md](SECURITY.md) |
+| Heuristic auditor that triages review, not a safety proof | Declarative signals are all a config file offers | [Auditor limitations](lab/mcp-matrix/tools/README.md#limitations-read-this) |
+| Register hypotheses first, publish the nulls | So the failures below cannot be dropped quietly | [Hypothesis ledger](docs/preregistrations/INDEX.md) |
 
 The numbered ADRs that some entries cite (for example ADR-003, the disclosure policy) live in the private working repo.
+
+**Failures (published on purpose)**
+
+- **H7 falsified at 70B.** The registered assumption that a larger model would be safer failed: under the same inline-XML substrate, Llama-3.3-70B leaked 10/10 where Llama-3.1-8B leaked 0/5. [F1 entry](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md) · [pre-registration](docs/preregistrations/2026-05-13-tier-a-w1-w5.md)
+- **H3 retracted.** A result that looked like one open-weight model being "more resistant" than another was a substrate confound: the two runs used different client dispatch substrates. [Writeup](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md)
+- **H6 falsified.** The combined-framing v7 payload produced no strict bypass at M0 in the 8B-class matrix within the registered seed budget.
+- **H11 falsified.** Last-tag-wins dispatch produced no strict canary exfiltration; its one real callback carried placeholder data, not the canary. [Ablation entry](ATTACKS/2026-05-15-mcp-xml-last-tag-dispatch-ablation.md)
+- **M2 regressed.** Naming the tools inside the mitigation prompt did worse than no mitigation on the 8B model: the names acted as a salience prime.
+- **H10b-G deviated from its pre-registration.** It ran on Groq, not the frozen OpenRouter plan (Deviation 1), so it is not the pristine H10b run.
+
+**Limits**
+
+- n=10 per cell supports mechanism claims, not population rates. One model per cell, one substrate (inline-XML) in the 70B grid.
+- No typed-dispatch agent was measured at 70B. The only typed cell is one simulated 8B run (fixture `kilo-typed-api-m0-clean`); at 70B the isolation evidence is the chat-only control.
+- Re-running the experiments needs the private harness and a provider key. The payload text, the M1 prompt and transcripts are private, and the 50 `result_path` entries in the committed `seeds.json` files point to per-seed files that are not mirrored. `make tally` recounts the outcome flags, not the transcripts.
+- Three of the seven H10b-G cells (M0 baseline, M0 v7, M1 baseline) have no `seeds.json` here; their numbers come from the entry's table.
+- The offline demo uses scripted model output; it shows the mechanism, not a rate.
+- Known auditor false results, from an external audit on 2026-11-17: a config whose text contains the bare word `continue` (for example `"onError":"continue"`) is rated typed/low because `continue` is a registry key; a dispatch field nested below the top level (`{"client":{"toolDispatch":"xml"}}`) returns `unknown`; and a typed transcript whose tool result echoes an injected tag can be rated high, because the role of the message is not checked. `unknown` exits 0, so do not use it as a CI gate on unreviewed clients.
+- Hypothesis freeze commits are in the private repo; this public history cannot prove each file predates its cell ([INDEX](docs/preregistrations/INDEX.md)).
 
 ## Methodology & limits
 
@@ -195,4 +217,4 @@ The numbered ADRs that some entries cite (for example ADR-003, the disclosure po
 
 ## License
 
-MIT
+Dual: code under MIT, research content (ATTACKS/, WRITEUPS/, REPORTS/, EVALS/, CTF/) under CC BY 4.0. See [LICENSE](LICENSE).
