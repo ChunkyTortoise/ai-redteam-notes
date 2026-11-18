@@ -105,16 +105,19 @@ This is a **heuristic, not a guarantee.**
   potentially inline-XML until the dispatch code is inspected.
 - Transcript detection depends on the log schema. It recognizes common shapes
   (`tool_calls`, `message.content`); bespoke schemas may return `unknown`.
-- Two inline syntaxes are recognized: `<name>...</name>` tags and
-  `<function=name>...</function>`. Others (JSON-in-text, ReAct `Action:` lines)
-  return `unknown`.
+- Four inline syntaxes are recognized in assistant text: `<name>...</name>`
+  tags, `<function=name>...</function>`, a ReAct `Action: <tool>` line followed
+  by `Action Input:`, and a JSON object with a tool name key (`name`, `tool`,
+  `tool_name`, `function`) and an arguments key (`arguments`, `parameters`,
+  `args`, `input`, `tool_input`). Other formats return `unknown`, and a JSON
+  object that happens to use those keys as plain data is rated high.
 
 When the verdict matters, confirm against the client's actual tool-dispatch
 source code. The tool exists to triage and prioritize that review, not replace it.
 
 ## Tests
 
-`make selfcheck` (11 cases plus a missing-file guard). The fuller pytest file is in the private repo.
+`make selfcheck` (13 cases plus a missing-file guard), and `tests/test_substrate_auditor.py` (adversarial cases, run with pytest from the repo root). The fuller harness pytest file is in the private repo.
 
 CI / pre-publication gates:
 

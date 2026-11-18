@@ -88,6 +88,39 @@ _TOOL_TAG_HINT = re.compile(
     re.DOTALL,
 )
 
+# ReAct-style dispatch: an "Action: <tool>" line followed by "Action Input:".
+# Requiring both keeps prose such as "Action: none needed." out.
+_REACT_HINT = re.compile(r"^[ \t]*Action:[ \t]*[\w.-]+[ \t]*\r?\n[ \t]*Action Input:", re.MULTILINE)
+
+# JSON-in-text dispatch: an object naming a tool plus its arguments.
+_JSON_NAME_KEYS = ("name", "tool", "tool_name", "function")
+_JSON_ARG_KEYS = ("arguments", "parameters", "args", "input", "tool_input")
+_MAX_JSON_SCAN = 200
+
+
+def _has_json_tool_call(text: str) -> bool:
+    decoder = json.JSONDecoder()
+    start = text.find("{")
+    scanned = 0
+    while start != -1 and scanned < _MAX_JSON_SCAN:
+        scanned += 1
+        try:
+            obj, _ = decoder.raw_decode(text, start)
+        except ValueError:
+            obj = None
+        if isinstance(obj, dict):
+            named = any(isinstance(obj.get(k), str) and obj[k] for k in _JSON_NAME_KEYS)
+            has_args = any(isinstance(obj.get(k), (dict, str)) for k in _JSON_ARG_KEYS)
+            if named and has_args:
+                return True
+        start = text.find("{", start + 1)
+    return False
+
+
+def _looks_like_inline_dispatch(text: str) -> bool:
+    return bool(_TOOL_TAG_HINT.search(text) or _REACT_HINT.search(text)
+                or _has_json_tool_call(text))
+
 
 def _text_of(content: Any) -> str:
     """Flatten message content: a string, or a list of text blocks."""
@@ -211,12 +244,12 @@ def _classify_transcript(lines: list[str], path: Path) -> dict[str, str]:
         role = msg.get("role", rec.get("role"))
         if role is not None and str(role).lower() != "assistant":
             continue
-        if _TOOL_TAG_HINT.search(_text_of(msg.get("content"))):
+        if _looks_like_inline_dispatch(_text_of(msg.get("content"))):
             saw_inline = True
 
     if saw_inline and not saw_structured:
         return _verdict("transcript", "inline-xml-dispatch",
-                        "assistant content contains inline tool-dispatch tags and no structured tool_calls", path)
+                        "assistant content contains inline tool-dispatch syntax (tags, ReAct Action lines or a JSON tool call) and no structured tool_calls", path)
     if saw_structured and not saw_inline and unparsed:
         # A skipped line could hold the inline tag, so do not report low.
         return _verdict("transcript", "unknown",
@@ -226,7 +259,7 @@ def _classify_transcript(lines: list[str], path: Path) -> dict[str, str]:
                         "structured tool_call events present, no inline dispatch tags", path)
     if saw_structured and saw_inline:
         return _verdict("transcript", "inline-xml-dispatch",
-                        "mixed: inline dispatch tags present alongside structured calls (inline path is exploitable)", path)
+                        "mixed: inline dispatch syntax present alongside structured calls (inline path is exploitable)", path)
     return _verdict("transcript", "unknown",
                     "no structured tool_calls and no inline dispatch tags observed", path)
 

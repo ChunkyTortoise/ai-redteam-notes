@@ -64,6 +64,26 @@ CASES: list[tuple[str, str, str, str]] = [
         "typed-toolcall-api",
         "low",
     ),
+    (
+        "react.jsonl",
+        "\n".join([
+            json.dumps({"role": "user", "content": "go"}),
+            json.dumps({"role": "assistant",
+                        "content": "Action: read_file\nAction Input: {\"path\": \"a.txt\"}"}),
+        ]),
+        "inline-xml-dispatch",
+        "high",
+    ),
+    (
+        "json-in-text.jsonl",
+        "\n".join([
+            json.dumps({"role": "user", "content": "go"}),
+            json.dumps({"role": "assistant",
+                        "content": '{"name": "read_file", "arguments": {"path": "a.txt"}}'}),
+        ]),
+        "inline-xml-dispatch",
+        "high",
+    ),
 ]
 
 

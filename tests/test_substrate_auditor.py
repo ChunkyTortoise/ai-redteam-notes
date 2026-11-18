@@ -94,3 +94,52 @@ def test_unreadable_input_exits_2_without_traceback(tmp_path, capsys, make_input
 def test_strict_exit_codes(tmp_path, content, expected_exit):
     p = _write(tmp_path, "c.json", content)
     assert sa.main([str(p), "--strict"]) == expected_exit
+
+
+def _assistant_transcript(text, role="assistant"):
+    return "\n".join([json.dumps({"role": "user", "content": "go"}),
+                      json.dumps({"role": role, "content": text})])
+
+
+REACT = "Thought: I should read it.\nAction: read_file\nAction Input: {\"path\": \"a.txt\"}"
+JSON_CALLS = [
+    '{"name": "read_file", "arguments": {"path": "a.txt"}}',
+    'Sure. ```json\n{"tool": "read_file", "input": {"path": "a.txt"}}\n```',
+    '{"function": "read_file", "parameters": "{\\"path\\": \\"a.txt\\"}"}',
+]
+
+
+def test_react_action_lines_are_inline_dispatch(tmp_path):
+    assert _risk(tmp_path, "react.jsonl", _assistant_transcript(REACT)) == "high"
+
+
+def test_react_in_tool_output_is_not_dispatch(tmp_path):
+    lines = [TYPED_LINE, json.dumps({"role": "tool", "content": REACT})]
+    assert _risk(tmp_path, "react-tool.jsonl", "\n".join(lines)) == "low"
+
+
+def test_prose_action_line_is_not_dispatch(tmp_path):
+    text = "Action: none needed.\nThe file looks fine."
+    assert _risk(tmp_path, "prose.jsonl", _assistant_transcript(text)) == "unknown"
+
+
+@pytest.mark.parametrize("text", JSON_CALLS)
+def test_json_tool_call_in_text_is_inline_dispatch(tmp_path, text):
+    assert _risk(tmp_path, "jsontext.jsonl", _assistant_transcript(text)) == "high"
+
+
+def test_json_tool_call_in_tool_output_is_not_dispatch(tmp_path):
+    lines = [TYPED_LINE, json.dumps({"role": "tool", "content": JSON_CALLS[0]})]
+    assert _risk(tmp_path, "json-tool.jsonl", "\n".join(lines)) == "low"
+
+
+def test_plain_json_data_in_text_is_not_dispatch(tmp_path):
+    text = 'Here is the config: {"name": "demo", "version": 2}'
+    assert _risk(tmp_path, "data.jsonl", _assistant_transcript(text)) == "unknown"
+
+
+def test_strict_unknown_transcript_exits_nonzero(tmp_path):
+    p = _write(tmp_path, "plain.jsonl", _assistant_transcript("Nothing to do."))
+    assert sa.audit_path(p)["risk"] == "unknown"
+    assert sa.main([str(p)]) == 0
+    assert sa.main([str(p), "--strict"]) == 1
