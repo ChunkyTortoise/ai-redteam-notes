@@ -84,6 +84,8 @@ It exits 1 when it rates the input high-risk (inline-XML dispatch), 0 for low-ri
 4. [DVL Agent Scenario 2](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md): ReAct-loop observation injection driving SQL exfiltration, with tool-boundary mitigations.
 5. [Lakera Gandalf walkthrough](CTF/2026-05-09-lakera-gandalf-walkthrough.md): scripted probe with value extraction, a feature-inference side channel, and system-prompt exfiltration.
 
+All 16 dated attack entries in one table (class, target, technique, outcome, evidence): [ATTACKS/README.md](ATTACKS/README.md#attack-summary). MCP threats mapped to these findings: [docs/mcp-threat-model.md](docs/mcp-threat-model.md).
+
 Also: [RESEARCH-SUMMARY.md](RESEARCH-SUMMARY.md) (the research arc), [remediation case study](REPORTS/remediation-case-study-tool-output-injection.md) (attack to fix in one place), [claim ledger](REPORTS/claim-ledger.md) (each claim with its evidence, limitation and do-not-claim boundary), [CASE_STUDIES.md](CASE_STUDIES.md).
 
 Re-running the experiments themselves needs the private harness and a model provider key; see [limits](#decisions-failures-limits).
@@ -205,7 +207,7 @@ The numbered ADRs that some entries cite (for example ADR-003, the disclosure po
 - Two older ATTACKS entries (`2026-05-04-garak-fullsweep-llama31`, `2026-05-06-pair-agent-dvl-scenario1`) predate the current entry template and are outside the `verify-public` template check; their disclosure status is still checked.
 
 **Model coverage**
-- Open-weight models only; no frontier-model cells. The H10 frontier pre-registration is gated, and no rates are stated for it ([rationale](REPORTS/open-weights-rationale.md)).
+- Open-weight models only; no frontier-model cells. One negative lab entry ran Claude Desktop against a self-hosted MCP server (0/5, [entry](ATTACKS/2026-05-13-pair-matrix-m0-claude-desktop-negative.md)); it is not a cell in the measured grids. <!-- TODO(Cayman): confirm this wording; the 2026-05-13 Claude Desktop entry and "open-weight models only" read as a contradiction to a careful reviewer. --> The H10 frontier pre-registration is gated, and no rates are stated for it ([rationale](REPORTS/open-weights-rationale.md)).
 
 </details>
 
