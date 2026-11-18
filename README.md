@@ -68,7 +68,7 @@ python3 -m pytest -q            # also run by .github/workflows/demo-tests.yml
 
 What it shows: a toy agent loop where a fetched document (attacker-controlled) contains an inline `<file_read>` tag naming a canary file. A naive dispatcher that parses tool calls out of the model's free text reads the canary. A typed dispatcher that only runs schema-validated structured calls from a separate channel does not, and the legitimate structured `lab_fetch` call still runs.
 
-What it does NOT show: the model output is scripted, not a live model, so it says nothing about how often a real model repeats injected text. It covers one attack shape (inline XML repeated in assistant text) and one typed-dispatch design. It adds no authorization or provenance checks and is not a measurement. The measured results above come from the lab runs, not this demo.
+What it does NOT show: the model output is scripted, not a live model, so it says nothing about how often a real model repeats injected text. It covers one attack shape (inline XML repeated in assistant text) and one typed-dispatch design. It adds no authorization or provenance checks, so if a model put the injected `file_read` into the structured channel, this typed dispatcher would run it (a test records this). It is not a measurement. The measured results above come from the lab runs, not this demo.
 
 **2. Audit your own agent client.** Point the auditor at an MCP client config (JSON/JSONC) or a captured transcript (JSONL):
 
@@ -76,7 +76,7 @@ What it does NOT show: the model output is scripted, not a live model, so it say
 python3 lab/mcp-matrix/tools/substrate_auditor.py path/to/client-config.json --json
 ```
 
-It exits non-zero when it detects inline-XML dispatch, so it can gate a CI or deploy step. Usage, output fields and exit codes: [lab/mcp-matrix/tools/README.md](lab/mcp-matrix/tools/README.md).
+It exits 1 when it rates the input high-risk (inline-XML dispatch), 0 for low-risk or unknown, and 2 on a missing file. It is a text heuristic over the config or transcript, and an unknown result also exits 0. In this repo's CI it only checks the two bundled samples (`--expect-risk`); it is not wired into any deploy step here. Usage, output fields and exit codes: [lab/mcp-matrix/tools/README.md](lab/mcp-matrix/tools/README.md).
 
 **3. Start here: read the evidence.** [REPORTS/START_HERE.md](REPORTS/START_HERE.md) is the shortest path from claim to evidence. In order:
 

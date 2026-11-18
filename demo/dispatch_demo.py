@@ -70,6 +70,8 @@ def typed_calls(reply):
     """Safe: only the structured channel counts, and each call is schema-validated."""
     calls = []
     for c in reply.tool_calls:
+        if not isinstance(c, dict):
+            continue
         schema = SCHEMAS.get(c.get("name"))
         args = c.get("args")
         if schema is None or not isinstance(args, dict) or set(args) != set(schema):

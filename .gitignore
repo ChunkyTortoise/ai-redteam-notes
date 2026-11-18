@@ -30,7 +30,10 @@
 !/RESEARCH-SUMMARY.md
 !/SECURITY.md
 !/WRITEUPS/
+# demo/ and tests/: re-include only the named public files, not whole dirs.
 !/demo/
+/demo/*
+!/demo/dispatch_demo.py
 !/docs/
 # docs/ is re-included recursively above; docs/specs/ holds internal infra specs
 # that reference private repos. Re-ignore it so it can never reach the public mirror.
@@ -47,6 +50,8 @@
 !/pyproject.toml
 !/site/
 !/tests/
+/tests/*
+!/tests/test_dispatch_demo.py
 
 # 3) Defense in depth: never commit secrets/junk even under an allowed path
 **/.env
