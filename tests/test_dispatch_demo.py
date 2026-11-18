@@ -61,3 +61,31 @@ def test_typed_dispatch_alone_does_not_stop_a_structured_canary_read():
     # and provenance checks, which this demo does not implement.
     call = {"name": "file_read", "args": {"path": d.CANARY_PATH}}
     assert d.typed_calls(d.Reply("", [call])) == [call]
+
+
+def test_hijacked_model_defeats_typed_dispatch_alone():
+    # End-to-end form of the limit above: the model itself puts the injected
+    # read into the structured channel, and schema validation lets it through.
+    w = d.run_agent(d.typed_calls, model=d.obedient_model)
+    assert d.canary_fired(w)
+
+
+def test_provenance_gate_blocks_sensitive_call_after_untrusted_output():
+    w = d.run_agent(d.provenance_gate(d.typed_calls), model=d.obedient_model)
+    assert not d.canary_fired(w)
+    assert w.fired == [("lab_fetch", {"url": "https://example.test/notes"})]
+
+
+def test_provenance_gate_is_what_blocks_it():
+    # Guard against a vacuous pass: approving out of band lets the read run.
+    w = d.run_agent(d.provenance_gate(d.typed_calls, approve=lambda c: True),
+                    model=d.obedient_model)
+    assert d.canary_fired(w)
+
+
+def test_provenance_gate_allows_sensitive_call_before_untrusted_output():
+    gate = d.provenance_gate(d.typed_calls)
+    call = {"name": "file_read", "args": {"path": d.CANARY_PATH}}
+    assert gate(d.Reply("", [call])) == [call]
+    fetch = {"name": "lab_fetch", "args": {"url": "https://example.test/x"}}
+    assert gate(d.Reply("", [fetch, call])) == [fetch]

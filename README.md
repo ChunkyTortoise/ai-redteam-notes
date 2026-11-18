@@ -8,7 +8,7 @@ This repo is my pre-registered research on prompt injection through tool output 
 
 ```bash
 make repro              # auditor self-check, sample audits, recount of the committed per-seed results
-python3 -m pytest -q    # offline dispatcher demo and recount tests
+python3 -m pytest -q    # offline dispatcher demo, auditor and recount tests
 ```
 
 [![CI](https://github.com/ChunkyTortoise/ai-redteam-notes/actions/workflows/ci.yml/badge.svg)](https://github.com/ChunkyTortoise/ai-redteam-notes/actions/workflows/ci.yml)
@@ -35,7 +35,7 @@ Metric for every measured row: strict bypass, meaning the canary file's contents
 | Strict bypass, chat-only control (no XML dispatch), M0, baseline payload: **0/10** [0.00, 0.28] | 10 | H10b-G CTRL-1b, [seeds](lab/mcp-matrix/runs/2026-05-18-llama70b-chatonly-M0-baseline/seeds.json) | 2026-05-18 | same | inline-XML M0 baseline: 9/10 (entry only) | `make tally` |
 | Strict bypass, Cline-class inline-XML, M0, payload v1-visible-notice: **10/10** [0.72, 1.00] | 10 | F1, [seeds](lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/seeds.json) | 2026-05-16 | OpenRouter llama-3.3-70b-instruct:free | Llama-3.1-8B, same setup: 0/5 ([entry](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md)) | `make tally` |
 | Fixture benchmark internal consistency: **10/10** fixtures match | 10 | [fixtures](EVALS/fixtures/tool-output-injection-fixtures.json) (preserved verdicts, no model calls) | rerun 2026-11-17 | none | none | `make benchmark` |
-| Offline dispatcher demo: naive dispatcher reads the canary, typed dispatcher does not | 12 tests | scripted model output in [`demo/dispatch_demo.py`](demo/dispatch_demo.py) | rerun 2026-11-17 | none (scripted) | naive inline-tag dispatcher | `python3 -m pytest -q` |
+| Offline dispatcher demo: naive dispatcher reads the canary, typed dispatcher does not; a hijacked model defeats typed dispatch alone, and a provenance gate stops it | 11 tests | scripted model output in [`demo/dispatch_demo.py`](demo/dispatch_demo.py) | rerun 2026-11-17 | none (scripted) | naive inline-tag dispatcher | `python3 -m pytest -q` |
 
 Each number above is stated once here; scope is in [Decisions, failures, limits](#decisions-failures-limits) and [Methodology & limits](#methodology--limits).
 
@@ -47,7 +47,7 @@ From a fresh clone, with Python 3.10+ and `make` (the last command fetches pytes
 git clone https://github.com/ChunkyTortoise/ai-redteam-notes.git && cd ai-redteam-notes
 make repro       # auditor self-check, two sample config audits, recount of committed seeds.json
 make benchmark   # re-score the preserved-run fixture benchmark
-uv run --no-project --with pytest python -m pytest -q   # offline dispatcher demo + recount tests
+uv run --no-project --with pytest python -m pytest -q   # offline dispatcher demo, auditor and recount tests
 ```
 
 Expected key lines (the full list is in [REPRODUCE.md](REPRODUCE.md)):
@@ -59,14 +59,14 @@ substrate : typed-toolcall-api
 risk      : low
 10/10 strict  wilson95=[0.7225, 1.0000]  llama-3.3-70b-versatile xml-parser M1 v7  2026-05-18-llama70b-xml-M1-v7
 GATE: PASS - fixture benchmark is internally consistent
-12 passed
+29 passed
 ```
 
-`python3 demo/dispatch_demo.py` prints which tools each dispatcher executed. `make remediation-demo` runs the auditor on a vulnerable and a typed tool-call transcript.
+`python3 demo/dispatch_demo.py` prints which tools each of four dispatcher and model pairings executed. `make remediation-demo` runs the auditor on a vulnerable and a typed tool-call transcript.
 
-What the demo shows: a toy agent loop where a fetched document (attacker-controlled) contains an inline `<file_read>` tag naming a canary file. A naive dispatcher that parses tool calls out of the model's free text reads the canary. A typed dispatcher that only runs schema-validated structured calls from a separate channel does not, and the legitimate structured `lab_fetch` call still runs.
+What the demo shows: a toy agent loop where a fetched document (attacker-controlled) contains an inline `<file_read>` tag naming a canary file. A naive dispatcher that parses tool calls out of the model's free text reads the canary. A typed dispatcher that only runs schema-validated structured calls from a separate channel does not, and the legitimate structured `lab_fetch` call still runs. A second scripted model is fully hijacked: it puts the injected `file_read` into the structured channel itself, and typed dispatch runs it. Wrapping the dispatcher in `provenance_gate` (once an untrusted tool such as `lab_fetch` has run, a sensitive tool such as `file_read` needs out-of-band approval, denied by default) stops that read; a test approves it and shows the read then runs, so the gate is what blocks it.
 
-What it does NOT show: the model output is scripted, not a live model, so it says nothing about how often a real model repeats injected text. It covers one attack shape (inline XML repeated in assistant text) and one typed-dispatch design. It adds no authorization or provenance checks, so if a model put the injected `file_read` into the structured channel, this typed dispatcher would run it (a test records this). It is not a measurement. The measured results above come from the lab runs, not this demo.
+What it does NOT show: the model output is scripted, not a live model, so it says nothing about how often a real model repeats injected text. It covers one attack shape (inline XML repeated in assistant text) and one typed-dispatch design. The gate is a 20-line sketch: the untrusted and sensitive tool sets are fixed lists, taint never clears, and outbound sends are not gated, so a hijacked model could still put data it already holds into a `lab_fetch` URL. It is not a measurement. The measured results above come from the lab runs, not this demo.
 
 **Audit your own agent client.** Point the auditor at an MCP client config (JSON/JSONC) or a captured transcript (JSONL):
 
