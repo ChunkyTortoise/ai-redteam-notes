@@ -34,7 +34,7 @@ The defensive conversion artifact is [`REPORTS/remediation-case-study-tool-outpu
 **Command:**
 
 ```bash
-bash lab/mcp-matrix/scripts/run_h10b_sweep.sh --validate
+make tally       # recounts the 4 committed H10b-G cells (the sweep script is in the private repo)
 make benchmark
 ```
 
@@ -61,8 +61,7 @@ make benchmark
 **Command:**
 
 ```bash
-cd lab/mcp-matrix
-just test
+make repro       # the harness suite (just test) is in the private repo
 ```
 
 For exact historical cell commands, inspect the relevant run directory `attempts.md` and transcript files before re-running; the public-facing claim should not depend on an unverified reconstructed command.
@@ -86,13 +85,13 @@ For exact historical cell commands, inspect the relevant run directory `attempts
 
 **Raw output:**
 
-- [`lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/`](../../lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/) (per-seed result + transcript, model_response_id provenance in `seeds.json`)
+- [`lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/`](../../lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/) (`seeds.json` with per-seed outcomes and `model_response_id` provenance; transcripts are private)
 
 **Command:**
 
 ```bash
 source /tmp/setkey.sh   # OPENROUTER_API_KEY (free tier; key not committed)
-bash lab/mcp-matrix/scripts/run_f1_cell.sh
+bash lab/mcp-matrix/scripts/run_f1_cell.sh   # private repo only; not in this mirror
 # run_dir: lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1
 ```
 
@@ -120,7 +119,7 @@ bash lab/mcp-matrix/scripts/run_f1_cell.sh
 
 ```bash
 cd lab/vuln-agents/damn-vulnerable-llm-agent
-./run_scen2_sweep.sh
+./run_scen2_sweep.sh   # private working tree only; not in this mirror
 ```
 
 **Disclosure:** Green. Target is WithSecure Labs Damn Vulnerable LLM Agent, an intentionally vulnerable educational benchmark. Runs are localhost-only against self-hosted Ollama models. No production disclosure required.
@@ -141,13 +140,13 @@ cd lab/vuln-agents/damn-vulnerable-llm-agent
 
 **Raw output:**
 
-- 20 per-trial JSON files in [`lab/promptfoo/runs/2026-05-13-dvl-scenario2-crossmodel/`](../../lab/promptfoo/runs/2026-05-13-dvl-scenario2-crossmodel/)
+- [`wilson_summary.json`](../../lab/promptfoo/runs/2026-05-13-dvl-scenario2-crossmodel/wilson_summary.json) in `lab/promptfoo/runs/2026-05-13-dvl-scenario2-crossmodel/` (the 20 per-trial JSON files are private)
 
 **Command:**
 
 ```bash
 cd lab/vuln-agents/damn-vulnerable-llm-agent
-./run_scen2_sweep.sh
+./run_scen2_sweep.sh   # private working tree only; not in this mirror
 ```
 
 **Disclosure:** Green, lab-only benchmark evidence.

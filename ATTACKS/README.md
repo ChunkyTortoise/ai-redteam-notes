@@ -41,9 +41,7 @@ Each attack entry follows a standardized format defined in [_template.md](_templ
 
 ## Validation
 
-All attack entries are automatically validated by CI pipelines using:
-- `pipeline/scripts/check-attack-entry.sh`: Validates structure and required sections
-- `pipeline/scripts/check-disclosure.sh`: Ensures proper disclosure metadata
+CI (`make public-surface`) checks disclosure metadata on every entry with `pipeline/scripts/check-disclosure.sh`. `pipeline/scripts/check-attack-entry.sh` (structure and required sections) runs only in `make verify-public`, the pre-publication gate.
 
 ## Contributing
 

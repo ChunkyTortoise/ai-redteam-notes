@@ -20,7 +20,7 @@ Expected preserved result: strict bypass `0/10`, intent shift / capability fail 
 Use this path to verify the verdict and orchestration tests without rerunning a model cell.
 
 ```bash
-uv run pytest lab/mcp-matrix/harness/tests
+uv run pytest lab/mcp-matrix/harness/tests   # private repo only; not in this mirror
 ```
 
 Expected output:
