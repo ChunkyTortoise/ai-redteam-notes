@@ -74,7 +74,7 @@ What it does NOT show: the model output is scripted, not a live model, so it say
 python3 lab/mcp-matrix/tools/substrate_auditor.py path/to/client-config.json --json
 ```
 
-It exits 1 when it rates the input high-risk (inline-XML dispatch), 0 for low-risk or unknown, and 2 on a missing file. It is a text heuristic over the config or transcript, and an unknown result also exits 0. In this repo's CI it only checks the two bundled samples (`--expect-risk`); it is not wired into any deploy step here. Usage, output fields and exit codes: [lab/mcp-matrix/tools/README.md](lab/mcp-matrix/tools/README.md).
+It exits 1 when it rates the input high-risk (inline-XML dispatch), 0 for low-risk or unknown, and 2 on a missing file; add `--strict` to make unknown exit 1 as well. It is a text heuristic over the config or transcript. In this repo's CI it only checks the two bundled samples (`--expect-risk`); it is not wired into any deploy step here. Usage, output fields and exit codes: [lab/mcp-matrix/tools/README.md](lab/mcp-matrix/tools/README.md).
 
 **Read the evidence.** [REPORTS/START_HERE.md](REPORTS/START_HERE.md) is the shortest path from claim to evidence. In order:
 
@@ -169,7 +169,7 @@ The numbered ADRs that some entries cite (for example ADR-003, the disclosure po
 - Re-running the experiments needs the private harness and a provider key. The payload text, the M1 prompt and transcripts are private, and the 50 `result_path` entries in the committed `seeds.json` files point to per-seed files that are not mirrored. `make tally` recounts the outcome flags, not the transcripts.
 - Three of the seven H10b-G cells (M0 baseline, M0 v7, M1 baseline) have no `seeds.json` here; their numbers come from the entry's table.
 - The offline demo uses scripted model output; it shows the mechanism, not a rate.
-- Known auditor false results, from an external audit on 2026-11-17: a config whose text contains the bare word `continue` (for example `"onError":"continue"`) is rated typed/low because `continue` is a registry key; a dispatch field nested below the top level (`{"client":{"toolDispatch":"xml"}}`) returns `unknown`; and a typed transcript whose tool result echoes an injected tag can be rated high, because the role of the message is not checked. `unknown` exits 0, so do not use it as a CI gate on unreviewed clients.
+- Auditor failures found by an external audit on 2026-11-17 and fixed with regression cases in [`selfcheck.py`](lab/mcp-matrix/tools/selfcheck.py): the bare word `continue` in a config (for example `"onError":"continue"`) was rated typed/low; a nested dispatch field (`{"client":{"toolDispatch":"xml"}}`) returned `unknown`; a typed transcript whose tool message echoed an injected tag was rated high. Still open: inline syntaxes other than `<name>...</name>` (for example `<function=read_file>`) return `unknown`, and `unknown` exits 0 unless you pass `--strict`.
 - Hypothesis freeze commits are in the private repo; this public history cannot prove each file predates its cell ([INDEX](docs/preregistrations/INDEX.md)).
 
 ## Methodology & limits
@@ -197,7 +197,7 @@ The numbered ADRs that some entries cite (for example ADR-003, the disclosure po
 - Several earlier 8B cells are n=5, and some exploratory cells are n=1 ([assessment limitations](REPORTS/substrate-vs-policy-assessment.md#limitations)).
 
 **Auditor and benchmark**
-- The auditor is a heuristic, not a guarantee. It reasons from declarative signals and cannot prove the absence of an inline-XML path. Unknown clients return `unknown` with a zero exit code; treat them as potentially inline-XML until the dispatch code is reviewed. Transcript detection depends on the log schema.
+- The auditor is a heuristic, not a guarantee. It reasons from declarative signals and cannot prove the absence of an inline-XML path. Unknown clients return `unknown` with a zero exit code (nonzero with `--strict`); treat them as potentially inline-XML until the dispatch code is reviewed. Transcript detection depends on the log schema.
 - The benchmark is fixture-only: it re-scores preserved verdicts for internal consistency, makes no model calls, and does not re-run experiments.
 
 **Tests, CI and private material**

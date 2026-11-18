@@ -57,8 +57,9 @@ _CLIENT_REGISTRY = {
     "kilo code": "typed-toolcall-api",
     "kilocode": "typed-toolcall-api",
     "kilo": "typed-toolcall-api",
+    # Only the full name: the bare word "continue" also appears as an ordinary
+    # config value (for example "onError": "continue") and caused false lows.
     "continue.dev": "typed-toolcall-api",
-    "continue": "typed-toolcall-api",
 }
 
 _XML_FIELD_KEYS = {
@@ -101,6 +102,21 @@ def _verdict(kind: str, substrate: str, rationale: str, path: Path) -> dict[str,
     }
 
 
+def _iter_string_fields(node: Any, depth: int = 0):
+    """Yield (key, value) for every string-valued field in nested dicts/lists."""
+    if depth > 32:
+        return
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if isinstance(v, str):
+                yield str(k), v
+            else:
+                yield from _iter_string_fields(v, depth + 1)
+    elif isinstance(node, list):
+        for item in node:
+            yield from _iter_string_fields(item, depth + 1)
+
+
 def _classify_config(raw: str, path: Path) -> dict[str, str]:
     lowered = raw.lower()
     parsed: Any = None
@@ -109,17 +125,22 @@ def _classify_config(raw: str, path: Path) -> dict[str, str]:
     except (ValueError, TypeError):
         parsed = None
 
-    # 1. Explicit dispatch field wins.
-    if isinstance(parsed, dict):
-        for k, v in parsed.items():
-            if k.lower() in _XML_FIELD_KEYS and isinstance(v, str):
-                vl = v.lower()
-                if any(t in vl for t in _XML_VALUE_TOKENS):
-                    return _verdict("config", "inline-xml-dispatch",
-                                    f"explicit dispatch field {k!r}={v!r}", path)
-                if any(t in vl for t in _TYPED_VALUE_TOKENS):
-                    return _verdict("config", "typed-toolcall-api",
-                                    f"explicit dispatch field {k!r}={v!r}", path)
+    # 1. Explicit dispatch field wins, at any nesting depth. If fields
+    # disagree, inline-XML wins because that path is the exploitable one.
+    typed_hit: tuple[str, str] | None = None
+    for k, v in _iter_string_fields(parsed):
+        if k.lower() not in _XML_FIELD_KEYS:
+            continue
+        vl = v.lower()
+        if any(t in vl for t in _XML_VALUE_TOKENS):
+            return _verdict("config", "inline-xml-dispatch",
+                            f"explicit dispatch field {k!r}={v!r}", path)
+        if typed_hit is None and any(t in vl for t in _TYPED_VALUE_TOKENS):
+            typed_hit = (k, v)
+    if typed_hit is not None:
+        k, v = typed_hit
+        return _verdict("config", "typed-toolcall-api",
+                        f"explicit dispatch field {k!r}={v!r}", path)
 
     # 2. Known client identity.
     for name, substrate in _CLIENT_REGISTRY.items():
@@ -147,6 +168,11 @@ def _classify_transcript(lines: list[str], path: Path) -> dict[str, str]:
         msg = rec.get("message") if isinstance(rec.get("message"), dict) else rec
         if msg.get("tool_calls") or msg.get("tool_call") or rec.get("type") == "tool_call":
             saw_structured = True
+        # Only assistant text can be dispatched. Tags inside user or tool
+        # messages are untrusted data (the injection itself), not dispatch.
+        role = msg.get("role", rec.get("role"))
+        if role is not None and role != "assistant":
+            continue
         content = msg.get("content")
         if isinstance(content, str) and _TOOL_TAG_HINT.search(content):
             saw_inline = True
@@ -192,6 +218,8 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Audit an MCP client config or transcript for inline-XML dispatch risk.")
     ap.add_argument("path", help="path to an MCP client config (JSON/JSONC) or a transcript (JSONL)")
     ap.add_argument("--json", action="store_true", help="emit the verdict as JSON")
+    ap.add_argument("--strict", action="store_true",
+                    help="also exit 1 when the substrate is unknown (for gating unreviewed clients)")
     ap.add_argument("--expect-risk", choices=("high", "low", "unknown"), help="return 0 only if the observed risk matches")
     ns = ap.parse_args(argv)
 
@@ -216,7 +244,11 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         return 0
 
-    return 1 if result["risk"] == "high" else 0
+    if result["risk"] == "high":
+        return 1
+    if ns.strict and result["risk"] == "unknown":
+        return 1
+    return 0
 
 
 if __name__ == "__main__":

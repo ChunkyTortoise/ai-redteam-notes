@@ -36,8 +36,9 @@ make remediation-demo
 ```
 
 Exit code: `1` when a high-risk (inline-XML dispatch) substrate is detected,
-`0` for typed/low-risk or unknown, `2` on a missing file. This makes it usable
-as a CI / pre-deploy gate.
+`0` for typed/low-risk or unknown, `2` on a missing file. With `--strict`, an
+unknown substrate also exits `1`; use that mode if you gate a CI step on it,
+because the default lets unreviewed clients through.
 
 Output fields: `substrate` (`inline-xml-dispatch` | `typed-toolcall-api` |
 `unknown`), `risk`, `rationale`, `recommendation`, `citation`.
@@ -71,10 +72,15 @@ python lab/mcp-matrix/tools/substrate_auditor.py lab/mcp-matrix/tools/samples/cl
 ## What it checks
 
 - **Config:** an explicit dispatch field (`toolParser`, `toolDispatch`,
-  `substrate`, ...) wins; otherwise the client identity is matched against the
+  `substrate`, ...) at any nesting depth wins, and an inline-XML field wins over
+  a typed one; otherwise the client identity is matched against the
   audited registry (Cline = inline-xml; Kilo Code / Continue.dev = typed, per
-  Addendum A of the writeup).
+  Addendum A of the writeup). Only the full name `continue.dev` is matched.
+  <!-- TODO(Cayman): the main README roadmap lists Continue.dev as future D-lane work; confirm Addendum A really audited its parser, or drop the registry entry. -->
 - **Transcript:** structured `tool_calls` events imply a typed substrate; inline
+  tool-dispatch tags in assistant messages (user and tool messages are ignored,
+  since tags there are the injected data, not dispatch) with no structured calls imply
+  inline-XML. Messages with no role field are treated as assistant text;
   tool-dispatch tags in assistant content with no structured calls imply
   inline-XML. A transcript showing both is reported as inline-XML because the
   inline path is the exploitable one.
@@ -91,13 +97,15 @@ This is a **heuristic, not a guarantee.**
   potentially inline-XML until the dispatch code is inspected.
 - Transcript detection depends on the log schema. It recognizes common shapes
   (`tool_calls`, `message.content`); bespoke schemas may return `unknown`.
+- Only `<name>...</name>` tags are recognized. Other inline syntaxes, such as
+  `<function=read_file>`, return `unknown`.
 
 When the verdict matters, confirm against the client's actual tool-dispatch
 source code. The tool exists to triage and prioritize that review, not replace it.
 
 ## Tests
 
-`uv run pytest lab/mcp-matrix/harness/tests/test_substrate_auditor.py`
+`make selfcheck` (11 cases plus a missing-file guard). The fuller pytest file is in the private repo.
 
 CI / pre-publication gates:
 

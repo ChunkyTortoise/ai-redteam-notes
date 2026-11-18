@@ -12,7 +12,7 @@ make repro
 This runs:
 
 - `make selfcheck` - a dependency-free self-check of the defensive substrate
-  auditor (7 cases + a missing-file guard), and
+  auditor (11 cases + a missing-file guard), and
 - `make audit` - the auditor run against two sample MCP client configs, showing
   it flags an inline-XML (Cline-class) substrate as high risk and clears a typed
   tool-use API (Kilo-class) substrate.
