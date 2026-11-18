@@ -36,7 +36,8 @@ make remediation-demo
 ```
 
 Exit code: `1` when a high-risk (inline-XML dispatch) substrate is detected,
-`0` for typed/low-risk or unknown, `2` on a missing file. With `--strict`, an
+`0` for typed/low-risk or unknown, `2` on a missing or unreadable file (binary,
+not UTF-8, a directory). With `--strict`, an
 unknown substrate also exits `1`; use that mode if you gate a CI step on it,
 because the default lets unreviewed clients through.
 
@@ -72,15 +73,22 @@ python lab/mcp-matrix/tools/substrate_auditor.py lab/mcp-matrix/tools/samples/cl
 ## What it checks
 
 - **Config:** an explicit dispatch field (`toolParser`, `toolDispatch`,
-  `substrate`, ...) at any nesting depth wins, and an inline-XML field wins over
-  a typed one; otherwise the client identity is matched against the
+  `substrate`, or any key containing `dispatch` or `parser`) at any nesting
+  depth wins, and an inline-XML field wins over a typed one. Typed values must
+  be whole tokens (`native_api` counts, `therapist` does not). Otherwise the
+  client identity is matched against the
   audited registry (Cline = inline-xml; Kilo Code / Continue.dev = typed, per
   Addendum A of the writeup). Only the full name `continue.dev` is matched.
+  If the file does not parse as JSON/JSONC, a client name can raise the
+  verdict to high but never lower it to low; the result is `unknown`.
   <!-- TODO(Cayman): the main README roadmap lists Continue.dev as future D-lane work; confirm Addendum A really audited its parser, or drop the registry entry. -->
 - **Transcript:** structured `tool_calls` events imply a typed substrate; inline
   tool-dispatch tags in assistant messages (user and tool messages are ignored,
   since tags there are the injected data, not dispatch) with no structured calls imply
-  inline-XML. Messages with no role field are treated as assistant text;
+  inline-XML. Role names are compared case-insensitively, content may be a
+  string or a list of text blocks, and if any non-empty line fails to parse as
+  a JSON object the transcript cannot be rated low (it returns `unknown`).
+  Messages with no role field are treated as assistant text;
   tool-dispatch tags in assistant content with no structured calls imply
   inline-XML. A transcript showing both is reported as inline-XML because the
   inline path is the exploitable one.
@@ -97,8 +105,9 @@ This is a **heuristic, not a guarantee.**
   potentially inline-XML until the dispatch code is inspected.
 - Transcript detection depends on the log schema. It recognizes common shapes
   (`tool_calls`, `message.content`); bespoke schemas may return `unknown`.
-- Only `<name>...</name>` tags are recognized. Other inline syntaxes, such as
-  `<function=read_file>`, return `unknown`.
+- Two inline syntaxes are recognized: `<name>...</name>` tags and
+  `<function=name>...</function>`. Others (JSON-in-text, ReAct `Action:` lines)
+  return `unknown`.
 
 When the verdict matters, confirm against the client's actual tool-dispatch
 source code. The tool exists to triage and prioritize that review, not replace it.

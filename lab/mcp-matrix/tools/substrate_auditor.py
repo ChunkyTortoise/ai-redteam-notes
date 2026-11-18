@@ -67,15 +67,41 @@ _XML_FIELD_KEYS = {
     "substrate", "parser", "dispatch",
 }
 _XML_VALUE_TOKENS = ("xml", "inline", "tag")
-_TYPED_VALUE_TOKENS = ("typed", "structured", "toolcall", "tool-call", "tool_call", "function", "api")
+# Typed tokens must stand alone ("native_api" counts, "therapist" does not):
+# a typed verdict exits 0, so a substring false positive fails open.
+_TYPED_VALUE_RE = re.compile(
+    r"(?<![a-z])(typed|structured|toolcall|tool[-_]call|function|api)s?(?![a-z])"
+)
+
+
+def _is_dispatch_key(key: str) -> bool:
+    k = key.lower()
+    return k in _XML_FIELD_KEYS or "dispatch" in k or "parser" in k
 
 # Tag names that look like tool dispatch rather than prose markup.
 _TOOL_TAG_HINT = re.compile(
     r"<(read_file|write_to_file|execute_command|lab_fetch|fetch|browser_action|"
     r"use_mcp_tool|access_mcp_resource|search_files|list_files|apply_diff|"
-    r"[a-z][a-z0-9]*_[a-z0-9_]*)>.*?</\1>",
+    r"[a-z][a-z0-9]*_[a-z0-9_]*)>.*?</\1>"
+    # Function-equals style used by some open-model tool formats.
+    r"|<function=[\w.-]+>.*?</function>",
     re.DOTALL,
 )
+
+
+def _text_of(content: Any) -> str:
+    """Flatten message content: a string, or a list of text blocks."""
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = []
+        for block in content:
+            if isinstance(block, str):
+                parts.append(block)
+            elif isinstance(block, dict) and isinstance(block.get("text"), str):
+                parts.append(block["text"])
+        return "\n".join(parts)
+    return ""
 
 
 def _strip_jsonc(text: str) -> str:
@@ -120,34 +146,43 @@ def _iter_string_fields(node: Any, depth: int = 0):
 def _classify_config(raw: str, path: Path) -> dict[str, str]:
     lowered = raw.lower()
     parsed: Any = None
+    parse_ok = True
     try:
         parsed = json.loads(_strip_jsonc(raw))
     except (ValueError, TypeError):
         parsed = None
+        parse_ok = False
 
     # 1. Explicit dispatch field wins, at any nesting depth. If fields
     # disagree, inline-XML wins because that path is the exploitable one.
     typed_hit: tuple[str, str] | None = None
     for k, v in _iter_string_fields(parsed):
-        if k.lower() not in _XML_FIELD_KEYS:
+        if not _is_dispatch_key(k):
             continue
         vl = v.lower()
         if any(t in vl for t in _XML_VALUE_TOKENS):
             return _verdict("config", "inline-xml-dispatch",
                             f"explicit dispatch field {k!r}={v!r}", path)
-        if typed_hit is None and any(t in vl for t in _TYPED_VALUE_TOKENS):
+        if typed_hit is None and _TYPED_VALUE_RE.search(vl):
             typed_hit = (k, v)
     if typed_hit is not None:
         k, v = typed_hit
         return _verdict("config", "typed-toolcall-api",
                         f"explicit dispatch field {k!r}={v!r}", path)
 
-    # 2. Known client identity.
+    # 2. Known client identity. If the file did not parse, a name match is
+    # only a substring of unstructured text, so it may raise risk but never
+    # lower it (an unparsed dispatch field could still say xml).
     for name, substrate in _CLIENT_REGISTRY.items():
+        if not parse_ok and substrate != "inline-xml-dispatch":
+            continue
         if re.search(rf"\b{re.escape(name)}\b", lowered):
             return _verdict("config", substrate,
                             f"client identified as {name!r} (parser audit, Addendum A)", path)
 
+    if not parse_ok:
+        return _verdict("config", "unknown",
+                        "config did not parse as JSON/JSONC; no inline-XML signal in its text", path)
     return _verdict("config", "unknown",
                     "no explicit dispatch field and no audited client identity", path)
 
@@ -155,6 +190,7 @@ def _classify_config(raw: str, path: Path) -> dict[str, str]:
 def _classify_transcript(lines: list[str], path: Path) -> dict[str, str]:
     saw_structured = False
     saw_inline = False
+    unparsed = 0
     for line in lines:
         line = line.strip()
         if not line:
@@ -162,8 +198,10 @@ def _classify_transcript(lines: list[str], path: Path) -> dict[str, str]:
         try:
             rec = json.loads(line)
         except ValueError:
+            unparsed += 1
             continue
         if not isinstance(rec, dict):
+            unparsed += 1
             continue
         msg = rec.get("message") if isinstance(rec.get("message"), dict) else rec
         if msg.get("tool_calls") or msg.get("tool_call") or rec.get("type") == "tool_call":
@@ -171,15 +209,18 @@ def _classify_transcript(lines: list[str], path: Path) -> dict[str, str]:
         # Only assistant text can be dispatched. Tags inside user or tool
         # messages are untrusted data (the injection itself), not dispatch.
         role = msg.get("role", rec.get("role"))
-        if role is not None and role != "assistant":
+        if role is not None and str(role).lower() != "assistant":
             continue
-        content = msg.get("content")
-        if isinstance(content, str) and _TOOL_TAG_HINT.search(content):
+        if _TOOL_TAG_HINT.search(_text_of(msg.get("content"))):
             saw_inline = True
 
     if saw_inline and not saw_structured:
         return _verdict("transcript", "inline-xml-dispatch",
                         "assistant content contains inline tool-dispatch tags and no structured tool_calls", path)
+    if saw_structured and not saw_inline and unparsed:
+        # A skipped line could hold the inline tag, so do not report low.
+        return _verdict("transcript", "unknown",
+                        f"structured tool_calls present but {unparsed} line(s) did not parse as JSON objects", path)
     if saw_structured and not saw_inline:
         return _verdict("transcript", "typed-toolcall-api",
                         "structured tool_call events present, no inline dispatch tags", path)
@@ -190,11 +231,18 @@ def _classify_transcript(lines: list[str], path: Path) -> dict[str, str]:
                     "no structured tool_calls and no inline dispatch tags observed", path)
 
 
+class UnreadableInput(Exception):
+    """The input exists but is not readable UTF-8 text (binary, a directory)."""
+
+
 def audit_path(path: str | Path) -> dict[str, str]:
     p = Path(path)
     if not p.exists():
         raise FileNotFoundError(f"no such file: {p}")
-    raw = p.read_text()
+    try:
+        raw = p.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError) as e:
+        raise UnreadableInput(f"cannot read {p} as UTF-8 text: {e}") from e
     if p.suffix == ".jsonl" or _looks_like_jsonl(raw):
         return _classify_transcript(raw.splitlines(), p)
     return _classify_config(raw, p)
@@ -225,7 +273,7 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         result = audit_path(ns.path)
-    except FileNotFoundError as e:
+    except (FileNotFoundError, UnreadableInput) as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
 
