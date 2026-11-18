@@ -76,7 +76,9 @@ bash pipeline/scripts/check-public-surface.sh
 make repro
 make remediation-demo
 make benchmark
-if [ -f pyproject.toml ]; then
+# The public mirror now has its own pyproject.toml, so key on the private
+# harness directory itself rather than on pyproject.toml.
+if [ -d lab/mcp-matrix/harness/tests ]; then
   make test
 else
   echo "SKIP: private pytest harness not present in this public mirror checkout"
