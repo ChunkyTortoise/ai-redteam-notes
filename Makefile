@@ -9,13 +9,14 @@ PY := $(shell command -v uv >/dev/null 2>&1 && echo "PYTHONDONTWRITEBYTECODE=1 u
 AUDITOR := lab/mcp-matrix/tools/substrate_auditor.py
 SAMPLES := lab/mcp-matrix/tools/samples
 
-.PHONY: help repro selfcheck audit remediation-demo benchmark test packet-ready public-surface verify-public
+.PHONY: help repro selfcheck audit tally remediation-demo benchmark test packet-ready public-surface verify-public
 
 help:
 	@echo "make repro      - 60-second reviewer path: selfcheck + auditor demo (no install)"
 	@echo "make selfcheck  - dependency-free substrate_auditor self-check"
 	@echo "make audit      - run the defensive substrate auditor on the sample configs"
 	@echo "make remediation-demo - show vulnerable vs mitigated substrate traces"
+	@echo "make tally     - recount strict bypasses + Wilson 95% CIs from committed seeds.json"
 	@echo "make benchmark  - score fixture-only agent tool-output injection benchmark"
 	@echo "make test       - full pre-registered harness pytest suite (private repo)"
 	@echo "make packet-ready - validate reviewer/application packet-ready docs"
@@ -39,12 +40,14 @@ remediation-demo:
 	@echo "== after: structured tool-call transcript =="
 	$(PY) $(AUDITOR) $(SAMPLES)/after-typed-toolcall-transcript.jsonl --expect-risk low
 
-repro: selfcheck audit
+repro: selfcheck audit tally
 	@echo
 	@echo "Start here: REPORTS/START_HERE.md -> WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md (Addendum B)"
 	@echo "Strongest current result: ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md"
-	@echo "Full pre-registered harness suite lives in the private repo (make test):"
-	@echo "Full pre-registered suite (226 tests, 94% coverage, 80% gate) runs in the private repo via: make test"
+	@echo "The pre-registered measurement harness and its pytest suite live in the private repo (make test); their counts are not verifiable here."
+
+tally:
+	$(PY) lab/mcp-matrix/tools/tally_seeds.py
 
 benchmark:
 	$(PY) EVALS/score_tool_output_injection.py EVALS/fixtures/tool-output-injection-fixtures.json

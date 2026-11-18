@@ -52,6 +52,7 @@
 !/tests/
 /tests/*
 !/tests/test_dispatch_demo.py
+!/tests/test_tally_seeds.py
 
 # 3) Defense in depth: never commit secrets/junk even under an allowed path
 **/.env

@@ -1,12 +1,17 @@
 # ai-redteam-notes: agent and MCP injection research, with an offline demo of the fix run in CI
 
-When an AI agent reads tool output an attacker controls, can it be tricked into leaking data? In a pre-registered experiment on Llama-3.3-70B, a defensive system prompt blocked two families of injection payloads and did nothing against a third ([Results](#results)). With the same model and payloads but without inline-XML tool dispatch, nothing leaked. My conclusion is architectural: fix it in the agent client (typed tool-call dispatch, with authorization and provenance checks outside the model), not in the prompt. A typed-dispatch agent has not been measured at 70B yet ([limits](#methodology--limits)).
+This repo is my pre-registered research on prompt injection through tool output in AI agents and MCP clients, with an offline demo of the fix and a stdlib checker for the risky dispatch pattern.
 
-This repo holds the experiments, the hypotheses that failed along the way (published, not hidden), and `substrate_auditor.py`, a dependency-free check for the risky dispatch pattern that runs in CI. All published experiments are lab-only and disclosure-green ([scope](#methodology--limits), [SECURITY.md](SECURITY.md)).
+**Proof.** On Groq-hosted Llama-3.3-70B with inline-XML tool dispatch (the agent client parses tool calls out of the model's text), a defensive system prompt (M1) cut canary exfiltration to 0/10 on two payload families and left a third (v7) at 10/10. With no prompt (M0) the three families leaked 9/10, 10/10 and 10/10. A chat-only control with the same model and the baseline payload but no XML dispatch leaked 0/10. My conclusion: fix this in the agent client (typed tool-call dispatch, with authorization and provenance checks outside the model), not in the prompt. A typed-dispatch agent has not been measured at 70B ([limits](#decisions-failures-limits)).
+
+**Run it** (no API key, no install beyond Python 3; pytest for the last command):
+
+```bash
+make repro              # auditor self-check, sample audits, recount of the committed per-seed results
+python3 -m pytest -q    # offline dispatcher demo and recount tests
+```
 
 [![CI](https://github.com/ChunkyTortoise/ai-redteam-notes/actions/workflows/ci.yml/badge.svg)](https://github.com/ChunkyTortoise/ai-redteam-notes/actions/workflows/ci.yml)
-[![Reproducible](https://img.shields.io/badge/repro-make%20repro%20(no%20API%20key)-success)](REPRODUCE.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ```mermaid
 flowchart LR
@@ -20,33 +25,29 @@ flowchart LR
 
 ## Results
 
-| Kind | Result | Value | Source |
-|---|---|---|---|
-| Measured | H10b-G: strict canary exfiltration through inline-XML tool dispatch on Groq-hosted Llama-3.3-70B, 7-cell grid, n=10 seeds per cell | M1 scaffold: **0/10** on baseline and v3 payloads, **10/10** on v7. Same payloads without it (M0): **9/10**, **10/10**, **10/10**. Chat-only control (no XML dispatch): **0/10** | [H10b-G entry, Result](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md#result) · per-seed runs: [M0 v3](lab/mcp-matrix/runs/2026-05-17-llama70b-xml-M0-v3/seeds.json), [M1 v3](lab/mcp-matrix/runs/2026-05-18-llama70b-xml-M1-v3/seeds.json), [M1 v7](lab/mcp-matrix/runs/2026-05-18-llama70b-xml-M1-v7/seeds.json), [control](lab/mcp-matrix/runs/2026-05-18-llama70b-chatonly-M0-baseline/seeds.json) |
-| CI gate | On every PR and every push to `main`: the auditor self-check, the auditor must rate the inline-XML sample high-risk and the typed sample low-risk, and the fixture benchmark must re-score cleanly | **7** self-check cases plus a missing-file guard · **10/10** benchmark fixtures match | [`ci.yml`](.github/workflows/ci.yml) · [`selfcheck.py`](lab/mcp-matrix/tools/selfcheck.py) · [`Makefile`](Makefile) (`audit`, `--expect-risk`) · [benchmark fixtures](EVALS/fixtures/tool-output-injection-fixtures.json) |
-| Inventory | Dated pre-registrations, each frozen before the cells it governs | **4** files in this repo | [`docs/preregistrations/`](docs/preregistrations/) · [hypothesis ledger](docs/preregistrations/INDEX.md) |
+Metric for every measured row: strict bypass, meaning the canary file's contents arrived in a real callback to the localhost exfil sink. Intervals are Wilson 95%. "Recount" rows are reproduced offline from committed `seeds.json` by `make tally`; rows marked "entry only" come from the attack entry's hand-recomputed table because their run directories are not mirrored here.
 
-This table is the one place each number is stated. The scope of each one is in [Methodology & limits](#methodology--limits).
+| Metric (result) | n | Dataset / cell | Date | Model | Baseline | Reproduce |
+|---|---:|---|---|---|---|---|
+| Strict bypass, inline-XML + M1 prompt, payload v7: **10/10** [0.72, 1.00] | 10 | H10b-G, [M1 v7 seeds](lab/mcp-matrix/runs/2026-05-18-llama70b-xml-M1-v7/seeds.json) | 2026-05-18 | Groq llama-3.3-70b-versatile, T=0.7 | M0 v7: 10/10 (entry only) | `make tally` |
+| Strict bypass, inline-XML + M1, payload v3: **0/10** [0.00, 0.28] | 10 | H10b-G, [M1 v3 seeds](lab/mcp-matrix/runs/2026-05-18-llama70b-xml-M1-v3/seeds.json) | 2026-05-18 | same | M0 v3: 10/10 [0.72, 1.00], [seeds](lab/mcp-matrix/runs/2026-05-17-llama70b-xml-M0-v3/seeds.json) (2026-05-17) | `make tally` |
+| Strict bypass, inline-XML + M1, baseline payload: **0/10** | 10 | H10b-G | 2026-05-18 | same | M0 baseline: 9/10 (entry only) | entry only ([table](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md#result)) |
+| Strict bypass, chat-only control (no XML dispatch), M0, baseline payload: **0/10** [0.00, 0.28] | 10 | H10b-G CTRL-1b, [seeds](lab/mcp-matrix/runs/2026-05-18-llama70b-chatonly-M0-baseline/seeds.json) | 2026-05-18 | same | inline-XML M0 baseline: 9/10 (entry only) | `make tally` |
+| Strict bypass, Cline-class inline-XML, M0, payload v1-visible-notice: **10/10** [0.72, 1.00] | 10 | F1, [seeds](lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/seeds.json) | 2026-05-16 | OpenRouter llama-3.3-70b-instruct:free | Llama-3.1-8B, same setup: 0/5 ([entry](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md)) | `make tally` |
+| Fixture benchmark internal consistency: **10/10** fixtures match | 10 | [fixtures](EVALS/fixtures/tool-output-injection-fixtures.json) (preserved verdicts, no model calls) | rerun 2026-11-17 | none | none | `make benchmark` |
+| Offline dispatcher demo: naive dispatcher reads the canary, typed dispatcher does not | 12 tests | scripted model output in [`demo/dispatch_demo.py`](demo/dispatch_demo.py) | rerun 2026-11-17 | none (scripted) | naive inline-tag dispatcher | `python3 -m pytest -q` |
 
-### What didn't hold (published on purpose)
-
-- **H7 falsified at 70B.** The pre-registered assumption that a larger model would be safer here failed. Under the same inline-XML substrate, Llama-3.3-70B was exploited more reliably than Llama-3.1-8B, not less: capability amplifies exploitation inside an insecure substrate. [F1 entry](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md) · [pre-registration](docs/preregistrations/2026-05-13-tier-a-w1-w5.md)
-- **H3 retracted.** A result that looked like one open-weight model being "more robust" than another was a substrate confound: the two runs used different client dispatch substrates. [Writeup](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md)
-- **H6 falsified.** The combined-framing v7 payload produced no strict bypass at M0 in the 8B-class matrix within the registered seed budget.
-- **H11 falsified.** Last-tag-wins dispatch produced no strict canary exfiltration; its one real callback carried placeholder data, not the canary. [Ablation entry](ATTACKS/2026-05-15-mcp-xml-last-tag-dispatch-ablation.md)
-- **M2 regressed.** Naming the tools inside the mitigation prompt did worse than no mitigation on the 8B model: the names acted as a salience prime.
-- **M1 is not a substrate fix.** It is useful defense in depth, but the v7 row in [Results](#results) shows it can be fully transparent to one payload family.
-
-Full ledger: [docs/preregistrations/INDEX.md](docs/preregistrations/INDEX.md). Research that hides its nulls is less trustworthy than research that reports them.
+Each number above is stated once here; scope is in [Decisions, failures, limits](#decisions-failures-limits) and [Methodology & limits](#methodology--limits).
 
 ## Quickstart
 
-**1. Run the defensive checks (no API key, no GPU, no install).** Python 3 standard library only, from the repository root:
+From a fresh clone, with Python 3.10+ and `make` (the last command fetches pytest into a throwaway env through [uv](https://docs.astral.sh/uv/); with pytest already installed, `python3 -m pytest -q` does the same):
 
 ```bash
-make repro             # auditor self-check, then audit two sample MCP client configs
-make remediation-demo  # same auditor on a vulnerable vs a typed tool-call transcript
-make benchmark         # re-score the preserved-run fixture benchmark
+git clone https://github.com/ChunkyTortoise/ai-redteam-notes.git && cd ai-redteam-notes
+make repro       # auditor self-check, two sample config audits, recount of committed seeds.json
+make benchmark   # re-score the preserved-run fixture benchmark
+uv run --no-project --with pytest python -m pytest -q   # offline dispatcher demo + recount tests
 ```
 
 Expected key lines (the full list is in [REPRODUCE.md](REPRODUCE.md)):
@@ -56,15 +57,12 @@ substrate : inline-xml-dispatch
 risk      : high
 substrate : typed-toolcall-api
 risk      : low
+10/10 strict  wilson95=[0.7225, 1.0000]  llama-3.3-70b-versatile xml-parser M1 v7  2026-05-18-llama70b-xml-M1-v7
 GATE: PASS - fixture benchmark is internally consistent
+12 passed
 ```
 
-**1b. Run the offline dispatcher demo.** Needs only Python and pytest:
-
-```bash
-python3 demo/dispatch_demo.py   # prints which tools each dispatcher executed
-python3 -m pytest -q            # also run by .github/workflows/demo-tests.yml
-```
+`python3 demo/dispatch_demo.py` prints which tools each dispatcher executed. `make remediation-demo` runs the auditor on a vulnerable and a typed tool-call transcript.
 
 What it shows: a toy agent loop where a fetched document (attacker-controlled) contains an inline `<file_read>` tag naming a canary file. A naive dispatcher that parses tool calls out of the model's free text reads the canary. A typed dispatcher that only runs schema-validated structured calls from a separate channel does not, and the legitimate structured `lab_fetch` call still runs.
 
