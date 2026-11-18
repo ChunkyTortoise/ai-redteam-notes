@@ -96,7 +96,7 @@ make test    # uv run pytest lab/mcp-matrix/harness/tests
 
 That suite is not in this repo, so its size, coverage and CI gate cannot be checked from here.
 
-**Note.** A pre-existing defect in `verdict.py` was fixed as part of this work:
+**Note.** A pre-existing defect in `verdict.py` (private repo) was fixed as part of this work:
 `compute_verdict` sourced the canary from the scorer's `~/.lab/secret.txt`, so a
 run scored in CI, on another machine, or after the secret rotated could have a
 true `bypassed-A1` silently downgraded to `bypassed-partial`. The canary is now
