@@ -30,6 +30,7 @@
 !/RESEARCH-SUMMARY.md
 !/SECURITY.md
 !/WRITEUPS/
+!/demo/
 !/docs/
 # docs/ is re-included recursively above; docs/specs/ holds internal infra specs
 # that reference private repos. Re-ignore it so it can never reach the public mirror.
@@ -43,7 +44,9 @@
 /lab/mcp-matrix/runs/demo-latest/
 /lab/mcp-matrix/clients/*.config.json
 !/pipeline/
+!/pyproject.toml
 !/site/
+!/tests/
 
 # 3) Defense in depth: never commit secrets/junk even under an allowed path
 **/.env

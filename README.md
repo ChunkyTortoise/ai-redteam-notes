@@ -1,4 +1,4 @@
-# ai-redteam-notes: agent and MCP injection research, with the fix wired into CI
+# ai-redteam-notes: agent and MCP injection research, with an offline demo of the fix run in CI
 
 When an AI agent reads tool output an attacker controls, can it be tricked into leaking data? In a pre-registered experiment on Llama-3.3-70B, a defensive system prompt blocked two families of injection payloads and did nothing against a third ([Results](#results)). With the same model and payloads but without inline-XML tool dispatch, nothing leaked. My conclusion is architectural: fix it in the agent client (typed tool-call dispatch, with authorization and provenance checks outside the model), not in the prompt. A typed-dispatch agent has not been measured at 70B yet ([limits](#methodology--limits)).
 
@@ -58,6 +58,17 @@ substrate : typed-toolcall-api
 risk      : low
 GATE: PASS - fixture benchmark is internally consistent
 ```
+
+**1b. Run the offline dispatcher demo.** Needs only Python and pytest:
+
+```bash
+python3 demo/dispatch_demo.py   # prints which tools each dispatcher executed
+python3 -m pytest -q            # also run by .github/workflows/demo-tests.yml
+```
+
+What it shows: a toy agent loop where a fetched document (attacker-controlled) contains an inline `<file_read>` tag naming a canary file. A naive dispatcher that parses tool calls out of the model's free text reads the canary. A typed dispatcher that only runs schema-validated structured calls from a separate channel does not, and the legitimate structured `lab_fetch` call still runs.
+
+What it does NOT show: the model output is scripted, not a live model, so it says nothing about how often a real model repeats injected text. It covers one attack shape (inline XML repeated in assistant text) and one typed-dispatch design. It adds no authorization or provenance checks and is not a measurement. The measured results above come from the lab runs, not this demo.
 
 **2. Audit your own agent client.** Point the auditor at an MCP client config (JSON/JSONC) or a captured transcript (JSONL):
 
