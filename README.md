@@ -34,7 +34,7 @@ Metric for every measured row: strict bypass, meaning the canary file's contents
 | Strict bypass, inline-XML + M1, baseline payload: **0/10** | 10 | H10b-G | 2026-05-18 | same | M0 baseline: 9/10 (entry only) | entry only ([table](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md#result)) |
 | Strict bypass, chat-only control (no XML dispatch), M0, baseline payload: **0/10** [0.00, 0.28] | 10 | H10b-G CTRL-1b, [seeds](lab/mcp-matrix/runs/2026-05-18-llama70b-chatonly-M0-baseline/seeds.json) | 2026-05-18 | same | inline-XML M0 baseline: 9/10 (entry only) | `make tally` |
 | Strict bypass, Cline-class inline-XML, M0, payload v1-visible-notice: **10/10** [0.72, 1.00] | 10 | F1, [seeds](lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/seeds.json) | 2026-05-16 | OpenRouter llama-3.3-70b-instruct:free | Llama-3.1-8B, same setup: 0/5 ([entry](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md)) | `make tally` |
-| Fixture benchmark internal consistency: **10/10** fixtures match | 10 | [fixtures](EVALS/fixtures/tool-output-injection-fixtures.json) (preserved verdicts, no model calls) | rerun 2026-11-17 | none | none | `make benchmark` |
+| Fixture benchmark internal consistency: **10/10** fixtures match; all 20 Wilson intervals recomputed from k and n; 5 strict-bypass counts recounted from their `seeds.json` | 10 | [fixtures](EVALS/fixtures/tool-output-injection-fixtures.json) (preserved verdicts, no model calls) | rerun 2026-11-17 | none | none | `make benchmark` |
 | Offline dispatcher demo: naive dispatcher reads the canary, typed dispatcher does not; a hijacked model defeats typed dispatch alone, and a provenance gate stops it | 11 tests | scripted model output in [`demo/dispatch_demo.py`](demo/dispatch_demo.py) | rerun 2026-11-17 | none (scripted) | naive inline-tag dispatcher | `python3 -m pytest -q` |
 
 Each number above is stated once here; scope is in [Decisions, failures, limits](#decisions-failures-limits) and [Methodology & limits](#methodology--limits).
@@ -59,7 +59,7 @@ substrate : typed-toolcall-api
 risk      : low
 10/10 strict  wilson95=[0.7225, 1.0000]  llama-3.3-70b-versatile xml-parser M1 v7  2026-05-18-llama70b-xml-M1-v7
 GATE: PASS - fixture benchmark is internally consistent
-29 passed
+32 passed
 ```
 
 `python3 demo/dispatch_demo.py` prints which tools each of four dispatcher and model pairings executed. `make remediation-demo` runs the auditor on a vulnerable and a typed tool-call transcript.
