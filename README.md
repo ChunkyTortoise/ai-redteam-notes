@@ -2,9 +2,9 @@
 
 This repo is my pre-registered research on prompt injection through tool output in AI agents and MCP clients, with an offline demo of the fix and a stdlib checker for the risky dispatch pattern.
 
-**Proof.** On Groq-hosted Llama-3.3-70B with inline-XML tool dispatch (the agent client parses tool calls out of the model's text), a defensive system prompt (M1) cut canary exfiltration to 0/10 on two payload families and left a third (v7) at 10/10. With no prompt (M0) the three families leaked 9/10, 10/10 and 10/10. A chat-only control with the same model and the baseline payload but no XML dispatch leaked 0/10. My conclusion: fix this in the agent client (typed tool-call dispatch, with authorization and provenance checks outside the model), not in the prompt. A typed-dispatch agent has not been measured at 70B ([limits](#decisions-failures-limits)).
+**Proof.** Pre-registered cells, n=10 seeds each, on one model, Llama-3.3-70B served by Groq (`llama-3.3-70b-versatile`, T=0.7), with inline-XML tool dispatch, meaning the agent client parses tool calls out of the model's text. With no defensive prompt (M0), three payload families leaked a canary file in 9/10, 10/10 and 10/10 runs. A defensive system prompt (M1) cut two families to 0/10 and left the third (v7) at 10/10. A chat-only control with the same model and the baseline payload but no XML dispatch leaked 0/10. My conclusion: fix this in the agent client (typed tool-call dispatch, with authorization and provenance checks outside the model), not in the prompt. A typed-dispatch agent has not been measured at 70B ([limits](#decisions-failures-limits)).
 
-**Run it** (no API key, no install beyond Python 3; pytest for the last command):
+**Run it** (no API key, no network; `make repro` needs only Python 3 and recounts the 5 committed per-seed cells; the second line needs pytest):
 
 ```bash
 make repro              # auditor self-check, sample audits, recount of the committed per-seed results
