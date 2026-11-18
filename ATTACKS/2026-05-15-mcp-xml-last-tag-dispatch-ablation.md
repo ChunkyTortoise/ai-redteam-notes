@@ -40,6 +40,7 @@ H11 pre-registered that question before execution. The payload was the existing 
 The harness change added `--dispatch-last-tag`, which parses all known XML tool tags in one assistant message but dispatches only the final parsed tag. The n=10 cell ran:
 
 ```bash
+# Private repo only: the scripts and configs below are not in this public mirror, so this does not run from a clone of it.
 uv run python lab/mcp-matrix/scripts/run_headless.py \
   --model llama3.1:8b \
   --payload-url http://127.0.0.1:9001/notes/v7-fence-handhold \

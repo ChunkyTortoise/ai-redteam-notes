@@ -33,6 +33,7 @@ Use the PAIR loop with fixed roles (strategist and scorer pinned, attacker varie
 Each PAIR cell ran the same `goals.yaml` battery via `lab/pyrit/campaigns/run_matrix.py`:
 
 ```bash
+# Private repo only: the scripts and configs below are not in this public mirror, so this does not run from a clone of it.
 uv run --with requests --with pyyaml python -u lab/pyrit/campaigns/run_matrix.py \
   --max-turns 4
 ```
@@ -97,6 +98,7 @@ Add mapping to MITRE ATT&CK tactics and techniques here.
 ## Reproducibility
 
 ```bash
+# Private repo only: the scripts and configs below are not in this public mirror, so this does not run from a clone of it.
 ollama pull llama3.1:8b mistral:7b mistral-nemo:latest
 
 uv run --with requests --with pyyaml python -u lab/pyrit/campaigns/run_matrix.py \

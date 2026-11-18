@@ -68,6 +68,7 @@ Adversary controls the body of one document the agent fetches. The agent's user 
 ## Proof of concept
 
 ```bash
+# Private repo only: the scripts and configs below are not in this public mirror, so this does not run from a clone of it.
 source /tmp/setkey_groq.sh   # GROQ_API_KEY
 bash lab/mcp-matrix/scripts/run_h10b_sweep.sh            # runs/validates 7 cells
 bash lab/mcp-matrix/scripts/run_h10b_sweep.sh --validate # 7/7 PASS, n=10 each

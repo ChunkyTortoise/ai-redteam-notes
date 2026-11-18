@@ -72,6 +72,7 @@ Adversary controls the body of one document the agent will fetch (a webpage). Th
 Run command (10 seeds, payload v1-visible-notice, xml-dispatch substrate):
 
 ```bash
+# Private repo only: the scripts and configs below are not in this public mirror, so this does not run from a clone of it.
 source /tmp/setkey.sh   # OPENROUTER_API_KEY
 bash lab/mcp-matrix/scripts/run_f1_cell.sh
 # run_dir: lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1

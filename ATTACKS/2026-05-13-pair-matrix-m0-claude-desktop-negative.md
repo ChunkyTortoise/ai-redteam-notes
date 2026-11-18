@@ -147,6 +147,7 @@ Using the Phase 3.5 pre-registration taxonomy (`docs/preregistrations/2026-mcp-m
 ## Proof of concept
 
 ```bash
+# Private repo only: the scripts and configs below are not in this public mirror, so this does not run from a clone of it.
 cd ~/Projects/ai-redteam
 
 # Start the lab MCP server
