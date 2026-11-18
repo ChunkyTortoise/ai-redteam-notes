@@ -59,7 +59,7 @@ substrate : typed-toolcall-api
 risk      : low
 10/10 strict  wilson95=[0.7225, 1.0000]  llama-3.3-70b-versatile xml-parser M1 v7  2026-05-18-llama70b-xml-M1-v7
 GATE: PASS - fixture benchmark is internally consistent
-32 passed
+41 passed
 ```
 
 `python3 demo/dispatch_demo.py` prints which tools each of four dispatcher and model pairings executed. `make remediation-demo` runs the auditor on a vulnerable and a typed tool-call transcript.
