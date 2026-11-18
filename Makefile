@@ -5,7 +5,7 @@
 
 # Use uv locally (project shim requires it); plain python3 on clean CI runners.
 # Disable bytecode writes so reviewer/public checks do not generate __pycache__.
-PY := $(shell command -v uv >/dev/null 2>&1 && echo "PYTHONDONTWRITEBYTECODE=1 uv run python3" || echo "PYTHONDONTWRITEBYTECODE=1 python3")
+PY := $(shell command -v uv >/dev/null 2>&1 && echo "PYTHONDONTWRITEBYTECODE=1 uv run --no-project python3" || echo "PYTHONDONTWRITEBYTECODE=1 python3")
 AUDITOR := lab/mcp-matrix/tools/substrate_auditor.py
 SAMPLES := lab/mcp-matrix/tools/samples
 
