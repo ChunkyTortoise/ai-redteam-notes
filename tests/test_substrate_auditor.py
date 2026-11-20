@@ -133,6 +133,22 @@ def test_json_tool_call_in_tool_output_is_not_dispatch(tmp_path):
     assert _risk(tmp_path, "json-tool.jsonl", "\n".join(lines)) == "low"
 
 
+@pytest.mark.parametrize("text", [
+    'The record is {"name": "Alice Smith", "input": "called about billing"}.',
+    '{"function": "f(x) = 2x + 1", "parameters": {"x": 3}}',
+    '{"tool": "torque wrench, 10 mm", "args": "tighten to 25 Nm"}',
+])
+def test_json_data_whose_name_cannot_be_a_tool_name_is_not_dispatch(tmp_path, text):
+    # A tool name has no spaces, so these are data that happen to use the same keys.
+    assert _risk(tmp_path, "names.jsonl", _assistant_transcript(text)) == "unknown"
+
+
+@pytest.mark.parametrize("name", ["search", "mcp__files__read", "files/read", "ns:tool.v2", "get-weather"])
+def test_json_tool_call_with_any_identifier_shaped_name_is_still_dispatch(tmp_path, name):
+    text = json.dumps({"name": name, "input": {"q": "x"}})
+    assert _risk(tmp_path, "ident.jsonl", _assistant_transcript(text)) == "high"
+
+
 def test_plain_json_data_in_text_is_not_dispatch(tmp_path):
     text = 'Here is the config: {"name": "demo", "version": 2}'
     assert _risk(tmp_path, "data.jsonl", _assistant_transcript(text)) == "unknown"

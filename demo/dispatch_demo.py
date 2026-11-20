@@ -81,10 +81,12 @@ def naive_calls(reply):
 def typed_calls(reply):
     """Safe: only the structured channel counts, and each call is schema-validated."""
     calls = []
+    if not isinstance(reply.tool_calls, list):
+        return calls
     for c in reply.tool_calls:
-        if not isinstance(c, dict):
+        if not isinstance(c, dict) or not isinstance(c.get("name"), str):
             continue
-        schema = SCHEMAS.get(c.get("name"))
+        schema = SCHEMAS.get(c["name"])
         args = c.get("args")
         if schema is None or not isinstance(args, dict) or set(args) != set(schema):
             continue
@@ -108,7 +110,8 @@ def provenance_gate(extract_calls, approve=lambda call: False):
         nonlocal tainted
         allowed = []
         for c in extract_calls(reply):
-            if c["name"] in SENSITIVE and tainted and not approve(c):
+            # Only a literal True approves; "no" or 1 from a sloppy approver does not.
+            if c["name"] in SENSITIVE and tainted and approve(c) is not True:
                 continue
             allowed.append(c)
             if c["name"] in UNTRUSTED_OUTPUT:

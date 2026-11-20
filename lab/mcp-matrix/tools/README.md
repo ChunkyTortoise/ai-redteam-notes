@@ -109,8 +109,10 @@ This is a **heuristic, not a guarantee.**
   tags, `<function=name>...</function>`, a ReAct `Action: <tool>` line followed
   by `Action Input:`, and a JSON object with a tool name key (`name`, `tool`,
   `tool_name`, `function`) and an arguments key (`arguments`, `parameters`,
-  `args`, `input`, `tool_input`). Other formats return `unknown`, and a JSON
-  object that happens to use those keys as plain data is rated high.
+  `args`, `input`, `tool_input`). The name must be a single identifier-like
+  token, so `{"name": "Alice Smith", "input": "..."}` is not a signal. Other
+  formats return `unknown`, and a JSON object that uses those keys as plain data
+  with a one-word name (`{"name": "demo", "args": "x"}`) is still rated high.
 
 When the verdict matters, confirm against the client's actual tool-dispatch
 source code. The tool exists to triage and prioritize that review, not replace it.

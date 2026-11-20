@@ -96,6 +96,9 @@ _REACT_HINT = re.compile(r"^[ \t]*Action:[ \t]*[\w.-]+[ \t]*\r?\n[ \t]*Action In
 _JSON_NAME_KEYS = ("name", "tool", "tool_name", "function")
 _JSON_ARG_KEYS = ("arguments", "parameters", "args", "input", "tool_input")
 _MAX_JSON_SCAN = 200
+# A tool name is one identifier-like token. A value with spaces or punctuation
+# outside this set ("Alice Smith") is data that happens to use the same keys.
+_TOOL_NAME_RE = re.compile(r"[\w./:-]{1,128}")
 
 
 def _has_json_tool_call(text: str) -> bool:
@@ -109,7 +112,8 @@ def _has_json_tool_call(text: str) -> bool:
         except ValueError:
             obj = None
         if isinstance(obj, dict):
-            named = any(isinstance(obj.get(k), str) and obj[k] for k in _JSON_NAME_KEYS)
+            named = any(isinstance(obj.get(k), str) and _TOOL_NAME_RE.fullmatch(obj[k])
+                        for k in _JSON_NAME_KEYS)
             has_args = any(isinstance(obj.get(k), (dict, str)) for k in _JSON_ARG_KEYS)
             if named and has_args:
                 return True

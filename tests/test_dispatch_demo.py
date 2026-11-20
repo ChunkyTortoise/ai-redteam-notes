@@ -89,3 +89,23 @@ def test_provenance_gate_allows_sensitive_call_before_untrusted_output():
     assert gate(d.Reply("", [call])) == [call]
     fetch = {"name": "lab_fetch", "args": {"url": "https://example.test/x"}}
     assert gate(d.Reply("", [fetch, call])) == [fetch]
+
+
+def test_typed_dispatcher_rejects_unhashable_names_and_a_non_list_channel():
+    bad = [{"name": ["file_read"], "args": {"path": d.CANARY_PATH}},
+           {"name": {"file_read": 1}, "args": {"path": d.CANARY_PATH}}]
+    assert d.typed_calls(d.Reply("", bad)) == []
+    assert d.typed_calls(d.Reply("", None)) == []
+    assert d.typed_calls(d.Reply("", 5)) == []
+
+
+def test_provenance_gate_only_takes_true_as_approval():
+    fetch = {"name": "lab_fetch", "args": {"url": "u"}}
+    read = {"name": "file_read", "args": {"path": d.CANARY_PATH}}
+    for answer in ("no", "false", "yes", 1, [0]):
+        gated = d.provenance_gate(d.typed_calls, approve=lambda call, a=answer: a)
+        gated(d.Reply("", [fetch]))
+        assert gated(d.Reply("", [read])) == [], answer
+    gated = d.provenance_gate(d.typed_calls, approve=lambda call: True)
+    gated(d.Reply("", [fetch]))
+    assert gated(d.Reply("", [read])) == [read]

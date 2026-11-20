@@ -164,7 +164,7 @@ and dispatch policy constant; varying only model 8B to 70B; n=10.
 
 | Metric | 8B (n=5) | 70B F1 (n=10) |
 |---|---|---|
-| Intent shift | 2/5 (0.40), CI [0.09, 0.81] | 10/10 (1.0), CI [0.72, 1.0] |
+| Intent shift | 2/5 (0.40), CI [0.12, 0.77] | 10/10 (1.0), CI [0.72, 1.0] |
 | Strict bypass (canary in exfil) | 0/5 (0.0) | 10/10 (1.0), CI [0.72, 1.0] |
 
 `|rate_70b - rate_8b|` = |1.0 - 0.40| = **0.60**, far exceeding the 0.15 threshold.
