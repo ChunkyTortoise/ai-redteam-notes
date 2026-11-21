@@ -9,7 +9,7 @@ disclosure_status: green
 disclosure_target: none
 disclosure_notes: Self-hosted MCP server against local Claude Desktop. No production systems involved. No vendor disclosure required for local-lab negative result.
 cvss_v3: "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:C/C:H/I:N/A:N"
-cvss_score: 5.5
+cvss_score: 5.3
 cvss_severity: Medium
 atlas_techniques:
   - id: AML.T0051.001

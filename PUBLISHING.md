@@ -11,5 +11,6 @@ Local roles:
 Before submitting applications, verify public links from the publishing checkout and run private gates with:
 
 ```bash
+# Private repo only: check-portfolio.sh is not in this public mirror.
 AI_REDTEAM_PUBLIC_REPO_PATH=/path/to/publishing-checkout bash pipeline/scripts/check-portfolio.sh
 ```

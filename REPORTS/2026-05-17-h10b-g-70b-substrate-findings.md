@@ -44,7 +44,9 @@ language must say **H10b-G** and **Groq-hosted Llama 3.3 70B-class**.
 
 All seven cells: `provider=groq`, `model=llama-3.3-70b-versatile`,
 `temperature=0.7`, `cost_usd=0.0`. `--validate` PASSES 7/7 at exactly 10 result
-files + 10 transcripts each.
+files + 10 transcripts each (run in the private repo; this public mirror commits
+`seeds.json` for 4 of the 7 run dirs: M0-v3, M1-v3, M1-v7 and the chat-only
+control, and no result files or transcripts).
 
 | Cell | Substrate | Mit | Payload | Run dir |
 |---|---|---|---|---|

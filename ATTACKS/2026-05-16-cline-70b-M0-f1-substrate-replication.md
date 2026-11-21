@@ -129,7 +129,7 @@ If using open-weight models, assume capability scales exploitability. Mitigation
 
 - Single payload variant (v1-visible-notice). Cross-payload generalization deferred to follow-on cells.
 - Single client (Cline inline-xml substrate). Cross-client variation isolated in D-lane cells (Windsurf, Continue.dev, Roo Code).
-- OpenRouter `:free` tier; quantization and inference details are provider-controlled. `seeds.json` contains model_response_id provenance per seed.
+- OpenRouter `:free` tier; quantization and inference details are provider-controlled. The committed `seeds.json` records outcome flags and a `result_path` per seed; it does not contain `model_response_id` values (those were not mirrored).
 - n=10 supports mechanism-level claims. Population-rate claims require larger n per `REPORTS/open-weights-rationale.md`.
 - 8B baseline was n=5; F1 is n=10. Rate comparison is directionally valid but the 8B CI is wide.
 

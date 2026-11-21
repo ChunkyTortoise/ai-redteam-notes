@@ -50,4 +50,4 @@ The model-cell rerun is not required to review the current hiring claim. The pre
 
 ## Environmental Caveat
 
-`check-d60.sh` depends on `localhost:11434` responding with enough local Ollama models. If Ollama is down or unavailable in a sandbox, the Day-60 lab-operational gate can fail even when the repo artifacts are intact. Treat that as a local runtime caveat, not a content regression.
+`check-d60.sh` (private repo only, not in this public mirror) depends on `localhost:11434` responding with enough local Ollama models. If Ollama is down or unavailable in a sandbox, the Day-60 lab-operational gate can fail even when the repo artifacts are intact. Treat that as a local runtime caveat, not a content regression.

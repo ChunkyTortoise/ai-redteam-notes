@@ -13,7 +13,7 @@ affected_systems: Local open-weight chat models served via Ollama whose instruct
 
 ## TL;DR
 
-Across an identical 12-goal red-team battery (exact-emit / sysprompt-leak / refusal-bypass / persona-override), the same PAIR loop succeeds 2× more often against `mistral:7b` than against `llama3.1:8b`:
+Across an identical 12-goal red-team battery (exact-emit / sysprompt-leak / refusal-bypass / persona-override), the same PAIR loop succeeds about 1.5× as often against `mistral:7b` (15/24 across both attackers) as against `llama3.1:8b` (10/24):
 
 | target ↓ \ attacker → | `mistral-nemo:latest` | `mistral:7b` |
 |---|---|---|
@@ -54,7 +54,7 @@ Verification rules:
 
 Three findings stand out:
 
-1. **`mistral:7b` is the easier target**: 60–66% PAIR success rate vs `llama3.1:8b`'s 33–50% under identical goals/loop.
+1. **`mistral:7b` is the easier target**: 58–66% PAIR success rate vs `llama3.1:8b`'s 33–50% under identical goals/loop.
 2. **The attacker effect exists**: `mistral:7b` attacker outperforms `mistral-nemo` attacker against `llama3.1:8b` (50% vs 33%).
 3. **Cross-model loops beat self-play**: strongest cell is `mistral:7b` target × `mistral-nemo` attacker × `mistral-nemo` strategist (8/12).
 

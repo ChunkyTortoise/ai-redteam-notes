@@ -16,7 +16,7 @@ If you only have 90 seconds: read this file. If you have more, follow the links 
 - **n=10 replication narrowed (not confirmed) the strict-bypass claim.** Strict bypass 0/10; intent shift 2/10; no canary leak. Wilson 95% CI for strict bypass: [0, 0.2775]. Better hiring signal than overclaiming. See [2026-05-14-mcp-n10-replication-negative-result.md](2026-05-14-mcp-n10-replication-negative-result.md).
 - **Agent-product remediation review.** Two findings reframed as code-review-style remediations (boundary, exploitability, impact, durable fix, regression test, residual risk). See [2026-05-15-agent-product-security-remediation-review.md](2026-05-15-agent-product-security-remediation-review.md).
 
-## Five Claims With Verdicts
+## Seven Claims With Verdicts
 
 Verbatim from [`claim-ledger.md`](claim-ledger.md). Every claim has an evidence artifact, a run command, a limitation, and an explicit "do not claim" boundary.
 

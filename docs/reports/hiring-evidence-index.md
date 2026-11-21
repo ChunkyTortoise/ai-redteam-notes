@@ -85,7 +85,7 @@ For exact historical cell commands, inspect the relevant run directory `attempts
 
 **Raw output:**
 
-- [`lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/`](../../lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/) (`seeds.json` with per-seed outcomes and `model_response_id` provenance; transcripts are private)
+- [`lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/`](../../lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/) (`seeds.json` with per-seed outcome flags, no `model_response_id` values; transcripts are private)
 
 **Command:**
 
@@ -195,6 +195,7 @@ rg -n "Disclosure Boundary|production vulnerability claim" REPORTS/remediation-c
 **Command:**
 
 ```bash
+# Private repo only: check-d60.sh and check-portfolio.sh are not in this public mirror.
 bash pipeline/scripts/check-d60.sh
 bash pipeline/scripts/check-portfolio.sh
 bash pipeline/scripts/check-disclosure.sh ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md
@@ -238,6 +239,6 @@ make benchmark
 - Re-verify the public H10b-G ATTACKS entry and final findings report after the reviewed public mirror sync.
 - Add exact reproduction command notes to MCP run directories where the command is currently inferential.
 - Decide whether to copy local-only DVL Day-60 evidence into a public-safe artifact or keep it private.
-- Re-run `check-d60.sh`, `check-portfolio.sh`, and disclosure lint before using these claims in a final application packet.
+- Re-run `check-d60.sh` and `check-portfolio.sh` (both private-repo only, not in this mirror) and disclosure lint before using these claims in a final application packet.
 - Verify public GitHub URLs immediately before sending any packet because the private repo and public mirror can drift.
 - Keep `REPORTS/remediation-case-study-tool-output-injection.md`, `EVALS/fixtures/tool-output-injection-fixtures.json`, and the expected fixture count in `REPRODUCE.md` aligned when adding new evidence.

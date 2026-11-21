@@ -74,7 +74,7 @@ bash lab/mcp-matrix/scripts/run_h10b_sweep.sh            # runs/validates 7 cell
 bash lab/mcp-matrix/scripts/run_h10b_sweep.sh --validate # 7/7 PASS, n=10 each
 ```
 
-Run dirs: M0 cells `runs/2026-05-17-llama70b-xml-M0-{baseline,v3,v7}`; M1 cells and control `runs/2026-05-18-llama70b-{xml-M1-baseline,xml-M1-v3,xml-M1-v7,chatonly-M0-baseline}`.
+Run dirs: M0 cells `runs/2026-05-17-llama70b-xml-M0-{baseline,v3,v7}`; M1 cells and control `runs/2026-05-18-llama70b-{xml-M1-baseline,xml-M1-v3,xml-M1-v7,chatonly-M0-baseline}`. This public mirror commits `seeds.json` for 4 of the 7 (M0-v3, M1-v3, M1-v7, chat-only control); the M0-baseline, M0-v7 and M1-baseline dirs are private.
 
 ## Result
 
