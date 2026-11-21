@@ -9,7 +9,7 @@ disclosure_status: green
 disclosure_target: none
 disclosure_notes: Self-hosted MCP server against local Claude Desktop. No production systems involved. No vendor disclosure required for local-lab negative result.
 cvss_v3: "CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:C/C:H/I:N/A:N"
-cvss_score: 5.5
+cvss_score: 5.3
 cvss_severity: Medium
 atlas_techniques:
   - id: AML.T0051.001
@@ -147,6 +147,7 @@ Using the Phase 3.5 pre-registration taxonomy (`docs/preregistrations/2026-mcp-m
 ## Proof of concept
 
 ```bash
+# Private repo only: the scripts and configs below are not in this public mirror, so this does not run from a clone of it.
 cd ~/Projects/ai-redteam
 
 # Start the lab MCP server

@@ -57,8 +57,9 @@ _CLIENT_REGISTRY = {
     "kilo code": "typed-toolcall-api",
     "kilocode": "typed-toolcall-api",
     "kilo": "typed-toolcall-api",
+    # Only the full name: the bare word "continue" also appears as an ordinary
+    # config value (for example "onError": "continue") and caused false lows.
     "continue.dev": "typed-toolcall-api",
-    "continue": "typed-toolcall-api",
 }
 
 _XML_FIELD_KEYS = {
@@ -66,15 +67,78 @@ _XML_FIELD_KEYS = {
     "substrate", "parser", "dispatch",
 }
 _XML_VALUE_TOKENS = ("xml", "inline", "tag")
-_TYPED_VALUE_TOKENS = ("typed", "structured", "toolcall", "tool-call", "tool_call", "function", "api")
+# Typed tokens must stand alone ("native_api" counts, "therapist" does not):
+# a typed verdict exits 0, so a substring false positive fails open.
+_TYPED_VALUE_RE = re.compile(
+    r"(?<![a-z])(typed|structured|toolcall|tool[-_]call|function|api)s?(?![a-z])"
+)
+
+
+def _is_dispatch_key(key: str) -> bool:
+    k = key.lower()
+    return k in _XML_FIELD_KEYS or "dispatch" in k or "parser" in k
 
 # Tag names that look like tool dispatch rather than prose markup.
 _TOOL_TAG_HINT = re.compile(
     r"<(read_file|write_to_file|execute_command|lab_fetch|fetch|browser_action|"
     r"use_mcp_tool|access_mcp_resource|search_files|list_files|apply_diff|"
-    r"[a-z][a-z0-9]*_[a-z0-9_]*)>.*?</\1>",
+    r"[a-z][a-z0-9]*_[a-z0-9_]*)>.*?</\1>"
+    # Function-equals style used by some open-model tool formats.
+    r"|<function=[\w.-]+>.*?</function>",
     re.DOTALL,
 )
+
+# ReAct-style dispatch: an "Action: <tool>" line followed by "Action Input:".
+# Requiring both keeps prose such as "Action: none needed." out.
+_REACT_HINT = re.compile(r"^[ \t]*Action:[ \t]*[\w.-]+[ \t]*\r?\n[ \t]*Action Input:", re.MULTILINE)
+
+# JSON-in-text dispatch: an object naming a tool plus its arguments.
+_JSON_NAME_KEYS = ("name", "tool", "tool_name", "function")
+_JSON_ARG_KEYS = ("arguments", "parameters", "args", "input", "tool_input")
+_MAX_JSON_SCAN = 200
+# A tool name is one identifier-like token. A value with spaces or punctuation
+# outside this set ("Alice Smith") is data that happens to use the same keys.
+_TOOL_NAME_RE = re.compile(r"[\w./:-]{1,128}")
+
+
+def _has_json_tool_call(text: str) -> bool:
+    decoder = json.JSONDecoder()
+    start = text.find("{")
+    scanned = 0
+    while start != -1 and scanned < _MAX_JSON_SCAN:
+        scanned += 1
+        try:
+            obj, _ = decoder.raw_decode(text, start)
+        except ValueError:
+            obj = None
+        if isinstance(obj, dict):
+            named = any(isinstance(obj.get(k), str) and _TOOL_NAME_RE.fullmatch(obj[k])
+                        for k in _JSON_NAME_KEYS)
+            has_args = any(isinstance(obj.get(k), (dict, str)) for k in _JSON_ARG_KEYS)
+            if named and has_args:
+                return True
+        start = text.find("{", start + 1)
+    return False
+
+
+def _looks_like_inline_dispatch(text: str) -> bool:
+    return bool(_TOOL_TAG_HINT.search(text) or _REACT_HINT.search(text)
+                or _has_json_tool_call(text))
+
+
+def _text_of(content: Any) -> str:
+    """Flatten message content: a string, or a list of text blocks."""
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = []
+        for block in content:
+            if isinstance(block, str):
+                parts.append(block)
+            elif isinstance(block, dict) and isinstance(block.get("text"), str):
+                parts.append(block["text"])
+        return "\n".join(parts)
+    return ""
 
 
 def _strip_jsonc(text: str) -> str:
@@ -101,32 +165,61 @@ def _verdict(kind: str, substrate: str, rationale: str, path: Path) -> dict[str,
     }
 
 
+def _iter_string_fields(node: Any, depth: int = 0):
+    """Yield (key, value) for every string-valued field in nested dicts/lists."""
+    if depth > 32:
+        return
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if isinstance(v, str):
+                yield str(k), v
+            else:
+                yield from _iter_string_fields(v, depth + 1)
+    elif isinstance(node, list):
+        for item in node:
+            yield from _iter_string_fields(item, depth + 1)
+
+
 def _classify_config(raw: str, path: Path) -> dict[str, str]:
     lowered = raw.lower()
     parsed: Any = None
+    parse_ok = True
     try:
         parsed = json.loads(_strip_jsonc(raw))
     except (ValueError, TypeError):
         parsed = None
+        parse_ok = False
 
-    # 1. Explicit dispatch field wins.
-    if isinstance(parsed, dict):
-        for k, v in parsed.items():
-            if k.lower() in _XML_FIELD_KEYS and isinstance(v, str):
-                vl = v.lower()
-                if any(t in vl for t in _XML_VALUE_TOKENS):
-                    return _verdict("config", "inline-xml-dispatch",
-                                    f"explicit dispatch field {k!r}={v!r}", path)
-                if any(t in vl for t in _TYPED_VALUE_TOKENS):
-                    return _verdict("config", "typed-toolcall-api",
-                                    f"explicit dispatch field {k!r}={v!r}", path)
+    # 1. Explicit dispatch field wins, at any nesting depth. If fields
+    # disagree, inline-XML wins because that path is the exploitable one.
+    typed_hit: tuple[str, str] | None = None
+    for k, v in _iter_string_fields(parsed):
+        if not _is_dispatch_key(k):
+            continue
+        vl = v.lower()
+        if any(t in vl for t in _XML_VALUE_TOKENS):
+            return _verdict("config", "inline-xml-dispatch",
+                            f"explicit dispatch field {k!r}={v!r}", path)
+        if typed_hit is None and _TYPED_VALUE_RE.search(vl):
+            typed_hit = (k, v)
+    if typed_hit is not None:
+        k, v = typed_hit
+        return _verdict("config", "typed-toolcall-api",
+                        f"explicit dispatch field {k!r}={v!r}", path)
 
-    # 2. Known client identity.
+    # 2. Known client identity. If the file did not parse, a name match is
+    # only a substring of unstructured text, so it may raise risk but never
+    # lower it (an unparsed dispatch field could still say xml).
     for name, substrate in _CLIENT_REGISTRY.items():
+        if not parse_ok and substrate != "inline-xml-dispatch":
+            continue
         if re.search(rf"\b{re.escape(name)}\b", lowered):
             return _verdict("config", substrate,
                             f"client identified as {name!r} (parser audit, Addendum A)", path)
 
+    if not parse_ok:
+        return _verdict("config", "unknown",
+                        "config did not parse as JSON/JSONC; no inline-XML signal in its text", path)
     return _verdict("config", "unknown",
                     "no explicit dispatch field and no audited client identity", path)
 
@@ -134,6 +227,7 @@ def _classify_config(raw: str, path: Path) -> dict[str, str]:
 def _classify_transcript(lines: list[str], path: Path) -> dict[str, str]:
     saw_structured = False
     saw_inline = False
+    unparsed = 0
     for line in lines:
         line = line.strip()
         if not line:
@@ -141,34 +235,51 @@ def _classify_transcript(lines: list[str], path: Path) -> dict[str, str]:
         try:
             rec = json.loads(line)
         except ValueError:
+            unparsed += 1
             continue
         if not isinstance(rec, dict):
+            unparsed += 1
             continue
         msg = rec.get("message") if isinstance(rec.get("message"), dict) else rec
         if msg.get("tool_calls") or msg.get("tool_call") or rec.get("type") == "tool_call":
             saw_structured = True
-        content = msg.get("content")
-        if isinstance(content, str) and _TOOL_TAG_HINT.search(content):
+        # Only assistant text can be dispatched. Tags inside user or tool
+        # messages are untrusted data (the injection itself), not dispatch.
+        role = msg.get("role", rec.get("role"))
+        if role is not None and str(role).lower() != "assistant":
+            continue
+        if _looks_like_inline_dispatch(_text_of(msg.get("content"))):
             saw_inline = True
 
     if saw_inline and not saw_structured:
         return _verdict("transcript", "inline-xml-dispatch",
-                        "assistant content contains inline tool-dispatch tags and no structured tool_calls", path)
+                        "assistant content contains inline tool-dispatch syntax (tags, ReAct Action lines or a JSON tool call) and no structured tool_calls", path)
+    if saw_structured and not saw_inline and unparsed:
+        # A skipped line could hold the inline tag, so do not report low.
+        return _verdict("transcript", "unknown",
+                        f"structured tool_calls present but {unparsed} line(s) did not parse as JSON objects", path)
     if saw_structured and not saw_inline:
         return _verdict("transcript", "typed-toolcall-api",
                         "structured tool_call events present, no inline dispatch tags", path)
     if saw_structured and saw_inline:
         return _verdict("transcript", "inline-xml-dispatch",
-                        "mixed: inline dispatch tags present alongside structured calls (inline path is exploitable)", path)
+                        "mixed: inline dispatch syntax present alongside structured calls (inline path is exploitable)", path)
     return _verdict("transcript", "unknown",
                     "no structured tool_calls and no inline dispatch tags observed", path)
+
+
+class UnreadableInput(Exception):
+    """The input exists but is not readable UTF-8 text (binary, a directory)."""
 
 
 def audit_path(path: str | Path) -> dict[str, str]:
     p = Path(path)
     if not p.exists():
         raise FileNotFoundError(f"no such file: {p}")
-    raw = p.read_text()
+    try:
+        raw = p.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError) as e:
+        raise UnreadableInput(f"cannot read {p} as UTF-8 text: {e}") from e
     if p.suffix == ".jsonl" or _looks_like_jsonl(raw):
         return _classify_transcript(raw.splitlines(), p)
     return _classify_config(raw, p)
@@ -192,12 +303,14 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Audit an MCP client config or transcript for inline-XML dispatch risk.")
     ap.add_argument("path", help="path to an MCP client config (JSON/JSONC) or a transcript (JSONL)")
     ap.add_argument("--json", action="store_true", help="emit the verdict as JSON")
+    ap.add_argument("--strict", action="store_true",
+                    help="also exit 1 when the substrate is unknown (for gating unreviewed clients)")
     ap.add_argument("--expect-risk", choices=("high", "low", "unknown"), help="return 0 only if the observed risk matches")
     ns = ap.parse_args(argv)
 
     try:
         result = audit_path(ns.path)
-    except FileNotFoundError as e:
+    except (FileNotFoundError, UnreadableInput) as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
 
@@ -216,7 +329,11 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         return 0
 
-    return 1 if result["risk"] == "high" else 0
+    if result["risk"] == "high":
+        return 1
+    if ns.strict and result["risk"] == "unknown":
+        return 1
+    return 0
 
 
 if __name__ == "__main__":

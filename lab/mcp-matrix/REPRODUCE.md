@@ -1,6 +1,8 @@
 # Reproduce the published n=10 substrate cell
 
-Copy-pasteable recipe to reproduce, from a clean checkout, the preserved
+Recipe for the private working repo: the harness it calls (`justfile`,
+`run_headless.py`, `wilson_ci.py`, `mitigations/`) is not in this public mirror,
+so it does not run from a clean clone of this repo. It reproduces the preserved
 `2026-05-14-llama-xml-M0-v3-n10` cell behind
 [`WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md`](../../WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md)
 and the negative-result report
@@ -67,5 +69,5 @@ published negative result.
   control (expect 0 intent shifts), per the substrate-vs-policy writeup.
 - Frontier replication (Claude Sonnet 4.6) is pre-registered at
   [`docs/preregistrations/2026-05-15-frontier-substrate-h10.md`](../../docs/preregistrations/2026-05-15-frontier-substrate-h10.md);
-  run it with `lab/mcp-matrix/scripts/run_h10_sweep.sh` once an Anthropic key
+  run it with `lab/mcp-matrix/scripts/run_h10_sweep.sh` (private repo) once an Anthropic key
   with credit is configured.

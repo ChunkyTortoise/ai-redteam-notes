@@ -8,7 +8,7 @@ cd "$(dirname "$0")/../.."
 # uv-enforcing python3 shim (mirrors the Makefile PY variable); falls
 # back to plain python3 on clean CI runners / the public mirror.
 if command -v uv >/dev/null 2>&1; then
-  PY="uv run python3"
+  PY="uv run --no-project python3"
 else
   PY="python3"
 fi

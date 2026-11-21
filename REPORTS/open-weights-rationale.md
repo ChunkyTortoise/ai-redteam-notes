@@ -21,7 +21,7 @@ Open-weight models are reproducible. Anyone with an Ollama install and a GPU can
 
 **3. Cost discipline.**
 
-The Tier A track operates under a $300 hard spending cap (see [`README.md`](../README.md) for cap context). Free-tier OpenRouter `:free` endpoints and local Ollama keep marginal cost at $0 per cell, which lets the cell count grow without per-experiment friction. Frontier-model API calls in any meaningful volume would consume the cap within a single sweep.
+The Tier A track operates under a $300 hard spending cap (the public README does not state the cap and its source is not in this mirror). Free-tier OpenRouter `:free` endpoints and local Ollama keep marginal cost at $0 per cell, which lets the cell count grow without per-experiment friction. Frontier-model API calls in any meaningful volume would consume the cap within a single sweep.
 
 ## What this means for the portfolio's scope
 

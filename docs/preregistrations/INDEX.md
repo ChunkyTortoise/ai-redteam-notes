@@ -6,6 +6,12 @@ chain legible at a glance. The narrative source of truth is
 [`../../RESEARCH-SUMMARY.md`](../../RESEARCH-SUMMARY.md); claim-to-run mapping is in
 [`../reports/hiring-evidence-index.md`](../reports/hiring-evidence-index.md).
 
+What this mirror can and cannot show: the freeze commits are in the private
+working repo, so this public git history cannot prove that each file predates
+its cell (for example, the H10b file first appears here on 2026-05-18, the day
+of its results). Paths under `lab/mcp-matrix/scripts/`, `server/` and
+`docs/research/` cited in these files are also in the private repo.
+
 ## Pre-registration files
 
 | File | Frozen | Scope | Status |
@@ -13,7 +19,7 @@ chain legible at a glance. The narrative source of truth is
 | [`2026-mcp-matrix.md`](2026-mcp-matrix.md) | 2026-05-08 | 8B-class MCP tool-output injection matrix; substrate axis registered after the H3 retraction | executed |
 | [`2026-05-13-tier-a-w1-w5.md`](2026-05-13-tier-a-w1-w5.md) | scaffolded 2026-05-13 (commit-SHA freeze before F1) | Tier A model-axis sweep; registers the H7 cross-scale claim | executed (F1 cell) |
 | [`2026-05-15-frontier-substrate-h10.md`](2026-05-15-frontier-substrate-h10.md) | 2026-05-15 | Does frontier RLHF (claude-sonnet-4-6) dampen the 8B substrate effect (H10) | gated |
-| Last-tag-wins dispatch ablation (H11) | 2026-05-15 (commit `40ad86a`) | Public result is preserved in [`../../ATTACKS/2026-05-15-mcp-xml-last-tag-dispatch-ablation.md`](../../ATTACKS/2026-05-15-mcp-xml-last-tag-dispatch-ablation.md); the pre-registration file is not part of this public mirror surface | executed |
+| Last-tag-wins dispatch ablation (H11) | 2026-05-15 (commit `40ad86a`, private repo) | Public result is preserved in [`../../ATTACKS/2026-05-15-mcp-xml-last-tag-dispatch-ablation.md`](../../ATTACKS/2026-05-15-mcp-xml-last-tag-dispatch-ablation.md); the pre-registration file is not part of this public mirror surface | executed |
 | [`2026-05-16-open-source-scale-substrate-h10b.md`](2026-05-16-open-source-scale-substrate-h10b.md) | 2026-05-16 | Open-source scale replication 8B to 70B (H10b); confirmatory grid H10b-G | executed; H10b-G packet-ready |
 
 ## Hypothesis ledger

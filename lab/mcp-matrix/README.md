@@ -4,6 +4,8 @@
 **Disclosure status:** GREEN — localhost-only lab, open MCP clients, no production vendor target.
 **Phase status:** Phase 1 (lab scaffolding) complete; AC1 verified.
 
+**Public mirror note:** the lab server, clients, mitigations, harness tests and justfile described below live in the private working repo. This mirror keeps `runs/`, `tools/` and two scripts; from here, `make repro`, `make tally` and `make benchmark` at the repo root are what runs.
+
 ## What this is
 
 A reproducible localhost lab for evaluating **tool-output indirect prompt injection** against MCP-enabled agents. An MCP server exposes three tools (`web_fetch`, `file_read`, `log_event`); an attacker-controlled HTTP page returned by `web_fetch` smuggles instructions that may induce the agent to read a local canary file and attempt exfiltration over HTTP.
@@ -50,7 +52,7 @@ Requires Python 3.10+, `uv`, `just`, `curl`, and (for Phase 2+) at least one MCP
 
 **Phase 1** (this commit) only needs stdlib — `attacker_server.py` and `exfil_server.py` import nothing outside the standard library. AC1 verifies with no extra deps.
 
-**Phase 2+** needs the MCP SDK. The repo currently has no top-level `pyproject.toml`; either create one in the project root and `uv add mcp`, or install into a system/Homebrew Python with `pip install mcp`. See `requirements.txt` for the pin.
+**Phase 2+** needs the MCP SDK. Install it with `uv add mcp` in the private repo, or `pip install mcp` into a system Python. See `requirements.txt` for the pin.
 
 ```bash
 # From this directory:
@@ -87,10 +89,10 @@ just lab-mcp-down
 If you are reviewing the portfolio rather than extending the lab, start with the harness tests and the preserved run artifacts.
 
 ```bash
-uv run pytest lab/mcp-matrix/harness/tests
+make repro && make benchmark   # from the repo root; the harness suite (lab/mcp-matrix/harness/tests) is in the private repo
 ```
 
-Expected result: the harness verdict/orchestration tests pass. This validates the local evaluation logic without launching a real MCP client, making external network calls, or touching a live target.
+In the private repo, `uv run pytest lab/mcp-matrix/harness/tests` runs the harness verdict/orchestration tests. This validates the local evaluation logic without launching a real MCP client, making external network calls, or touching a live target.
 
 For the May 14 n=10 replication, inspect:
 

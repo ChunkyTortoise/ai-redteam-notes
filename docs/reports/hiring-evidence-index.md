@@ -34,7 +34,7 @@ The defensive conversion artifact is [`REPORTS/remediation-case-study-tool-outpu
 **Command:**
 
 ```bash
-bash lab/mcp-matrix/scripts/run_h10b_sweep.sh --validate
+make tally       # recounts the 4 committed H10b-G cells (the sweep script is in the private repo)
 make benchmark
 ```
 
@@ -61,8 +61,7 @@ make benchmark
 **Command:**
 
 ```bash
-cd lab/mcp-matrix
-just test
+make repro       # the harness suite (just test) is in the private repo
 ```
 
 For exact historical cell commands, inspect the relevant run directory `attempts.md` and transcript files before re-running; the public-facing claim should not depend on an unverified reconstructed command.
@@ -86,13 +85,13 @@ For exact historical cell commands, inspect the relevant run directory `attempts
 
 **Raw output:**
 
-- [`lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/`](../../lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/) (per-seed result + transcript, model_response_id provenance in `seeds.json`)
+- [`lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/`](../../lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/) (`seeds.json` with per-seed outcome flags, no `model_response_id` values; transcripts are private)
 
 **Command:**
 
 ```bash
 source /tmp/setkey.sh   # OPENROUTER_API_KEY (free tier; key not committed)
-bash lab/mcp-matrix/scripts/run_f1_cell.sh
+bash lab/mcp-matrix/scripts/run_f1_cell.sh   # private repo only; not in this mirror
 # run_dir: lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1
 ```
 
@@ -120,7 +119,7 @@ bash lab/mcp-matrix/scripts/run_f1_cell.sh
 
 ```bash
 cd lab/vuln-agents/damn-vulnerable-llm-agent
-./run_scen2_sweep.sh
+./run_scen2_sweep.sh   # private working tree only; not in this mirror
 ```
 
 **Disclosure:** Green. Target is WithSecure Labs Damn Vulnerable LLM Agent, an intentionally vulnerable educational benchmark. Runs are localhost-only against self-hosted Ollama models. No production disclosure required.
@@ -141,13 +140,13 @@ cd lab/vuln-agents/damn-vulnerable-llm-agent
 
 **Raw output:**
 
-- 20 per-trial JSON files in [`lab/promptfoo/runs/2026-05-13-dvl-scenario2-crossmodel/`](../../lab/promptfoo/runs/2026-05-13-dvl-scenario2-crossmodel/)
+- [`wilson_summary.json`](../../lab/promptfoo/runs/2026-05-13-dvl-scenario2-crossmodel/wilson_summary.json) in `lab/promptfoo/runs/2026-05-13-dvl-scenario2-crossmodel/` (the 20 per-trial JSON files are private)
 
 **Command:**
 
 ```bash
 cd lab/vuln-agents/damn-vulnerable-llm-agent
-./run_scen2_sweep.sh
+./run_scen2_sweep.sh   # private working tree only; not in this mirror
 ```
 
 **Disclosure:** Green, lab-only benchmark evidence.
@@ -196,6 +195,7 @@ rg -n "Disclosure Boundary|production vulnerability claim" REPORTS/remediation-c
 **Command:**
 
 ```bash
+# Private repo only: check-d60.sh and check-portfolio.sh are not in this public mirror.
 bash pipeline/scripts/check-d60.sh
 bash pipeline/scripts/check-portfolio.sh
 bash pipeline/scripts/check-disclosure.sh ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md
@@ -239,6 +239,6 @@ make benchmark
 - Re-verify the public H10b-G ATTACKS entry and final findings report after the reviewed public mirror sync.
 - Add exact reproduction command notes to MCP run directories where the command is currently inferential.
 - Decide whether to copy local-only DVL Day-60 evidence into a public-safe artifact or keep it private.
-- Re-run `check-d60.sh`, `check-portfolio.sh`, and disclosure lint before using these claims in a final application packet.
+- Re-run `check-d60.sh` and `check-portfolio.sh` (both private-repo only, not in this mirror) and disclosure lint before using these claims in a final application packet.
 - Verify public GitHub URLs immediately before sending any packet because the private repo and public mirror can drift.
 - Keep `REPORTS/remediation-case-study-tool-output-injection.md`, `EVALS/fixtures/tool-output-injection-fixtures.json`, and the expected fixture count in `REPRODUCE.md` aligned when adding new evidence.
