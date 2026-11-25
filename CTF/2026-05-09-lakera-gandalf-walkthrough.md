@@ -1,4 +1,5 @@
 ---
+superseded_by: WRITEUPS/2026-05-18-lakera-gandalf-walkthrough.md
 title: "Lakera Gandalf: CTF walkthrough (Levels 1-8)"
 date: 2026-05-09
 target: gandalf.lakera.ai (Lakera-published, intentionally adversarial CTF)
@@ -24,6 +25,8 @@ references:
   - title: "Pfister et al., Lessons from Gandalf (2023)"
     url: "https://arxiv.org/abs/2308.05374"
 ---
+
+> **Superseded.** This is the May 9 partial run. The full walkthrough (L1 to L7 solved, verified) is [WRITEUPS/2026-05-18-lakera-gandalf-walkthrough.md](../WRITEUPS/2026-05-18-lakera-gandalf-walkthrough.md).
 
 # Lakera Gandalf: CTF walkthrough (Levels 1-8)
 
