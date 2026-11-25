@@ -87,9 +87,9 @@ It exits 1 when it rates the input high-risk (inline-XML dispatch), 0 for low-ri
 2. [Substrate vs policy writeup](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md): the attribution correction, controlled isolation, and Addendum B/C.
 3. [F1 cross-scale replication](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md): H7 falsified at 70B under the inline-XML substrate.
 4. [DVL Agent Scenario 2](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md): ReAct-loop observation injection driving SQL exfiltration, with tool-boundary mitigations.
-5. [Lakera Gandalf walkthrough](CTF/2026-05-09-lakera-gandalf-walkthrough.md): scripted probe with value extraction, a feature-inference side channel, and system-prompt exfiltration.
+5. [Lakera Gandalf walkthrough](WRITEUPS/2026-05-18-lakera-gandalf-walkthrough.md): L1 to L7 solved and verified, including the L7 output-format channel past the value-leak guard; L8 still unbroken.
 
-All 16 dated attack entries in one table (class, target, technique, outcome, evidence): [ATTACKS/README.md](ATTACKS/README.md#attack-summary). MCP threats mapped to these findings: [docs/mcp-threat-model.md](docs/mcp-threat-model.md).
+All 18 dated attack entries in one table (class, target, technique, outcome, evidence): [ATTACKS/README.md](ATTACKS/README.md#attack-summary). MCP threats mapped to these findings: [docs/mcp-threat-model.md](docs/mcp-threat-model.md).
 
 Also: [RESEARCH-SUMMARY.md](RESEARCH-SUMMARY.md) (the research arc), [remediation case study](REPORTS/remediation-case-study-tool-output-injection.md) (attack to fix in one place), [claim ledger](REPORTS/claim-ledger.md) (each claim with its evidence, limitation and do-not-claim boundary), [CASE_STUDIES.md](CASE_STUDIES.md).
 
