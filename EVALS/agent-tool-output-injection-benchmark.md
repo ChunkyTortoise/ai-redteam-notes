@@ -1,7 +1,7 @@
 # Agent Tool-Output Injection Benchmark
 
 **Status:** fixture-only, disclosure-green
-**Purpose:** Give hiring reviewers a small, repeatable eval artifact that turns the MCP substrate research into a measurable benchmark shape.
+**Purpose:** A small, repeatable eval artifact that turns the MCP substrate research into a measurable benchmark shape.
 
 ## What It Measures
 
@@ -41,7 +41,7 @@ Fixtures live in [`fixtures/tool-output-injection-fixtures.json`](fixtures/tool-
 
 `strict_bypass` and `intent_shift` each require `k`, `n`, and `wilson_95`.
 
-## Why This Helps Hiring Reviewers
+## What This Adds
 
 The repo already shows attack writeups. This benchmark adds the eval-engineering layer: preserved runs become structured fixtures, fixtures are checked in CI, and the same schema can accept future clients, mitigations, or models after disclosure gates clear.
 

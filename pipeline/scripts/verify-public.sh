@@ -10,12 +10,10 @@ public_files=(
   RESEARCH-SUMMARY.md
   Makefile
   site/index.html
-  REPORTS/START_HERE.md
   REPORTS/substrate-vs-policy-assessment.md
   REPORTS/2026-05-17-h10b-g-70b-substrate-findings.md
   REPORTS/remediation-case-study-tool-output-injection.md
-  docs/reports/hiring-reviewer-map.md
-  docs/reports/hiring-evidence-index.md
+  REPORTS/claim-ledger.md
   docs/preregistrations/2026-05-16-open-source-scale-substrate-h10b.md
   EVALS/agent-tool-output-injection-benchmark.md
   EVALS/score_tool_output_injection.py

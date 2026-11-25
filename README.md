@@ -81,7 +81,7 @@ python3 lab/mcp-matrix/tools/substrate_auditor.py path/to/client-config.json --j
 
 It exits 1 when it rates the input high-risk (inline-XML dispatch), 0 for low-risk or unknown, and 2 on a missing or unreadable file; add `--strict` to make unknown exit 1 as well. It is a text heuristic over the config or transcript. In this repo's CI it only checks the two bundled samples (`--expect-risk`); it is not wired into any deploy step here. Usage, output fields and exit codes: [lab/mcp-matrix/tools/README.md](lab/mcp-matrix/tools/README.md).
 
-**Read the evidence.** [REPORTS/START_HERE.md](REPORTS/START_HERE.md) is the shortest path from claim to evidence. In order:
+**Read the evidence.** The shortest path from claim to evidence, in order:
 
 1. [H10b-G 70B grid](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md): control-validity gate passed; M1 is variant-selective.
 2. [Substrate vs policy writeup](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md): the attribution correction, controlled isolation, and Addendum B/C.
@@ -187,7 +187,7 @@ The numbered ADRs that some entries cite (for example ADR-003, the disclosure po
 - Nothing here is a production-vendor vulnerability claim, a population rate, or a frontier-model benchmark.
 
 **H10b-G (the Measured row)**
-- Single provider and model: Groq-hosted Llama-3.3-70B-versatile, completed 2026-05-18. This deviates from the frozen OpenRouter pre-registration (Deviation 1), so it is not the pristine H10b run ([use boundary](REPORTS/START_HERE.md#use-boundary), [entry limitations](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md#limitations)).
+- Single provider and model: Groq-hosted Llama-3.3-70B-versatile, completed 2026-05-18. This deviates from the frozen OpenRouter pre-registration (Deviation 1), so it is not the pristine H10b run ([entry limitations](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md#limitations)).
 - Single substrate (inline-XML). Cross-client variation is isolated in separate D-lane cells.
 - Cells are small: they support mechanism-level claims, not population rates. Wilson intervals are 95%. A registered amplification test is still owed for the post-hoc "70B is more susceptible than 8B" direction note.
 - Per-seed `seeds.json` for M0 v3, M1 v3, M1 v7 and the control are in this repo. The M0 baseline, M0 v7 and M1 baseline figures come from the entry's hand-recomputed results table; those run directories, the sweep script and the provider call log are not mirrored.

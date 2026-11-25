@@ -5,7 +5,7 @@ into a usable check: given an MCP client config (JSON / JSONC) or a captured
 transcript (JSONL), it classifies the tool-dispatch substrate and recommends a
 mitigation.
 
-For hiring reviewers, this is the reusable deliverable: it converts the research
+This is the reusable deliverable: it converts the research
 claim into a dependency-free CI/pre-deploy check. The fastest path is:
 
 ```bash
@@ -129,9 +129,9 @@ make remediation-demo
 make verify-public
 ```
 
-## Portfolio Signal
+## Why It Is Small
 
-This tool is intentionally small. That is the point: a hiring manager can see the
+This tool is intentionally small. That is the point: a reader can see the
 full security loop without trusting a live model call. The writeup explains the
 failure mode, this CLI classifies the risky substrate, `make benchmark` validates
 ten preserved fixtures including the H10b-G M1 boundary, and the detection notes

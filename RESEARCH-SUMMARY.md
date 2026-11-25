@@ -4,14 +4,8 @@ One pre-registered research program, not a collection of attacks. The through-li
 **where does an MCP agent's indirect-prompt-injection risk actually live, and does
 it get better or worse as models get more capable?**
 
-Start here, then follow [docs/reports/hiring-reviewer-map.md](docs/reports/hiring-reviewer-map.md)
-for a 60-second / 5-minute / deep path, and
-[docs/reports/hiring-evidence-index.md](docs/reports/hiring-evidence-index.md)
-for every claim tied to raw runs.
-
-## 60-second reviewer path
-
-Use [`REPORTS/START_HERE.md`](REPORTS/START_HERE.md) as the single entry point. It provides role-specific evidence blocks and the canonical 4-artifact path. The arc below gives the research context behind those artifacts.
+Each claim, with its evidence, limitation and do-not-claim boundary, is in
+[REPORTS/claim-ledger.md](REPORTS/claim-ledger.md).
 
 ## The arc
 

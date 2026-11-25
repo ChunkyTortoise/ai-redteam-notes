@@ -3,8 +3,8 @@
 Every hypothesis in this program was frozen in a dated pre-registration file
 before the cell that tested it ran. This index makes the registered-then-tested
 chain legible at a glance. The narrative source of truth is
-[`../../RESEARCH-SUMMARY.md`](../../RESEARCH-SUMMARY.md); claim-to-run mapping is in
-[`../reports/hiring-evidence-index.md`](../reports/hiring-evidence-index.md).
+[`../../RESEARCH-SUMMARY.md`](../../RESEARCH-SUMMARY.md); claim-to-evidence mapping is in
+[`../../REPORTS/claim-ledger.md`](../../REPORTS/claim-ledger.md).
 
 What this mirror can and cannot show: the freeze commits are in the private
 working repo, so this public git history cannot prove that each file predates

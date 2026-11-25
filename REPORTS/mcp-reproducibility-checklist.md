@@ -46,7 +46,7 @@ Run command:
 cat lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/run-command.md
 ```
 
-The model-cell rerun is not required to review the current hiring claim. The preserved artifacts are sufficient to inspect what was run and how the claim was narrowed.
+The model-cell rerun is not required to review the current claim. The preserved artifacts are sufficient to inspect what was run and how the claim was narrowed.
 
 ## Environmental Caveat
 

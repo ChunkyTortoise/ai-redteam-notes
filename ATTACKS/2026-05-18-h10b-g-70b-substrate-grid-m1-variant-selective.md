@@ -7,15 +7,6 @@ affected_systems: headless MCP harness + inline-xml dispatch substrate (lab-only
 target: headless MCP harness + inline-xml dispatch substrate (lab-only; no production vendor system)
 lane: 3
 lab_only: true
-hiring_reviewer_entry: true
-hiring_reviewer_note: >
-  Clean single-provider 7-cell grid (n=10 each, control-validity gate PASSES).
-  Headline is a precise defensive boundary, not just another bypass: the
-  candidate M1 scaffold drives strict bypass to 0/10 for baseline and
-  fake-json-fence payloads but has zero measurable effect against the
-  fence-handhold (v7) payload (M0 10/10 vs M1 10/10). A mitigation that works
-  on two payload families and is fully transparent to a third is the kind of
-  result that distinguishes measurement from assertion.
 disclosure_status: green
 disclosure_target: none
 disclosure_notes: >

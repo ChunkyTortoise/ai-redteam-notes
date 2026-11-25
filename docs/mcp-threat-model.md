@@ -50,4 +50,4 @@ These are common MCP threats with no experiment, demo or finding here. They are 
 - Supply chain of MCP server packages.
 - Typed-dispatch clients at 70B or on frontier models (the main open question in the [roadmap](../README.md#roadmap)).
 
-<!-- TODO(Cayman): review the OWASP LLM ID chosen for each row (LLM05 for dispatch rows is a judgment call) before citing this doc in an interview. -->
+<!-- TODO(Cayman): review the OWASP LLM ID chosen for each row (LLM05 for dispatch rows is a judgment call) before citing this doc. -->

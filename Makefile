@@ -19,7 +19,7 @@ help:
 	@echo "make tally     - recount strict bypasses + Wilson 95% CIs from committed seeds.json"
 	@echo "make benchmark  - score fixture-only agent tool-output injection benchmark"
 	@echo "make test       - full pre-registered harness pytest suite (private repo)"
-	@echo "make packet-ready - validate reviewer/application packet-ready docs"
+	@echo "make packet-ready - check the core public docs are present"
 	@echo "make public-surface - local tracked public-surface drift and safety gate"
 	@echo "make verify-public - pre-publication gate: repro, optional private tests, disclosure, links, secrets"
 
@@ -42,7 +42,7 @@ remediation-demo:
 
 repro: selfcheck audit tally
 	@echo
-	@echo "Start here: REPORTS/START_HERE.md -> WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md (Addendum B)"
+	@echo "Start here: ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md -> WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md (Addendum B)"
 	@echo "Strongest current result: ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md"
 	@echo "The pre-registered measurement harness and its pytest suite live in the private repo (make test); their counts are not verifiable here."
 
