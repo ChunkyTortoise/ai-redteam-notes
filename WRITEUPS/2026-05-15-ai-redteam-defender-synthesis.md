@@ -17,12 +17,12 @@ Methodology note (read this first): the rigor claims above are auditable. See th
 
 ## Why a synthesis
 
-A hiring reviewer scanning ten ATTACKS entries sees breadth. A defender needs the opposite: the smallest set of failure classes that, once fixed structurally, retire the largest number of individual attacks. This document is the reduction. It draws on:
+A reader scanning ten ATTACKS entries sees breadth. A defender needs the opposite: the smallest set of failure classes that, once fixed structurally, retire the largest number of individual attacks. This document is the reduction. It draws on:
 
 - [`WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md`](2026-05-14-mcp-substrate-vs-policy.md) — substrate as the load-bearing variable
 - [`WRITEUPS/2026-05-09-policy-isnt-a-mechanism.md`](2026-05-09-policy-isnt-a-mechanism.md) — policy/mechanism distinction
 - [`WRITEUPS/2026-05-14-cross-model-react-loop-injection.md`](2026-05-14-cross-model-react-loop-injection.md) — cross-model variance
-- the ten ATTACKS entries and the Gandalf CTF, indexed in [`REPORTS/portfolio-impact-summary.md`](../REPORTS/portfolio-impact-summary.md)
+- the ten ATTACKS entries and the Gandalf CTF, indexed in [`ATTACKS/README.md`](../ATTACKS/README.md#attack-summary)
 
 ## Shared threat model
 
@@ -170,4 +170,4 @@ No attack class here is novel; each is cited to its origin. The contribution is 
 
 ---
 
-*This synthesis is a living document; the frontier row resolves when H10 runs. Source artifacts and the claim-to-evidence map: [`REPORTS/portfolio-impact-summary.md`](../REPORTS/portfolio-impact-summary.md), [`REPORTS/claim-ledger.md`](../REPORTS/claim-ledger.md), pre-registration [`docs/preregistrations/2026-05-15-frontier-substrate-h10.md`](../docs/preregistrations/2026-05-15-frontier-substrate-h10.md). Disclosure: all artifacts green, lab-only, no production target.*
+*This synthesis is a living document; the frontier row resolves when H10 runs. Source artifacts and the claim-to-evidence map: [`ATTACKS/README.md`](../ATTACKS/README.md#attack-summary), [`REPORTS/claim-ledger.md`](../REPORTS/claim-ledger.md), pre-registration [`docs/preregistrations/2026-05-15-frontier-substrate-h10.md`](../docs/preregistrations/2026-05-15-frontier-substrate-h10.md). Disclosure: all artifacts green, lab-only, no production target.*

@@ -7,12 +7,6 @@ affected_systems: headless MCP harness + Cline inline-xml substrate (lab-only; n
 target: headless MCP harness + Cline inline-xml substrate (lab-only; no production vendor system)
 lane: 3
 lab_only: true
-hiring_reviewer_entry: true
-hiring_reviewer_note: >
-  Strongest single result for reviewers. H7, a pre-registered cross-scale
-  safety assumption, was falsified: Llama-3.3-70B reached 10/10 strict canary
-  exfiltration under the inline-XML substrate where 8B reached 0/5. Capability
-  amplifies exploitation inside an insecure substrate; it does not dissolve it.
 disclosure_status: green
 disclosure_target: none
 disclosure_notes: >

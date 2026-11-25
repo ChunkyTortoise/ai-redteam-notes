@@ -46,22 +46,19 @@ GATE: PASS - fixture benchmark is internally consistent
 
 ## The reviewer reading path
 
-1. [REPORTS/START_HERE.md](REPORTS/START_HERE.md)
-   - the packet-ready 60-second router and role-specific evidence blocks.
-2. [WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md)
+1. [WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md](WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md)
    - methodology and **Addendum B**, the cross-scale correction.
-3. [ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md)
+2. [ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md](ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md)
    - the current strongest result: a 7-cell 70B grid where M1 held baseline/v3 at zero but failed on v7.
-4. [ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md)
+3. [ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md](ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md)
    - the pre-registered H7 falsification that motivated the full H10b-G grid.
-5. [ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md)
+4. [ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md](ATTACKS/2026-05-14-dvl-agent-scenario2-sql-injection.md)
    - concrete ReAct-loop observation injection with practical mitigations.
-6. [REPORTS/remediation-case-study-tool-output-injection.md](REPORTS/remediation-case-study-tool-output-injection.md)
+5. [REPORTS/remediation-case-study-tool-output-injection.md](REPORTS/remediation-case-study-tool-output-injection.md)
    - the attack-to-fix story: unsafe substrate, auditor, typed tool-call control,
      benchmark, and detection hooks.
-7. [docs/reports/hiring-reviewer-map.md](docs/reports/hiring-reviewer-map.md)
-   and [docs/reports/hiring-evidence-index.md](docs/reports/hiring-evidence-index.md)
-   - every claim tied to a raw run directory.
+6. [REPORTS/claim-ledger.md](REPORTS/claim-ledger.md)
+   - every claim with its evidence, limitation and do-not-claim boundary.
 
 H10b-G is packet-ready after the 2026-05-18 control gate: all seven cells are
 complete at n=10, the chat-only control holds at zero, and the single-provider
