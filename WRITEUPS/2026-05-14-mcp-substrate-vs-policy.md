@@ -36,7 +36,7 @@ The study was pre-registered at `docs/preregistrations/2026-mcp-matrix.md` befor
 
 Deviation 1 was committed on 2026-05-09, before the first cell of the substrate-aware phase ran. It registered a `substrate` axis with enum `chat-only` / `xml-parser` / `cline-ui`, retracted H3 (model-strength inversion: Mistral-Nemo more robust than Llama-8B) on substrate-confound grounds since the original H3 evidence compared an `xml-parser`-substrate Cline run against a `chat-only`-substrate headless run, and registered two new hypotheses: H5 (the XML-tag-parser substrate is necessary for any Llama-8B M0 intent shift on this payload set) and H6 (a combined-framing payload v7 produces ≥1 strict bypass on M0 under the XML-parser substrate across ≥5 seeds).
 
-The harness (`lab/mcp-matrix/scripts/run_headless.py`) supports `--xml-dispatch` (XML-tag content parser), `--dispatch-all-tags` (all tags in a turn fire rather than just the first), `--temperature`, and `--seed`. Wilson 95% confidence intervals were computed post-hoc via `lab/mcp-matrix/scripts/wilson_ci.py`. Seed sweeps used `lab/mcp-matrix/scripts/seed_sweep.sh`. All artifacts (run dirs, transcripts, success.json files) are reachable under `lab/mcp-matrix/runs/2026-05-09-llama-xml-*/` and `lab/mcp-matrix/runs/2026-05-10-llama-xml-M1-v7-dispatch-all-tags/`.
+The harness (`lab/mcp-matrix/scripts/run_headless.py`) supports `--xml-dispatch` (XML-tag content parser), `--dispatch-all-tags` (all tags in a turn fire rather than just the first), `--temperature`, and `--seed`. Wilson 95% confidence intervals were computed post-hoc via `lab/mcp-matrix/scripts/wilson_ci.py`. Seed sweeps used `lab/mcp-matrix/scripts/seed_sweep.sh`. All artifacts (run dirs, transcripts, success.json files) are reachable under `lab/mcp-matrix/runs/2026-05-09-llama-xml-*/` and `lab/mcp-matrix/runs/2026-05-10-llama-xml-M1-v7-dispatch-all-tags/`. In this public mirror `run_headless.py`, `wilson_ci.py` and `seed_sweep.sh` are absent, and only the `success.json` files for `2026-05-09-llama-xml-M2` and `2026-05-10-llama-xml-M1-v7-dispatch-all-tags` are committed; the rest is in the private repo.
 
 The model under test was Llama 3.1 8B Instruct via Ollama. The Mistral Nemo comparand was run under the `chat-only` substrate only and matched Llama-8B's 5/5 clean-ignore baseline on the pristine harness; cross-model under the `xml-parser` substrate is workstream D, deferred to a follow-on study.
 
@@ -88,7 +88,7 @@ Priority order, with the reasoning anchored to the data above.
 
 2. **Prefer the typed tool-use API substrate over inline-XML for any LLM below the 70B class.** *[Correction 2026-05-17, see Addendum B. H7 pre-registered and falsified: 70B is not safer. Read this takeaway as "prefer the typed API at every scale"; the "below 70B" qualifier does not survive replication.]* The structural separation between client-instruction tool invocations (typed tool-use blocks) and content-side tool tokens (text inside fetched documents) does security work that the model itself does not have to do. Inline-XML-tag MCP clients collapse that separation. An 8B-class model cannot reliably distinguish "tag in client scaffold" from "tag in fetched content" at the pattern-match level. This is a substrate decision, not a model decision; it does not require waiting for a model fix.
 
-3. **Keep mitigation language tool-agnostic on small models.** Tool-naming inside system prompts (M2) caused a 50% relative regression versus the no-mitigation baseline in this study. A short, tool-agnostic content-trust boundary (M1) was the most effective single mitigation. Per-tool affordance belongs in runtime UI surfaces (confirmation modals, tool-call previews), not in system-prompt instructions that enumerate tool names.
+3. **Keep mitigation language tool-agnostic on small models.** Tool-naming inside system prompts (M2) raised intent shifts from 2/6 (33%) under M0 to 3/5 (60%) in this study, a 27-point increase at n=1 per cell with strict bypass at 0 in both. A short, tool-agnostic content-trust boundary (M1) was the most effective single mitigation. Per-tool affordance belongs in runtime UI surfaces (confirmation modals, tool-call previews), not in system-prompt instructions that enumerate tool names.
 
 4. **Treat client-side dispatch policy as part of the security boundary, not a UI implementation detail.** v7's dispatch-policy interaction is non-monotonic with the model's substitution capability. First-tag-wins blocked a canary-bearing same-turn exfil tag; all-tags and last-tag-wins each produced real callback risk in different ways, but not reliable canary exfiltration in the measured cells. MCP client authors making implementation choices about tag-dispatch order are making security-relevant decisions; that choice should be documented, configurable, and audited rather than implicit.
 
@@ -133,7 +133,7 @@ This is the same architectural class as Continue.dev's typed API approach and th
 - **S2 design consequence**: The Kilo Code extension is still a valid OSS contribution target, but its defensive detections must operate at the config/substrate-enumeration layer (detect broker architecture, warn if typed API not in use), not at the payload-injection layer (payloads targeting XML-parser dispatch will not trigger against typed API).
 - **Inversion-risk pivot**: This finding validates the Week 2 decision gate's "only Cline shows effect" branch. With Cline (inline-xml) and Kilo Code (typed-api) as complementary null/replication cells, the substrate axis remains informative even if Windsurf also turns out typed.
 
-Recorded in `lab/mcp-matrix/pinned-builds/VERSIONS.md` 2026-05-13.
+Recorded in `lab/mcp-matrix/pinned-builds/VERSIONS.md` 2026-05-13 (private repo; not in this mirror).
 
 ---
 
@@ -143,7 +143,7 @@ Recorded in `lab/mcp-matrix/pinned-builds/VERSIONS.md` 2026-05-13.
 (`docs/preregistrations/2026-05-13-tier-a-w1-w5.md`). Full entry:
 `ATTACKS/2026-05-16-cline-70b-M0-f1-substrate-replication.md`. Run dir:
 `lab/mcp-matrix/runs/2026-05-16-cline-70b-M0-f1/` (seeds.json with per-seed
-model_response_id provenance). Model: Llama-3.3-70B-Instruct via OpenRouter
+outcome flags; it carries no `model_response_id` values). Model: Llama-3.3-70B-Instruct via OpenRouter
 `:free` (Fireworks/Together routing). Cost: $0.
 
 ### The pre-registered hypothesis
@@ -164,7 +164,7 @@ and dispatch policy constant; varying only model 8B to 70B; n=10.
 
 | Metric | 8B (n=5) | 70B F1 (n=10) |
 |---|---|---|
-| Intent shift | 2/5 (0.40), CI [0.09, 0.81] | 10/10 (1.0), CI [0.72, 1.0] |
+| Intent shift | 2/5 (0.40), CI [0.12, 0.77] | 10/10 (1.0), CI [0.72, 1.0] |
 | Strict bypass (canary in exfil) | 0/5 (0.0) | 10/10 (1.0), CI [0.72, 1.0] |
 
 `|rate_70b - rate_8b|` = |1.0 - 0.40| = **0.60**, far exceeding the 0.15 threshold.

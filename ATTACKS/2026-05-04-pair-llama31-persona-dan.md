@@ -143,6 +143,7 @@ The pattern is the same as the original PoC: an explicit output-format constrain
 ## Reproducibility
 
 ```bash
+# Private repo only: the scripts and configs below are not in this public mirror, so this does not run from a clone of it.
 ollama pull llama3.1:8b
 ollama pull mistral-nemo:latest
 

@@ -13,6 +13,7 @@
 **Reproduction command:**
 
 ```bash
+# Private repo only: not in this public mirror. From here, run make repro and make tally at the repo root.
 cd lab/mcp-matrix
 just test
 ```
@@ -46,6 +47,7 @@ just test
 **Reproduction command:**
 
 ```bash
+# Private repo only: not in this public mirror. From here, run make repro and make tally at the repo root.
 cd lab/vuln-agents/damn-vulnerable-llm-agent
 ./run_scen2_sweep.sh
 ```
@@ -65,6 +67,7 @@ cd lab/vuln-agents/damn-vulnerable-llm-agent
 **Reproduction command:**
 
 ```bash
+# Private repo only: not in this public mirror. From here, run make repro and make tally at the repo root.
 cd lab/vuln-agents/damn-vulnerable-llm-agent
 ./run_scen2_sweep.sh
 ```

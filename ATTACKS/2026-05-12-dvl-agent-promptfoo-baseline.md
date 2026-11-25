@@ -9,7 +9,7 @@ disclosure_status: green
 disclosure_target: none
 disclosure_notes: Intentionally vulnerable local benchmark; no vendor production system contacted and no disclosure required.
 cvss_v3: "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N"
-cvss_score: 7.1
+cvss_score: 8.2
 cvss_severity: High
 atlas_techniques:
   - id: AML.T0051.001

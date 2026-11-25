@@ -111,6 +111,7 @@ had been exfiltrated. **The regex oracle is what made this run reliable.**
 ## Reproduction
 
 ```bash
+# Private repo only: the scripts and configs below are not in this public mirror, so this does not run from a clone of it.
 # End-to-end PAIR vs DVL Scenario 1 (≈ 5 min wall clock)
 cd lab/pyrit
 uv run --with requests --with pyyaml python scripts/run_lane3.py
@@ -121,6 +122,7 @@ uv run --with requests --with pyyaml python scripts/run_lane3.py
 Adapter validation only (1 turn, no flag expected):
 
 ```bash
+# Private repo only: the scripts and configs below are not in this public mirror, so this does not run from a clone of it.
 cd lab/pyrit
 uv run --with requests python scripts/wave_a_smoke_dvl.py
 ```

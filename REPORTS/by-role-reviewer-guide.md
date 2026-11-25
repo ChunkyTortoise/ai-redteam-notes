@@ -16,8 +16,8 @@ If you only have five minutes, skip to [`START_HERE.md`](START_HERE.md). If you 
 **Read in this order**:
 
 1. [`WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md`](../WRITEUPS/2026-05-14-mcp-substrate-vs-policy.md) — pre-registered MCP tool-output indirect injection study. Demonstrates end-to-end product-boundary reasoning: identify the load-bearing boundary, isolate it under controlled emulation, retract a misattribution, supply defender takeaways.
-2. [`2026-05-15-agent-product-security-remediation-review.md`](2026-05-15-agent-product-security-remediation-review.md) — three findings with durable remediations, regression tests, and provenance/logging recommendations. Shows engineer-partner posture, not jailbreak-only.
-3. [`2026-05-14-evidence-traceability-manifest.md`](2026-05-14-evidence-traceability-manifest.md) — three flagship claims mapped to artifacts, commands, limitations, and the talking-points version for interviews.
+2. [`2026-05-15-agent-product-security-remediation-review.md`](2026-05-15-agent-product-security-remediation-review.md) — two findings with durable remediations, regression tests, and provenance/logging recommendations. Shows engineer-partner posture, not jailbreak-only.
+3. [`2026-05-14-evidence-traceability-manifest.md`](2026-05-14-evidence-traceability-manifest.md) — four claims mapped to artifacts, commands, limitations, and the talking-points version for interviews.
 
 **Where evidence is thinner**: cloud and identity surfaces. The portfolio leads with agent / tool-boundary work; cloud-identity claims are framed as transferable methodology, not direct evidence.
 

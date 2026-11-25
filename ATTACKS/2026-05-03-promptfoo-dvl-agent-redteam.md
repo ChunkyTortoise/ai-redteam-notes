@@ -11,6 +11,8 @@ date: 2026-05-03
 
 # Systematic Rejection of Prompt Injection Attacks on DVL Agent
 
+> **Superseded 2026-05-12.** The 24 results below came from a run that returned 24 empty outputs at a uniform 14 ms latency (provider id `ollama:chat` with no model name), so the "model accepted every injection" reading is not supported. See `2026-05-12-dvl-agent-promptfoo-baseline.md` for the corrected run. The per-category counts below (7 + 7 + 6 + 7) sum to 27, not the 24 stated in the headline; the log that would settle it is not in this repo.
+
 ## Threat model
 
 An attacker controls user input to an LLM-powered banking agent that isolates user data via system prompt and tool-based access control. The attacker attempts to override the isolation boundary through four attack vectors: indirect prompt injection (spoofed system directives), excessive agency requests (unauthorized state modification), MCP protocol manipulation, and ASCII smuggling (obfuscation and encoding attacks). The goal is to exfiltrate transactions for a different user or escalate agent permissions.

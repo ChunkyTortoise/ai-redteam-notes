@@ -1,0 +1,12 @@
+[project]
+name = "ai-redteam-notes"
+version = "0.0.0"
+description = "Agent and MCP injection research notes with an offline dispatcher demo"
+requires-python = ">=3.10"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -12,7 +12,7 @@ make repro
 This runs:
 
 - `make selfcheck` - a dependency-free self-check of the defensive substrate
-  auditor (7 cases + a missing-file guard), and
+  auditor (13 cases + a missing-file guard), and
 - `make audit` - the auditor run against two sample MCP client configs, showing
   it flags an inline-XML (Cline-class) substrate as high risk and clears a typed
   tool-use API (Kilo-class) substrate.
@@ -94,9 +94,9 @@ working repo (not mirrored, to keep the public surface to reviewable artifacts):
 make test    # uv run pytest lab/mcp-matrix/harness/tests
 ```
 
-That suite contains 226 tests at 94% coverage with an 80% gate enforced in CI (private repo).
+That suite is not in this repo, so its size, coverage and CI gate cannot be checked from here.
 
-**Note.** A pre-existing defect in `verdict.py` was fixed as part of this work:
+**Note.** A pre-existing defect in `verdict.py` (private repo) was fixed as part of this work:
 `compute_verdict` sourced the canary from the scorer's `~/.lab/secret.txt`, so a
 run scored in CI, on another machine, or after the secret rotated could have a
 true `bypassed-A1` silently downgraded to `bypassed-partial`. The canary is now

@@ -13,7 +13,7 @@ date: 2026-05-04
 
 ## TL;DR
 
-A partial garak vulnerability scanner sweep across five attack classes (Suffix, DAN, Latent Injection, Prompt Injection, Package Hallucination) targeting ollama llama3.1:8b on 2026-05-03. Four of five probes completed; latent injection and package hallucination did not emit eval entries (infrastructure issue). Results: suffix attacks blocked 85.4%, DAN techniques exploited via instruction override (66.8% success), prompt hijacking attacks 58.6% successful. No novel vectors identified; classic prompt injection and jailbreak techniques remain effective against this 8b model. Single-run snapshot, not bootstrapped.
+A partial garak vulnerability scanner sweep across five attack classes (Suffix, DAN, Latent Injection, Prompt Injection, Package Hallucination) targeting ollama llama3.1:8b on 2026-05-03. Three of five probe classes ran to completion (suffix, DAN, package hallucination) and two were cut short (latent injection at 41%, prompt injection with 2 of 3 sub-probes); latent injection and package hallucination did not emit eval entries (infrastructure issue). Results: suffix attacks blocked 85.4%, DAN techniques exploited via instruction override (66.8% success), prompt hijacking attacks 58.6% successful. No novel vectors identified; classic prompt injection and jailbreak techniques remain effective against this 8b model. Single-run snapshot, not bootstrapped.
 
 ## Threat model
 

@@ -9,8 +9,8 @@ through `make verify-public`.
 
 ## Three-tier disclosure ladder
 
-Every `ATTACKS/` entry carries `disclosure_status` frontmatter, gated by an automated
-`pre-push` hook on the public mirror:
+Every `ATTACKS/` entry carries `disclosure_status` frontmatter, gated in this repo by
+`make public-surface` in CI (the `pre-push` hook is not part of this repo):
 
 | Status | Meaning | Public push |
 |---|---|---|
