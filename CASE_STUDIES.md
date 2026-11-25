@@ -1,6 +1,6 @@
 # Case Studies
 
-Three short reads for hiring reviewers. Each case study links to the deeper artifact trail.
+Three short case studies. Each case study links to the deeper artifact trail.
 
 ## 1. Customer Assessment: MCP Tool-Output Injection
 
@@ -28,7 +28,7 @@ Three short reads for hiring reviewers. Each case study links to the deeper arti
 
 ## 3. Eval Automation: Promptfoo and DVL-Agent Baselines
 
-**Problem:** Manual red-team transcripts are useful but hard to compare, regress, or explain to a hiring reviewer or engineering team.
+**Problem:** Manual red-team transcripts are useful but hard to compare, regress, or explain to an engineering team.
 
 **Method:** I used promptfoo and local lab targets to turn DVL-Agent experiments into repeatable runs with result files, summaries, and public ATTACKS entries.
 

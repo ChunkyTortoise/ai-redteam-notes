@@ -15,4 +15,4 @@
 
 ## Review Rule
 
-If a claim cannot be tied to an artifact, command, limitation, and do-not-claim boundary, it should not be used in an application packet.
+If a claim cannot be tied to an artifact, command, limitation, and do-not-claim boundary, it should not be stated publicly.

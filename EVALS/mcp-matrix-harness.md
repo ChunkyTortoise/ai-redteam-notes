@@ -62,7 +62,7 @@ Each completed cell should produce:
 
 ## Why This Matters For Automated Red Teaming
 
-The harness is designed to make agent failures comparable. A reviewer can see not just "a jailbreak happened," but which substrate, payload wrapper, mitigation, and model produced the result. That makes the work usable for regression testing, mitigation design, and hiring discussions about methodology.
+The harness is designed to make agent failures comparable. A reviewer can see not just "a jailbreak happened," but which substrate, payload wrapper, mitigation, and model produced the result. That makes the work usable for regression testing, mitigation design, and methodology review.
 
 ## Related Artifacts
 

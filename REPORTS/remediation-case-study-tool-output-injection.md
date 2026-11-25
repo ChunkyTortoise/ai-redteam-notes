@@ -2,7 +2,7 @@
 
 **Date:** 2026-05-17
 **Status:** reviewer-ready
-**Purpose:** Show the full loop a hiring manager cares about: reproduce the risk, classify the unsafe substrate, apply the durable control, and describe what to monitor afterward.
+**Purpose:** Show the full loop: reproduce the risk, classify the unsafe substrate, apply the durable control, and describe what to monitor afterward.
 
 ## Executive Summary
 
@@ -10,7 +10,7 @@ The measured failure mode is not just "the model followed a bad prompt." In the 
 
 ## Before And After
 
-| Stage | Evidence | Result | Hiring signal |
+| Stage | Evidence | Result | What it shows |
 |---|---|---|---|
 | Unsafe substrate | `make audit` against `cline-sample.json` | Auditor flags `inline-xml-dispatch` as high risk | Can turn a research finding into a pre-deploy check |
 | Exploit evidence | [`ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md`](../ATTACKS/2026-05-18-h10b-g-70b-substrate-grid-m1-variant-selective.md) | H10b-G control gate passed; M1 held baseline/v3 but failed on v7 | Pre-registered, bounded, mitigation-aware security research |

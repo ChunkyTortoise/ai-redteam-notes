@@ -48,7 +48,7 @@
 
 ## Product-Security Takeaway
 
-The portfolio should lead with this remediation frame in agent-product roles:
+The remediation frame for agent products:
 
 1. Identify the trust boundary.
 2. Validate exploitability with harmless canaries and local sinks.

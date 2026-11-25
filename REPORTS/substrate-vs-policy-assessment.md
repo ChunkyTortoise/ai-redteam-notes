@@ -42,6 +42,6 @@ The practical lesson is that client dispatch architecture can be part of the sec
 - Substrate-specific claim: the result supports a typed-tool-call versus inline-parser distinction, not a universal statement about every MCP client.
 - Follow-up needed: more real-client parser comparisons and publication only after each follow-up control gate clears.
 
-## Use in Hiring or Disclosure
+## Use
 
-Use this report as a concise practitioner-facing companion to the longer writeup. It is suitable for hiring packets and public portfolio navigation, but it should not be used as evidence of a live production vulnerability.
+Use this report as a concise practitioner-facing companion to the longer writeup. It should not be used as evidence of a live production vulnerability.

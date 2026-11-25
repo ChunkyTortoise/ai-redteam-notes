@@ -1,7 +1,7 @@
 # Open-Weights Rationale
 
 **Last updated**: 2026-05-17
-**Purpose**: pre-empt the inevitable hiring-reviewer question: *"did you test this on frontier models?"*
+**Purpose**: answer the obvious question: *"did you test this on frontier models?"*
 
 ## Short answer
 
@@ -45,6 +45,6 @@ None of these would change the substrate-vs-policy thesis; they would extend its
 - OWASP LLM Top 10 — LLM02 (Insecure Output Handling). Substrate effects are a special case of this class.
 - Pre-registration: [`docs/preregistrations/2026-05-13-tier-a-w1-w5.md`](../docs/preregistrations/2026-05-13-tier-a-w1-w5.md) — commits H7/H8/H9 hypotheses before W2 F-cells run.
 
-## TL;DR for the hiring reviewer
+## TL;DR
 
 Open weights are the *right* substrate for this body of work, not a compromise. A frontier-model row would be additive evidence on a substrate-transparency hypothesis, not a correction. We're shipping the mechanism finding first because the mechanism is the load-bearing contribution.

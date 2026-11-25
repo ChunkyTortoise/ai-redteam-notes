@@ -15,11 +15,11 @@ The May 14 replication reran the highest-signal XML-substrate condition from the
 | Clean ignore | 8/10 |
 | Canary leaked | false |
 
-## Why This Strengthens the Portfolio
+## Why This Matters
 
 This is useful because it narrows the claim. The earlier evidence suggested that XML-style dispatch could amplify tool-output injection risk. The n=10 replication preserves only the weaker intent-layer signal: two runs moved toward unsafe tool-use intent, but none completed a reliable end-to-end canary leak.
 
-That is a better hiring signal than overclaiming. It shows that the lab can falsify stronger interpretations and turn a mixed result into a clearer security statement.
+That is better than overclaiming: it shows that the lab can falsify stronger interpretations and turn a mixed result into a clearer security statement.
 
 ## Current Claim Boundary
 
@@ -40,12 +40,6 @@ Do not claim:
 - Run command: [`../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/run-command.md`](../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/run-command.md)
 - Summary: [`../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/summary.md`](../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/summary.md)
 - Aggregate result: [`../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/success.json`](../lab/mcp-matrix/runs/2026-05-14-llama-xml-M0-v3-n10/success.json)
-
-## Interview Use
-
-Use this when asked about uncertainty, replication, or a time a result got weaker:
-
-> I reran the highest-signal local XML-substrate cell at n=10. The strict-bypass claim did not hold: 0/10 exfiltrations and no canary leak. But 2/10 runs still showed unsafe tool-use intent, so I kept the substrate claim narrow and moved the result from exploit-style language into eval evidence.
 
 ## Disclosure Status
 
