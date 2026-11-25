@@ -11,6 +11,11 @@ make repro              # auditor self-check, sample audits, recount of the comm
 python3 -m pytest -q    # offline dispatcher demo, auditor and recount tests
 ```
 
+<p align="center">
+  <img src="./docs/assets/terminal-demo.png" width="760" alt="Terminal capture. python3 demo/dispatch_demo.py prints four lines: naive inline-XML and typed-but-hijacked dispatch both fire the canary and run file_read; the typed channel and typed plus provenance gate do not. python3 lab/mcp-matrix/tools/tally_seeds.py then recounts the five committed cells: 10/10 strict bypass for the Cline-class M0 run, M0 v3 and M1 v7, and 0/10 for the chat-only control and M1 v3." />
+</p>
+<p align="center"><sub>Real output of the two commands shown, no model call. Regenerate with <code>python3 docs/assets/render_terminal_demo.py</code> (needs Pillow).</sub></p>
+
 [![CI](https://github.com/ChunkyTortoise/ai-redteam-notes/actions/workflows/ci.yml/badge.svg)](https://github.com/ChunkyTortoise/ai-redteam-notes/actions/workflows/ci.yml)
 
 ```mermaid
